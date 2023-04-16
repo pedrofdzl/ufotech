@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+.loading-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #EE2E24;
+    overflow: hidden;
+}
+
+.loading-container h1 {
+    font-family: 'Inter', sans-serif;
+    color: #FFFFFF;
+}
+.loading-container h1 span {
+    font-weight: 300;
+}

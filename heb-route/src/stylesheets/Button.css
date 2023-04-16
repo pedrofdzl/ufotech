@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+.btn {
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    padding: 16px;
+    width: 100%;
+    outline: 0;
+    border: 0;
+    border-radius: 12px;
+}
+
+.btn-primary {
+    background-color: #C9213F;
+    background: linear-gradient(201.52deg, #FF8383 -62.66%, #C9213F 225.49%, #C9213F 292.28%);
+    color: #FFFFFF;
+}
+
+.btn-secondary {
+    background-color: #FFFFFF;
+    color: #9DA2B0;
+}

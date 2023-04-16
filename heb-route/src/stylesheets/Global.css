@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+body {
+    font-family: 'Inter', sans-serif;
+    height: calc(100vh - 16px);
+    width: calc(100vw - 16px);
+    overflow: hidden;
+    background-color: #FFFFFF;
+}
