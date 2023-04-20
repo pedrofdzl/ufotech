@@ -26,7 +26,21 @@ const defaultAuthContext = {
   providerLogout: async () => {},
 };
 
-export const AuthContext = React.createContext();
+export const AuthContext = React.createContext({
+    currentUser: null,
+    authState: {
+      user: null,
+      isLoading: true,
+      isLoggedIn: false,
+    },
+    userInformation: {
+      isLoading: true,
+    },
+    providerRegister: async (name, email, password, repPassword) => {},
+    providerLogin: async (email, password) => {},
+    providerLogout: async () => {},
+
+});
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState(defaultAuthContext.authState);
