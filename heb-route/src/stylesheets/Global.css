@@ -4,6 +4,6 @@ body {
     font-family: 'Inter', sans-serif;
     height: calc(100vh - 16px);
     width: calc(100vw - 16px);
-    overflow: hidden;
+    overflow-x: hidden;
     background-color: #FFFFFF;
 }
