@@ -23,7 +23,21 @@ const defaultAuthContext = {
   providerLogout: async () => {},
 };
 
-export const AuthContext = React.createContext();
+export const AuthContext = React.createContext({
+    currentUser: null,
+    authState: {
+      user: null,
+      isLoading: true,
+      isLoggedIn: false,
+    },
+    userInformation: {
+      isLoading: true,
+    },
+    providerRegister: async (name, email, password, repPassword) => {},
+    providerLogin: async (email, password) => {},
+    providerLogout: async () => {},
+
+});
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState(defaultAuthContext.authState);
@@ -38,9 +52,11 @@ export const AuthProvider = ({ children }) => {
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
         console.log("Usuario Iniciado:", user.user);
+        return true;
     }).catch((error) => {
         console.log(error.code);
         console.log(error.message);
+        return false;
     });
   };
 
