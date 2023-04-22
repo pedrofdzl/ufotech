@@ -8,18 +8,15 @@ import { AuthContext } from "../providers/AuthProvider";
 import { Text } from "../components/ui/Text";
 import { Button } from "../components/ui/Button";
 
-// Functions
-import { closeSession } from "../functions/auth";
-
 // Stylesheets
 import '../stylesheets/Dashboard.css';
 
 const Dashboard = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, providerLogout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const logout = () => {
-    closeSession();
+    providerLogout();
     navigate('/');
   };
 

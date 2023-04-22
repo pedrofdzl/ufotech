@@ -1,11 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
-
-// Functions
-import { createUser } from "../functions/auth";
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -15,12 +12,8 @@ import { Button } from "../components/ui/Button";
 import '../stylesheets/Auth.css';
 
 const Register = () => {
-  const { setCurrentUser, isAuthenticated } = useContext(AuthContext);
+  const { providerRegister } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) navigate('/');
-  }, []);
 
   const submitRegistration = (e) => {
       e.preventDefault();
@@ -28,7 +21,7 @@ const Register = () => {
       let email = e.target.elements.emailField.value;
       let password = e.target.elements.passwordField.value;
       let repPassword = e.target.elements.repPasswordField.value;
-      createUser(name, email, password, repPassword, setCurrentUser, navigate);
+      providerRegister(name, email, password, repPassword);
   };
 
   return (

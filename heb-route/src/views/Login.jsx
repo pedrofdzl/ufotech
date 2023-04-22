@@ -1,11 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
-
-// Functions
-import { login } from "../functions/auth";
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -15,18 +12,14 @@ import { Button } from "../components/ui/Button";
 import '../stylesheets/Auth.css';
 
 const Login = () => {
-  const { setCurrentUser, isAuthenticated } = useContext(AuthContext);
+  const { providerLogin } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) navigate('/');
-  }, []);
 
   const submitLogin = (e) => {
     e.preventDefault();
     let email = e.target.elements.emailField.value;
     let password = e.target.elements.passwordField.value;
-    login(email, password, setCurrentUser, navigate);
+    providerLogin(email, password);
   };
 
   return (

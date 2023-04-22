@@ -2,7 +2,7 @@ import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import { app } from "../firebase/firebase";
 
-export const createUser = (name, email, password, repPassword, setCurrentUser, callbackFunction) => {
+export const register = (name, email, password, repPassword) => {
 
     const regEmail = /\S+@\S+\.\S+/;
     
@@ -12,11 +12,9 @@ export const createUser = (name, email, password, repPassword, setCurrentUser, c
                 if (name.length >= 3) {
                     app.auth()
                     .createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
+                    .then((user) => {
                         alert("Usuario creado exitosamente");
-                        console.log("Usuario Creado:", userCredential.user)
-                        setCurrentUser(userCredential);
-                        callbackFunction('/');
+                        console.log("Usuario Creado:", user.user)
                     }).catch((error) => {
                         console.log(error.code);
                         console.log(error.message);
@@ -42,21 +40,4 @@ export const createUser = (name, email, password, repPassword, setCurrentUser, c
     else {
         alert("El correo electrónico no es válido");
     }
-};
-
-export const login = (email, password, setCurrentUser, callbackFunction) => {
-    app.auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-        console.log("Usuario Iniciado:", userCredential.user);
-        setCurrentUser(userCredential);
-        callbackFunction('/');
-    }).catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
-    });
-};
-
-export const closeSession = () => {
-    app.auth().signOut();
 };
