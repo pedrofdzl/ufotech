@@ -1,0 +1,137 @@
+body {
+  font-family: "Inter", sans-serif;
+  color: #353841;
+  background-color: #fbfbfb;
+  font-size: 16px;
+  color: #c5ccd6;
+  font-weight: normal;
+}
+
+a {
+  color: #eb5f6a;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+p {
+  font-family: "Inter", sans-serif;
+  background-color: #fbfbfb;
+  font-size: 16px;
+  color: #c5ccd6;
+  font-weight: normal;
+}
+
+/*
+  Formato de los títulos presentes en los textFields/inputText:
+    login.html - "Email", "Contraseña"
+    registro.html - "Nombre", "Email", "Contraseña", "Comfirmar contraseña"
+  */
+.titleTF {
+  font-family: "Inter", sans-serif;
+  background-color: #fbfbfb;
+  font-size: 16px;
+  color: #c5ccd6;
+  font-weight: normal;
+}
+
+/*
+  Títulos de pantallas de inicio:
+    index.html - "Ahorrar tiempo es ahorrar dinero."
+    login.html - "¡Bienvenido de vuelta!"
+    registro.html - "Crea tu cuenta"
+*/
+.title {
+  font-size: 30px;
+  color: #353841;
+}
+
+/*BOTONES!!!!!*/
+/*
+  Formato de los botones rojos que se encuentran en las pantallas:
+    index.html - btnIndexRegistro
+    login.html - btnLoginInicioSesion
+    registro.html - btnRegistroRegistro
+*/
+.btnRojoInicio {
+  background-image: linear-gradient(
+    to right,
+    #ff8383 0%,
+    #c9213f 51%,
+    #c9213f 100%
+  );
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  width: 275px;
+  font-weight: normal;
+}
+
+/*Formato del botón blanco que se encuentra en la pantalla:
+   index.html - btnIndexRegistro*/
+.btnBlancoInicio {
+  background-image: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #ffffff 51%,
+    #ffffff 100%
+  );
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #9da2b0;
+  box-shadow: 10px 10px 20px #c5c1c1;
+  border-radius: 10px;
+  display: block;
+  width: 275px;
+  font-weight: normal;
+}
+
+/*misc.*/
+/*Formato de los textFields/inputText de la aplicación*/
+.textField {
+  background-color: transparent;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  border-color: #e1e1e1;
+  outline: 0;
+  height: 65px;
+  width: 315px;
+}
+
+/*CONTENEDORES!!!!*/
+/*Contenedor de los elementos del archivo index.html*/
+.indexContenedor {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: stretch;
+}
+
+/*Contenedor de los elementos del archivo login.html*/
+.loginContenedor {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: stretch;
+}
+
+/*Contenedor de los elementos del archivo registro.html*/
+.registroContenedor {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: stretch;
+}
