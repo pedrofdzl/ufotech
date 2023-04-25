@@ -14,10 +14,9 @@ import Login from '../views/Login';
 import Register from '../views/Register';
 
 // Navigators
-
-// Private views
 import BottomNavigation from '../navigators/BottomNavigation';
 
+// Private views
 import Categories from '../views/Categories';
 import CategoryProducts from '../views/CategoryProducts';
 import Products from '../views/Products';
