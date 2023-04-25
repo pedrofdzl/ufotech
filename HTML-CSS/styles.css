@@ -71,6 +71,25 @@ p {
   font-weight: normal;
 }
 
+.btnRojoAgregarProducto {
+  background-image: linear-gradient(
+    to right,
+    #ff8383 0%,
+    #c9213f 51%,
+    #c9213f 100%
+  );
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  width: 50px;
+  font-weight: normal;
+}
+
 /*Formato del botón blanco que se encuentra en la pantalla:
    index.html - btnIndexRegistro*/
 .btnBlancoInicio {
@@ -93,6 +112,94 @@ p {
   font-weight: normal;
 }
 
+/*Formato del botón para ir a listasUsuario.html desde el navigator*/
+.btnListasNavigator {
+  width: 40px;
+  height: 40px;
+}
+/*Formato del botón para ir a home.html desde el navigator*/
+.btnHomeNavigator {
+  width: 85px;
+  height: 85px;
+
+  background-image: linear-gradient(
+    to right,
+    #ff8383 0%,
+    #c9213f 51%,
+    #c9213f 100%
+  );
+
+  margin: 10px;
+  padding: 20px 20px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  box-shadow: 10px 10px 20px #c5c1c1;
+  border-radius: 70px;
+  display: block;
+  font-weight: normal;
+}
+
+/*Formato del botón para ir a ofertas.html desde el navigator*/
+.btnOfertasNavigator {
+  width: 40px;
+  height: 40px;
+}
+
+/*Boton para seleccionar categoría*/
+.btnSeleccionarCategoria {
+  width: 80px;
+  height: 120px;
+
+  background-image: linear-gradient(
+    to right,
+    #ff8383 0%,
+    #c9213f 51%,
+    #c9213f 100%
+  );
+
+  margin: 10px;
+  padding: 20px 20px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  box-shadow: 10px 10px 20px #c5c1c1;
+  border-radius: 10px;
+  display: block;
+  font-weight: normal;
+
+  color:white;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: space-around;
+}
+/*botón para seleccionar un producto especifico*/
+.btnSeleccionarProducto {
+  width: 70px;
+  height: 120px;
+
+  margin: 10px;
+  padding: 10px 10px;
+  text-align: center;
+  border-radius: 10px;
+  display: block;
+  font-weight: normal;
+
+  color:#353841;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: space-around;
+
+}
+
 /*misc.*/
 /*Formato de los textFields/inputText de la aplicación*/
 .textField {
@@ -103,6 +210,31 @@ p {
   outline: 0;
   height: 65px;
   width: 315px;
+}
+
+/*Formato de productos en categoriaEspecifica.html*/
+.productoCatEspecifica{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: normal;
+  align-content: center;
+  width: 385px;
+
+  background-image: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #ffffff 51%,
+    #ffffff 100%
+  );
+  margin: 10px;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #9da2b0;
+  box-shadow: 5px 5px 10px #c5c1c1;
+  border-radius: 10px;
+  font-weight: normal;
 }
 
 /*CONTENEDORES!!!!*/
@@ -134,4 +266,141 @@ p {
   justify-content: space-around;
   align-items: center;
   align-content: stretch;
+}
+
+.listasContenedor {
+  height: 518px;
+  width: 385px;
+}
+
+/*Este contenedor es para el navigator*/
+.navigatorContenedor {
+  height: 85px;
+  width: 385px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+
+.contenedorListaDeProductos {
+}
+
+.contenedorProducto {
+}
+
+
+.contenedorProductoProductosSimilares{
+  
+}
+.contenedorCategoriasCategorias {
+  background-color: transparent;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  border-color: #e1e1e1;
+  outline: 0;
+  height: 250px;
+  width: 350px;
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-top: 0px;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: stretch;
+}
+
+/*Contenedor dónde se guardan los botones para acceder a las categorías
+está dentro de contenedorCategoríasCategorías
+es parte de categorias.html*/
+.contenedorCategoriasBtnCategorias {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: stretch;
+
+  
+  
+}
+
+/*Contenedor dónde se guardan los productos de una categoría específica
+está ene el archivo categorias.html*/
+.contenedorCategoriasCategoriaEspecificaProductos{
+  background-color: transparent;
+  border-style: solid;
+  border-width: 0px 0px 2px 0px;
+  border-color: #e1e1e1;
+  outline: 0;
+  height: 250px;
+  width: 350px;
+  font-size: 20px;
+  padding-top: 0px;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: stretch;
+
+
+}
+
+/*Contenedor dónde se guardan los btn de productos en la página categorias.html*/
+.conenedorCategoriasBtnProducto{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: stretch;
+
+}
+
+/*este contenedor es para centrar las cosas*/
+.contenedorCentralizador{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: stretch;
+}
+
+/*este contenedor es para centrar las cosas*/
+.contenidoALaIzquierda{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: stretch;
+
+  width: 350px;
+}
+
+.contenedorInfoProducto{
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: stretch;
+  color:#353841;
+}
+/*ICONS!!!!!!!!!*/
+
+.material-symbols-rounded {
+  font-size: 50px;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 0;
 }
