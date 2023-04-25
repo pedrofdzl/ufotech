@@ -12,3 +12,13 @@ body {
 .h1 span {
     color: #EE2E24;
 }
+
+.b4 {
+    color: #9DA2B0;
+    font-size: 16px;
+    font-weight: 400;
+}
+.b4 span {
+    font-weight: 600;
+    color: #EE2E24;
+}

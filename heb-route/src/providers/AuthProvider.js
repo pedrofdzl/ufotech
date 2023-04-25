@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userInformation, setUserInformation] = useState(defaultAuthContext.userInformation);
 
-  const providerRegister = async (name, email, password, repPassword) => {
-    register(name, email, password, repPassword);
+  const providerRegister = async (name, lastname, email, password, repPassword) => {
+    register(name, lastname, email, password, repPassword);
   };
 
   const providerLogin = async (email, password) => {
@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
           user: user,
         }));
         setUserInformation((current) => ({
+          ...current,
           isLoading: false,
         }));
       } catch (error) {

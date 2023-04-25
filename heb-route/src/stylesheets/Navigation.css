@@ -1,0 +1,23 @@
+.bottom-navigation {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    border-top: 1px solid lightgray;
+    width: 100vw;
+    height: 64px;
+    margin-left: -8px;
+    bottom: 0px;
+}
+.bottom-navigation button {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+}
+.bottom-navigation-icon {
+    width: 32px;
+    height: 32px;
+    color: gray;
+}

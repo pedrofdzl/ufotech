@@ -34,7 +34,7 @@ const Login = () => {
         </div>
         <div className="auth-buttons">
           <Button type="submit"> Iniciar sesión </Button>
-          <Button variant={'secondary'} callbackFunction={() => navigate('/register')}>¿No tienes cuenta? Regístrate</Button>
+          <Button variant={'secondary'} callbackFunction={() => navigate('/register')}><Text variant={'b4'} styles={{ margin: 0 }}>¿No tienes cuenta? <span>Regístrate</span></Text></Button>
         </div>
       </form>
     </div>

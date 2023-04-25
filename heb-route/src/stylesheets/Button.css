@@ -13,7 +13,12 @@
 
 .btn-primary {
     background-color: #C9213F;
-    background: linear-gradient(201.52deg, #FF8383 -62.66%, #C9213F 225.49%, #C9213F 292.28%);
+    background-image: linear-gradient(
+        to right,
+        #ff8383 0%,
+        #c9213f 70%,
+        #c9213f 100%
+    );
     color: #FFFFFF;
 }
 

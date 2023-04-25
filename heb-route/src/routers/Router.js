@@ -13,8 +13,10 @@ import Auth from '../views/Auth';
 import Login from '../views/Login';
 import Register from '../views/Register';
 
+// Navigators
+
 // Private views
-import Dashboard from '../views/Dashboard';
+import BottomNavigation from '../navigators/BottomNavigation';
 
 const AppRouter = () => {
   return (
@@ -26,7 +28,7 @@ const AppRouter = () => {
         <Route exact path="/login" element={<PublicRoute><Login/></PublicRoute>}/>
         <Route exact path="/register" element={<PublicRoute><Register/></PublicRoute>}/>
 
-        <Route exact path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+        <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
       </Routes>
     </BrowserRouter>
   );

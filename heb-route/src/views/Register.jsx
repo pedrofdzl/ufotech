@@ -18,10 +18,11 @@ const Register = () => {
   const submitRegistration = (e) => {
       e.preventDefault();
       let name = e.target.elements.nameField.value;
+      let lastname = e.target.elements.lastnameField.value;
       let email = e.target.elements.emailField.value;
       let password = e.target.elements.passwordField.value;
       let repPassword = e.target.elements.repPasswordField.value;
-      providerRegister(name, email, password, repPassword);
+      providerRegister(name, lastname, email, password, repPassword);
   };
 
   return (
@@ -31,6 +32,8 @@ const Register = () => {
         <div className="auth-form-fields">
          <label htmlFor="nameField"> Nombre </label>
          <input type="name" id="nameField"/>
+         <label htmlFor="lastnameField"> Apellido </label>
+         <input type="lastname" id="lastnameField"/>
          <label htmlFor="emailField"> Correo electrónico </label>
          <input type="email" id="emailField"/>              
          <label htmlFor="passwordField"> Contraseña </label>
@@ -40,7 +43,7 @@ const Register = () => {
         </div>
         <div className="auth-buttons">
           <Button type="submit">Registrarse</Button>
-          <Button variant={'secondary'} callbackFunction={() => navigate('/login')}>¿Ya tienes cuenta? Inicia sesión</Button>
+          <Button variant={'secondary'} callbackFunction={() => navigate('/login')}><Text variant={'b4'} styles={{ margin: 0 }}>¿Ya tienes cuenta? <span>Inicia sesión</span></Text></Button>
         </div>
       </form>
     </div>

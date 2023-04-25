@@ -2,7 +2,7 @@ import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import { app } from "../firebase/firebase";
 
-export const register = (name, email, password, repPassword) => {
+export const register = (name, lastname, email, password, repPassword) => {
 
     const regEmail = /\S+@\S+\.\S+/;
     
@@ -22,7 +22,8 @@ export const register = (name, email, password, repPassword) => {
                     });
                     app.firestore().collection("users").doc(email).set({
                         email: email,
-                        name: name
+                        name: name,
+                        lastname: lastname,
                     });
                 }
                 else {
