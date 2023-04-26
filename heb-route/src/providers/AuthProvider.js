@@ -5,6 +5,10 @@ import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import { app } from "../firebase/firebase";
 
+// Database
+import { db } from '../firebase/firebase'
+import { doc, getDoc } from 'firebase/firestore'
+
 // Views
 import Loading from '../views/Loading';
 
@@ -34,6 +38,9 @@ export const AuthContext = React.createContext({
       isLoggedIn: false,
     },
     userInformation: {
+      firstName: null,
+      lastName: null,
+      email: null,
       isLoading: true,
     },
     providerRegister: async (name, email, password, repPassword) => {},
@@ -46,6 +53,28 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState(defaultAuthContext.authState);
   const [currentUser, setCurrentUser] = useState(null);
   const [userInformation, setUserInformation] = useState(defaultAuthContext.userInformation);
+
+  const getUserInformation = async () => {
+    if (authState.user?.email){
+      const docRef = doc(db, "users", authState.user.email);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setUserInformation((current) => ({
+          ...current,
+          firstName: docSnap.data().name,
+          lastName: docSnap.data().lastname,
+          email: docSnap.data().email,
+          isLoading: false,
+        }));
+      } else {
+        setUserInformation((current) => ({
+          ...current,
+          isLoading: false,
+        }));
+      }
+    }
+  }
 
   const providerRegister = async (name, lastname, email, password, repPassword) => {
     register(name, lastname, email, password, repPassword);
@@ -86,10 +115,7 @@ export const AuthProvider = ({ children }) => {
           isLoading: false,
           user: user,
         }));
-        setUserInformation((current) => ({
-          ...current,
-          isLoading: false,
-        }));
+        await getUserInformation();
       } catch (error) {
         providerLogout();
       }

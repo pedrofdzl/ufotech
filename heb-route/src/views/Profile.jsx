@@ -11,17 +11,23 @@ import { Button } from "../components/ui/Button";
 // Stylesheets
 import '../stylesheets/Dashboard.css';
 
-const Dashboard = () => {
-  const { currentUser } = useContext(AuthContext);
+const Profile = () => {
+  const { userInformation, providerLogout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const logout = () => {
+    providerLogout();
+    navigate('/');
+  };
 
   return (
     <>
-    {currentUser && <>
-        <Text>Productos</Text>
+    {userInformation && <>
+        <Text>{userInformation.firstName} {userInformation.lastName}</Text>
+        <Button callbackFunction={() => logout()}>Cerrar sesión</Button>    
     </>}
     </>
   );
 };
 
-export default Dashboard;
+export default Profile;
