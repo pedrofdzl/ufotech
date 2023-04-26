@@ -11,17 +11,17 @@ import { Button } from "../components/ui/Button";
 // Stylesheets
 import '../stylesheets/Dashboard.css';
 
-const Dashboard = () => {
+const Lists = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
     <>
     {currentUser && <>
-        <Text>Productos</Text>
+        <Text>Listas</Text>
     </>}
     </>
   );
 };
 
-export default Dashboard;
+export default Lists;

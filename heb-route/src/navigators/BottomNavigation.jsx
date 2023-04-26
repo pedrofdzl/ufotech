@@ -2,29 +2,35 @@ import React, { useState } from 'react';
 
 // Views
 import Dashboard from '../views/Dashboard';
+import Profile from '../views/Profile';
+import Lists from '../views/Lists';
 
 // Stylesheets
 import '../stylesheets/Navigation.css';
 
 // Icons
-import { AiFillHome, AiOutlineUnorderedList } from 'react-icons/ai';
-import { BsFillPersonFill } from 'react-icons/bs';
+import { AiOutlineShop } from 'react-icons/ai';
+import { BsPerson, BsListCheck } from 'react-icons/bs';
 
 const BottomNavigation = () => {
   const [currentTab, setCurrentTab] = useState('Dashboard');
   
   return (
-    <>        
-      {currentTab === 'Dashboard' && <Dashboard/>}
+    <>
+      <div className='children-container'>
+        {currentTab === 'Lists' && <Lists/>}
+        {currentTab === 'Dashboard' && <Dashboard/>}
+        {currentTab === 'Profile' && <Profile/>}
+      </div>
       <div className='bottom-navigation'>
         <button>
-          <AiOutlineUnorderedList onClick={() => setCurrentTab('Lists')} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
+          <BsListCheck onClick={() => setCurrentTab('Lists')} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
         </button>
         <button>
-          <AiFillHome onClick={() => setCurrentTab('Dashboard')} className='bottom-navigation-icon' style={currentTab === 'Dashboard' && { color: '#000000' }}/>
+          <AiOutlineShop onClick={() => setCurrentTab('Dashboard')} className='bottom-navigation-icon' style={currentTab === 'Dashboard' && { color: '#000000' }}/>
         </button>
         <button>
-          <BsFillPersonFill onClick={() => setCurrentTab('Profile')} className='bottom-navigation-icon' style={currentTab === 'Profile' && { color: '#000000' }}/>
+          <BsPerson onClick={() => setCurrentTab('Profile')} className='bottom-navigation-icon' style={currentTab === 'Profile' && { color: '#000000' }}/>
         </button>
       </div>
     </>
