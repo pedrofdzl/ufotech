@@ -18,13 +18,8 @@ import { getDocs, collection, query, where, limit } from 'firebase/firestore'
  
 
 const Dashboard = () => {
-  const { currentUser, providerLogout } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const logout = () => {
-    providerLogout();
-    navigate('/');
-  };
 
   const [categoriasIcons, setCategoriasIcons] = useState();
   const [categoriesList, setCategoriesList] = useState();
@@ -103,20 +98,15 @@ const Dashboard = () => {
 
   return (
     <>
-    {currentUser ?
-      <div className="auth-container">
-        <Text>Bienvenido de vuelta <span>{ currentUser.email }</span>!</Text>
-
+    {currentUser && <>
+        <Text>Productos</Text>
+        
         <ul className="categories">
           {categoriasIcons}
         </ul>
 
         {categoriesList}
-
-
-        <Button callbackFunction={() => logout()}>Cerrar sesión</Button>
-      </div> : <></>
-    }
+    </>}
     </>
   );
 };

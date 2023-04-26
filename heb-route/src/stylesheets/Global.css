@@ -5,5 +5,5 @@ body {
     height: calc(100vh - 16px);
     width: calc(100vw - 16px);
     overflow-x: hidden;
-    background-color: #FFFFFF;
+    background-color: #fefefe;
 }
