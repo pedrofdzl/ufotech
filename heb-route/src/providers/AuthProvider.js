@@ -5,10 +5,6 @@ import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import { app } from "../firebase/firebase";
 
-// Database
-import { db } from '../firebase/firebase'
-import { doc, getDoc } from 'firebase/firestore'
-
 // Views
 import Loading from '../views/Loading';
 
@@ -22,60 +18,17 @@ const defaultAuthContext = {
     isLoading: true,
     isLoggedIn: false,
   },
-  userInformation: {
-    isLoading: true,
-  },
   providerRegister: async () => {},
   providerLogin: async () => {},
   providerLogout: async () => {},
 };
 
-export const AuthContext = React.createContext({
-    currentUser: null,
-    authState: {
-      user: null,
-      isLoading: true,
-      isLoggedIn: false,
-    },
-    userInformation: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      isLoading: true,
-    },
-    providerRegister: async (name, email, password, repPassword) => {},
-    providerLogin: async (email, password) => {},
-    providerLogout: async () => {},
-
-});
+export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState(defaultAuthContext.authState);
   const [currentUser, setCurrentUser] = useState(null);
-  const [userInformation, setUserInformation] = useState(defaultAuthContext.userInformation);
-
-  const getUserInformation = async () => {
-    if (authState.user?.email){
-      const docRef = doc(db, "users", authState.user.email);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        setUserInformation((current) => ({
-          ...current,
-          firstName: docSnap.data().name,
-          lastName: docSnap.data().lastname,
-          email: docSnap.data().email,
-          isLoading: false,
-        }));
-      } else {
-        setUserInformation((current) => ({
-          ...current,
-          isLoading: false,
-        }));
-      }
-    }
-  }
-
+  
   const providerRegister = async (name, lastname, email, password, repPassword) => {
     register(name, lastname, email, password, repPassword);
   };
@@ -115,7 +68,6 @@ export const AuthProvider = ({ children }) => {
           isLoading: false,
           user: user,
         }));
-        await getUserInformation();
       } catch (error) {
         providerLogout();
       }
@@ -127,9 +79,6 @@ export const AuthProvider = ({ children }) => {
         updateAuthState(user);
       } else {
         setAuthState({ ...defaultAuthContext.authState, isLoading: false });
-        setUserInformation({
-          isLoading: false,
-        });
       }
     });
   }, []);
@@ -139,12 +88,11 @@ export const AuthProvider = ({ children }) => {
       value={{
         authState,
         currentUser,
-        userInformation,
         providerRegister,
         providerLogin,
         providerLogout,
       }}>
-      {authState.isLoading || userInformation.isLoading ? (
+      {authState.isLoading ? (
         <Loading/>
       ) : (
         children

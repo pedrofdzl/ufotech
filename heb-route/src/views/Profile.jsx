@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
+import { UserInformationContext } from "../providers/UserInformationProvider";
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -12,7 +13,8 @@ import { Button } from "../components/ui/Button";
 import '../stylesheets/Dashboard.css';
 
 const Profile = () => {
-  const { userInformation, providerLogout } = useContext(AuthContext);
+  const { providerLogout } = useContext(AuthContext);
+  const { userInformation } = useContext(UserInformationContext);
   const navigate = useNavigate();
 
   const logout = () => {
