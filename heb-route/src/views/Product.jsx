@@ -1,32 +1,72 @@
-import { React } from 'react';
+import React, { useEffect, useState }  from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
+import { db } from '../firebase/firebase';
+import { getDoc, doc, collection, getDocs, query, where, limit } from 'firebase/firestore';
 
-import broccoliImage from '../assets/img/products/brocoli.jpg'
-const product = {
-    id: 1,
-    nombre: 'Brocoli',
-    categoria: 'Verduras',
-    precio: 37.9,
-    descripcion: '500 g. El Brócoli es un alimento que ayuda a prevenir una gran cantidad de enfermedades gracias a que refuerza el sistema inmunológico. Funciona como antioxidante y es de gran ayuda para la salud cardiovascular. Contiene vitaminas A, B1, B2, B6, C y E, beta caroteno, niacina y ácido fólico, que lo convierten en uno de los vegetales más completos en lo que a nutrientes se refiere.'
-}
-    
 
 const Product = () => {
 
-    const { id } = useParams()
+    const { productId } = useParams();
+
+    const [product, setProduct] = useState({});
+    const [category, setCategory] = useState({});
+    const [similarProducts, setSimilarProducts] = useState([]);
+
+    useEffect(()=>{
+        const getData = async()=>{
+
+            // Get Product
+            const productReference = doc(db, 'Productos', productId)
+            const productDoc = await getDoc(productReference);
+            const helperProduct = { id: productDoc.id, ...productDoc.data() }
+
+
+            const categoryReference = doc(db, 'Categorias', helperProduct.Categoria);
+            const categoryDoc = await getDoc(categoryReference);
+            const helperCategory = { id: categoryDoc.id, ...categoryDoc.data() }
+            
+            setCategory(helperCategory);
+            setProduct(helperProduct);
+
+            // Get Similar Products
+            const productsCollection = collection(db, 'Productos')
+            const productsQuery = query(productsCollection, where('Categoria', '==', helperProduct.Categoria), limit(5));
+            const productsDocs = await getDocs(productsQuery);
+
+            let similarProductsJSX = [];
+            productsDocs.forEach(product=>{
+                const productHelper = { id: product.id, ...product.data() }
+                
+                let helper =  <div key={productHelper.id}>
+                <Link to={`/product/${productHelper.id}`}>
+                        <img src={productHelper['Link Imagen']} alt={productHelper.Nombre} height={100} width={100} /> <br />
+                        <strong>${productHelper.Precio}</strong> <br /> 
+                    </Link>
+                        {productHelper.Nombre}  <br />
+                        <button>Add to List</button>
+                </div>
+                similarProductsJSX.push(helper);
+            });
+
+            setSimilarProducts(similarProductsJSX);
+        }
+
+        getData();
+    }, [productId]);
+
     return <>
         <small>
             <Link to={'/categories'}>Catalogo</Link>
             /
-            <Link to={`/categories/${product.categoria}`}>{product.categoria}</Link>
+            <Link to={`/categories/${category.id}`}>{category.Nombre}</Link>
         </small>
         <br />
-        <img src={broccoliImage} alt={product.nombre} height={300} width={300} />
-        <h1>{product.nombre}</h1>
+        <img src={product['Link Imagen']} alt={product.Nombre} height={300} width={300} />
+        <h1>{product.Nombre}</h1>
 
-        <h3>{product.precio}$</h3>
+        <h3>{product.Precio}$</h3>
         <button>Add to List</button>
         <hr />
 
@@ -35,14 +75,9 @@ const Product = () => {
         </p>
         <h3>Similar Products</h3>
 
-        <>
-        <Link to={`/product/${product.id}`}>
-                <img src={broccoliImage} alt={product.nombre} height={100} width={100} /> <br />
-                <strong>${product.precio}</strong> <br /> 
-            </Link>
-                {product.nombre}  <br />
-                <button>Add to List</button>
-        </>
+
+        {similarProducts}
+        
 
     </>
 }

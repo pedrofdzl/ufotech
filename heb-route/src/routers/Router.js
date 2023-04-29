@@ -14,9 +14,11 @@ import Login from '../views/Login';
 import Register from '../views/Register';
 
 // Navigators
-import BottomNavigation from '../navigators/BottomNavigation';
 
 // Private views
+import Dashboard from '../views/Dashboard';
+import BottomNavigation from '../navigators/BottomNavigation';
+
 import Categories from '../views/Categories';
 import CategoryProducts from '../views/CategoryProducts';
 import Products from '../views/Products';
@@ -33,11 +35,8 @@ const AppRouter = () => {
         <Route exact path="/register" element={<PublicRoute><Register/></PublicRoute>}/>
 
         <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
-
-        {/* <Route exact path="/" element={<Dashboard/>}/>
-        <Route exact path="/categories" element={<Categories/>} />
-        <Route exact path="/categories/:category" element={<CategoryProducts/>}  />
-        <Route exact path='/product/:id' element={<Product/>} /> */}
+        <Route exact path="/categories/:categoryId" element={<CategoryProducts/>}  />
+        <Route exact path='/product/:productId' element={<Product/>} />
       </Routes>
     </BrowserRouter>
   );
