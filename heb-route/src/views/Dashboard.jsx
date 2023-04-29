@@ -40,9 +40,9 @@ const Dashboard = () => {
 
       // Create Category Icons
       let helper = categoriesSnapshot.map(categoria=>{
-        return <div key={categoria.id} className='category-card'>
+        return <a key={categoria.id} className='category-card' href={`/categories/${categoria.id}`}>
             <h4>{categoria.Nombre}</h4>
-        </div>
+        </a>
       });
       setCategoriasIcons(helper);
 
@@ -72,11 +72,11 @@ const Dashboard = () => {
 
         // Generate Product List
         categoryProdsJSX = categoryProductsList.map(product=>{
-            return <div key={product.id} className="product-card">
+            return <a key={product.id} className="product-card" href={`/product/${product.id}`}>
                 <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                   <h4>{product.Nombre}</h4>
                   <small>${product.Precio}</small>
-              </div>
+              </a>
         });
 
         // Get main Category Card

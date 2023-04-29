@@ -88,18 +88,19 @@ const Lists = () => {
     <>
     {currentUser && <>
         <Text>Listas</Text>
-        <Button callbackFunction={()=>setAgregandoLista(true)}>Agregar Lista</Button>
 
         {!agregandoLista && myListasJSX }
 
-        {agregandoLista && 
+        {agregandoLista ?
           <form onSubmit={submitHandler}>
             { errorMessage && <h4>{errorMessage}</h4> }
             <label htmlFor="">Nombre</label>
             <input type="text" id="nombreLista" onChange={nombreListaHandler} />
-            <Button callbackFunction={()=>setAgregandoLista(false) }>Cancelar</Button>
-            <input type="submit" value={'Agregar'}/>
+            <input className="btn btn-primary" type="submit" value={'Agregar'}/>
+            <Button variant={'secondary'} callbackFunction={()=>setAgregandoLista(false) }>Cancelar</Button>
           </form>
+          :
+          <Button callbackFunction={()=>setAgregandoLista(true)}>Agregar Lista</Button>
         }
 
     </>}
