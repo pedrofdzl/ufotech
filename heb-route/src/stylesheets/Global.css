@@ -7,3 +7,5 @@ body {
     overflow-x: hidden;
     background-color: #fefefe;
 }
+
+::-webkit-scrollbar {display:none;}

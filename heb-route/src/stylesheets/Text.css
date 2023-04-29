@@ -8,8 +8,20 @@ body {
     color: #353841;
     font-size: 32px;
     font-weight: 800;
+    margin-bottom: 8px;
 }
 .h1 span {
+    color: #EE2E24;
+}
+
+.h3 {
+    color: #353841;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.h3 span {
     color: #EE2E24;
 }
 

@@ -4,7 +4,7 @@ import { Link,useParams } from 'react-router-dom'
 import { db } from '../firebase/firebase';
 import { getDoc, getDocs, collection, query, where, doc  } from 'firebase/firestore'
 
-import '../stylesheets/ProductCard.css';
+// import '../stylesheets/ProductCard.css';
 
 import {Button} from '../components/ui/Button';
 

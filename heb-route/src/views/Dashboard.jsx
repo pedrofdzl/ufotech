@@ -10,7 +10,8 @@ import { Button } from "../components/ui/Button";
 
 // Stylesheets
 import '../stylesheets/Dashboard.css';
-import '../stylesheets/SideList.css';
+import '../stylesheets/Products.css';
+// import '../stylesheets/SideList.css';
 
 // Database
 import { db } from '../firebase/firebase'
@@ -39,9 +40,9 @@ const Dashboard = () => {
 
       // Create Category Icons
       let helper = categoriesSnapshot.map(categoria=>{
-        return <li key={categoria.id}>
+        return <div key={categoria.id} className='category-card'>
             <h4>{categoria.Nombre}</h4>
-        </li>
+        </div>
       });
       setCategoriasIcons(helper);
 
@@ -73,16 +74,15 @@ const Dashboard = () => {
         categoryProdsJSX = categoryProductsList.map(product=>{
             return <div key={product.id} className="product-card">
                 <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
-                  <div className='product-card-text'>
-                    <h4>{product.Nombre}</h4>
-                  </div>
+                  <h4>{product.Nombre}</h4>
+                  <small>${product.Precio}</small>
               </div>
         });
 
         // Get main Category Card
-        let helper = <div key={category.id}>
+        let helper = <div key={category.id} className="product-category">
                <h3>{category.Nombre}</h3>
-               <div className='categories-products'>
+               <div className='product-card-carousel'>
                    {categoryProdsJSX}
                   {/* <Link className='view-all-btn' to={'/categories/'+c.nombre}>View All</Link> */}
                </div>
@@ -101,9 +101,9 @@ const Dashboard = () => {
     {currentUser && <>
         <Text>Productos</Text>
         
-        <ul className="categories">
+        <div className="category-card-carousel">
           {categoriasIcons}
-        </ul>
+        </div>
 
         {categoriesList}
     </>}

@@ -80,17 +80,22 @@ const Profile = () => {
   return (
 
     <>
-    {!editing && <>
       {userInformation && <>
-
-          <Text>{userInformation.firstName} {userInformation.lastName}</Text>
-          <Text>{userInformation.email}</Text>
+          <Text>Perfil</Text>
+          <Text variant={'h3'}>Bienvenido de vuelta, <span>{userInformation.firstName} {userInformation.lastName}</span>.</Text>
+          {/* <Text>{userInformation.email}</Text> */}
+          <br></br>
+          {!editing && <>
+          <br></br>
+          <label htmlFor="">Nombre</label>
+          <input type="text" value={firstName} readOnly/>
+          <label htmlFor="">Apellido</label>
+          <input type="text" value={lastName} readOnly/>
 
           <Button callbackFunction={editHandler}>Editar</Button>
-
-
-          <Button callbackFunction={() => logout()}>Cerrar sesión</Button>    
-      </>}
+        
+          <Button variant={'secondary'} callbackFunction={() => logout()}>Cerrar sesión</Button>    
+          </>}
       </>
       }
       
@@ -98,12 +103,12 @@ const Profile = () => {
       {editing && 
       <form onSubmit={submitHandler}>
         {errorMessage && <h4>{errorMessage}</h4>}
-        <label htmlFor="">Nombre:</label>
+        <label htmlFor="">Nombre</label>
         <input onChange={firstNameHandler} type="text" value={firstName} />
-        <label htmlFor="">Apellido:</label>
+        <label htmlFor="">Apellido</label>
         <input onChange={LastNameHandler} type="text" value={lastName} />
-        <Button callbackFunction={cancelHandler}>Cancelar</Button>
-        <input type="submit" value={'Guardar'} />
+        <input className="btn btn-primary" type="submit" value={'Guardar'} />
+        <Button variant={'secondary'} callbackFunction={cancelHandler}>Cancelar</Button>
       </form>}     
       
     </>
