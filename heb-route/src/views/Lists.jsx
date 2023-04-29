@@ -57,7 +57,6 @@ const Lists = () => {
 
       let lcList = [];
       listasDocs.forEach(lista=>{
-        // console.log(lista.id)
         lcList.push({ id:lista.id, ...lista.data() });
       });
       setMyListas(lcList);

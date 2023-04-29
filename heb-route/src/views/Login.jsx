@@ -28,7 +28,7 @@ const Login = () => {
   }
 
 
-  const submitLogin = (e) => {
+  const submitLogin = async(e) => {
     e.preventDefault();
 
     if (!(email.length > 0) || !(password.length > 0)){
@@ -36,7 +36,7 @@ const Login = () => {
       return
     }
 
-    const isValid = providerLogin(email, password);
+    const isValid = await providerLogin(email, password);
     if(!isValid){
       setErrorMessage('El Correo o Contraseña es incorrecto')
     }
