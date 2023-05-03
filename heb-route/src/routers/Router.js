@@ -33,7 +33,7 @@ const AppRouter = () => {
 
         <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
         <Route exact path="/categories/:categoryID" element={<PrivateRoute><Category/></PrivateRoute>}  />
-        <Route exact path='/products/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
+        <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

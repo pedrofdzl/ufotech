@@ -8,7 +8,7 @@
     width: 100%;
     outline: 0;
     border: 0;
-    border-radius: 16px;
+    border-radius: 12px;
 }
 
 .btn-primary {
@@ -25,6 +25,15 @@
 .btn-secondary {
     background-color: #FFFFFF;
     color: #9DA2B0;
+}
+
+.btn-add-large {
+    background-color: #7fd886;
+    color: #ffffff;
+    font-size: 18px;
+}
+.btn-add-large span {
+    font-weight: 600;
 }
 
 .btn-add {

@@ -50,6 +50,7 @@ export const UserInformationProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    console.log('Fetching user data...');
     getUserInformation();
   }, [authState]);
 

@@ -50,8 +50,11 @@ export const ProductProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getCategories();
-  }, [authState]);
+    if (Object.keys(categories.categories).length === 0) {
+      console.log('Fetching categories...');
+      getCategories();
+    }
+  }, []);
 
   return (
     <ProductContext.Provider

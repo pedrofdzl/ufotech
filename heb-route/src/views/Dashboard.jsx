@@ -31,7 +31,7 @@ const Dashboard = () => {
       <div className="category-card-carousel">
         {Object.keys(categories.categories).map(category => {
           return (
-            <a className='category-card' style={{ backgroundColor: categories.categories[category].color }} href={`/categories/${category}`}>
+            <a className='category-card' style={{ backgroundColor: categories.categories[category].color }} onClick={() => navigate(`/categories/${category}`)}>
               <h1>{categories.categories[category].emoji}</h1>
               <h4>{categories.categories[category].name}</h4>
             </a>
@@ -47,7 +47,7 @@ const Dashboard = () => {
             <div className='product-card-carousel'>
               {categories.categories[category].products.slice(0, 5).map(product => {
                 return(
-                  <a className="product-card" href={`/products/${product.id}`}>
+                  <a className="product-card" onClick={() => navigate(`/products/${category}/${product.id}`)}>
                     <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                     <h4>{product.Nombre}</h4>
                     <small>${product.Precio}</small>
@@ -55,7 +55,7 @@ const Dashboard = () => {
                   </a>
                 );
               })}
-              <a className="product-category-see-more" href={`/categories/${category}`}>
+              <a className="product-category-see-more" onClick={() => navigate(`/categories/${category}`)}>
                 <BsArrowRightCircle className="product-category-see-more-icon" />
                 <Text variant="b4">Ver más</Text>
               </a>
