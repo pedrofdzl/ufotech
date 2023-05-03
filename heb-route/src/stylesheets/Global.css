@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
     height: calc(100vh - 16px);
-    width: calc(100vw - 16px);
+    width: calc(100vw - 16px);  
+    margin: 0px;
     overflow-x: hidden;
     background-color: #fefefe;
 }

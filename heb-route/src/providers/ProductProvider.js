@@ -33,7 +33,7 @@ export const ProductProvider = ({ children }) => {
 
       if (!categories?.categories?.[doc.id]) {
         let auxCategories = categories;
-        auxCategories.categories[doc.id] = { name: data.Nombre, products: [] };
+        auxCategories.categories[doc.id] = { name: data.Nombre, emoji: data.Emoji, color: data.Color ? data.Color : '#FFF', products: [] };
         setCategories(auxCategories);
       }
     });

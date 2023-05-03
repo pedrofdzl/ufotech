@@ -1,0 +1,12 @@
+.location {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.location p {
+    margin: 0;
+}
