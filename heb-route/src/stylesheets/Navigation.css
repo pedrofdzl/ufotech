@@ -19,12 +19,24 @@
     background-color: transparent;
 }
 .bottom-navigation-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     color: gray;
 }
 
 .children-container {
     padding-left: 16px;
     padding-right: 16px;
+}
+
+.header-navigate {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+}
+.header-navigate-icon {
+    font-size: 24px;
+    margin-left: 16px;
+    margin-top: 24px;
+    color: #9DA2B0;
 }

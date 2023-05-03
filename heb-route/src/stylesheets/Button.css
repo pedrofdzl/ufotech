@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 .btn {
     font-size: 16px;
     font-weight: 400;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
     padding: 16px;
     width: 100%;
     outline: 0;
     border: 0;
-    border-radius: 12px;
+    border-radius: 16px;
 }
 
 .btn-primary {
@@ -25,4 +25,17 @@
 .btn-secondary {
     background-color: #FFFFFF;
     color: #9DA2B0;
+}
+
+.btn-add {
+    display: flex;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    width: 42px;
+    height: 42px;
+    background-color: white;
+    border: 2px solid #7fd886;
+    color: #353841;
 }

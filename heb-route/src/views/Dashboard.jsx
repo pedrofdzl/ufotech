@@ -42,11 +42,12 @@ const Dashboard = () => {
       {Object.keys(categories.categories).map(category => {
         return (
           <div className="product-category">
-            <h3>{categories.categories[category].name}</h3>
+            <br/>
+            <Text variant={'h4'}>{categories.categories[category].name}</Text>
             <div className='product-card-carousel'>
               {categories.categories[category].products.slice(0, 5).map(product => {
                 return(
-                  <a className="product-card" href={`/product/${product.id}`}>
+                  <a className="product-card" href={`/products/${product.id}`}>
                     <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                     <h4>{product.Nombre}</h4>
                     <small>${product.Precio}</small>

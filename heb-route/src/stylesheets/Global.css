@@ -7,6 +7,14 @@ body {
     margin: 0px;
     overflow-x: hidden;
     background-color: #fefefe;
+    color: #353841;
+}
+
+.safe-area {
+    width: calc(100vw - 32px);
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 32px;
 }
 
 ::-webkit-scrollbar {display:none;}
