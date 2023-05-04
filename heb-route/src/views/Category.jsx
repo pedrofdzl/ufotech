@@ -26,7 +26,7 @@ const Category = () => {
 
   return (
     <>
-      <HeaderNavitagion />
+      <HeaderNavitagion params={{'tab': 'Dashboard'}}/>
       <div className='safe-area'>
         <Text variant={'h1'}>
           {category.name} {category.emoji}

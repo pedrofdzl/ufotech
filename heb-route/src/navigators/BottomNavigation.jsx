@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 // Views
 import Dashboard from '../views/Dashboard';
@@ -14,7 +15,15 @@ import { BsPerson, BsListCheck } from 'react-icons/bs';
 
 const BottomNavigation = () => {
   const [currentTab, setCurrentTab] = useState('Dashboard');
-  
+  const [searchParams] = useSearchParams();
+
+  useEffect(()=>{
+    const currTab = searchParams.get('tab');
+
+    if (!currTab) setCurrentTab('Dashboard')
+    else setCurrentTab(currTab);
+  }, [searchParams]);
+
   return (
     <>
       <div className='children-container'>

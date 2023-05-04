@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { db } from "../firebase/firebase";
-import { addDoc, collection, where, query, getDocs, } from "firebase/firestore";
+import { Timestamp, addDoc, collection, } from "firebase/firestore";
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
 import { UserInformationContext } from '../providers/UserInformationProvider';
+import { ListContext } from "../providers/ListProvider";
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -17,18 +18,23 @@ import '../stylesheets/Dashboard.css';
 
 const Lists = () => {
   const { currentUser } = useContext(AuthContext);
-  const  { userInformation } = useContext(UserInformationContext) 
+  const  { userInformation } = useContext(UserInformationContext);
+  const { lists, getMyLists } = useContext(ListContext);
 
   const [nombreLista, setNombreLista] = useState('');
   const [agregandoLista, setAgregandoLista] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [myListas, setMyListas] = useState([]);
-  const [myListasJSX, setmyListasJSX] = useState();
   
   const navigate = useNavigate();
 
   const nombreListaHandler = event =>{
     setNombreLista(event.target.value)
+  }
+
+  const resetFormHandler = agregar =>{
+    setErrorMessage('');
+    setNombreLista('');
+    setAgregandoLista(agregar);
   }
 
   const submitHandler = event => {
@@ -40,63 +46,38 @@ const Lists = () => {
     }
 
     const listasCollection = collection(db, 'Listas');
+    const date = new Date();
     addDoc(listasCollection,{
       'Nombre': nombreLista,
-      'Owner': userInformation.email
+      'Owner': userInformation.email,
+      'CreatedDate': date
     }).then(lista=>{
-      console.log(lista.id)
-      setNombreLista('');
-      setAgregandoLista(false)
+      resetFormHandler(false);
+      getMyLists();
     });
   }
-
-  const getMyListas = () =>{
-    const listasCollection = collection(db, 'Listas');
-    const listasQuery = query(listasCollection, where('Owner', '==', userInformation.email));
-    getDocs(listasQuery).then(listasDocs=>{
-
-      let lcList = [];
-      listasDocs.forEach(lista=>{
-        lcList.push({ id:lista.id, ...lista.data() });
-      });
-      setMyListas(lcList);
-    });
-  }
-
-  useEffect(()=>{
-    getMyListas();
-  }, []);
-
-  
-
-  useEffect(()=>{
-    const listsJSXmap = myListas.map(lista=>{
-      console.log(lista.Nombre)
-      return <div key={lista.id}>
-        <h4>{lista.Nombre}</h4>
-      </div>
-    });
-     setmyListasJSX(<div>
-        {listsJSXmap}
-      </div>)
-  },[myListas])
-  
-
 
   return (
     <>
     {currentUser && <>
         <Text>Listas</Text>
 
-        {!agregandoLista && myListasJSX }
+        {!agregandoLista &&  Object.keys(lists.myLists).map(lista=>{
+            return <div key={lista}>
+              <Link to={`/lists/${lista}`}>
+                <h4>{lists.myLists[lista].name}</h4>
+              </Link>
+            </div>
+          })
+        }
 
         {agregandoLista ?
           <form onSubmit={submitHandler}>
             { errorMessage && <h4>{errorMessage}</h4> }
             <label htmlFor="">Nombre</label>
-            <input type="text" id="nombreLista" onChange={nombreListaHandler} />
+            <input type="text" id="nombreLista" onChange={nombreListaHandler} value={nombreLista} />
             <input className="btn btn-primary" type="submit" value={'Agregar'}/>
-            <Button variant={'secondary'} callbackFunction={()=>setAgregandoLista(false) }>Cancelar</Button>
+            <Button variant={'secondary'} callbackFunction={()=>resetFormHandler(false)}>Cancelar</Button>
           </form>
           :
           <Button callbackFunction={()=>setAgregandoLista(true)}>Agregar Lista</Button>
