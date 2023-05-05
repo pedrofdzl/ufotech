@@ -11,10 +11,14 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { BsArrowRightCircle } from 'react-icons/bs';
+import { db } from '../firebase/firebase';
+import { addDoc, collection } from 'firebase/firestore'
+
 
 // Providers
 import { ModalContext } from '../providers/ModalProvider';
 import { ProductContext } from '../providers/ProductProvider';
+import { ListContext } from '../providers/ListProvider';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -23,6 +27,8 @@ const Product = () => {
   const { productModalPayload, setProductModalOpen, setProductModalPayload } = useContext(ModalContext);
 
   const [quantity, setQuantity] = useState(1);
+  const [selectedList, setSelectedList] = useState('')
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     if (quantity < 1) setQuantity(1);
@@ -44,6 +50,30 @@ const Product = () => {
     <>
       <HeaderNavitagion />
       <div className='safe-area'>
+
+      {/* Add Product Modal */}
+      {adding && <div>
+        <form onSubmit={addProduct}>
+          <select name="select" id="select" onChange={handleSelectList}>
+            <option value="">------------</option>
+            {Object.keys(lists.myLists).map(lista=>{
+              return <option value={lista} key={lista}>{lists.myLists[lista].name}</option>
+            })}
+          </select>
+          <label htmlFor="">Cantidad</label>
+          <div className='product-quantity'>
+                <Button variant={'add'} callbackFunction={() => setQuantity(quantity - 1)}><AiOutlineMinus/></Button>
+                <div className='product-quantity-number'>
+                  <Text variant={'b4'}>{quantity}</Text>
+                </div>
+                <Button variant={'add'} callbackFunction={() => setQuantity(quantity + 1)}><AiOutlinePlus/></Button>
+              </div>
+            <Button callbackFunction={()=>showAddProduct(false)}>Cancelar</Button>
+            <input type="submit" value="Agregar"/>
+        </form>
+      </div>}
+
+
         <div className='product-detail'>
           <img className='product-detail-image' src={product['Link Imagen']} alt={product.Nombre} />
           <div className='product-detail-paper'>
