@@ -33,7 +33,7 @@ const Dashboard = () => {
       <div className="category-card-carousel">
         {Object.keys(categories.categories).map(category => {
           return (
-            <a className='category-card' style={{ backgroundColor: categories.categories[category].color }} onClick={() => navigate(`/categories/${category}`)}>
+            <a className='category-card' style={{ backgroundColor: categories.categories[category].color }} onClick={() => navigate(`/categories/${category}`)} key={category}>
               <h1>{categories.categories[category].emoji}</h1>
               <h4>{categories.categories[category].name}</h4>
             </a>
@@ -43,13 +43,13 @@ const Dashboard = () => {
 
       {Object.keys(categories.categories).map(category => {
         return (
-          <div className="product-category">
+          <div className="product-category" key={category}>
             <br/>
             <Text variant={'h4'}>{categories.categories[category].name}</Text>
             <div className='product-card-carousel'>
               {categories.categories[category].products.slice(0, 5).map(product => {
                 return(
-                  <a className="product-card" onClick={() => navigate(`/products/${category}/${product.id}`)}>
+                  <a className="product-card" onClick={() => navigate(`/products/${category}/${product.id}`)} key={product.id}>
                     <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                     <h4>{truncate(product.Nombre, 32)}</h4>
                     <small>${product.Precio}</small>
