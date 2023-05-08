@@ -8,7 +8,7 @@ export const Button = ({
     children,
 }) => {
     return (
-        <button className={`btn btn-${variant}`} onClick={() => callbackFunction()}>
+        <button className={`btn btn-${variant}`} onClick={() => callbackFunction()} type='button'>
             {children}
         </button>
     );
