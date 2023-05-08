@@ -9,6 +9,12 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { ListContext } from "../providers/ListProvider";
 import { ProductContext } from "../providers/ProductProvider";
 
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
+import { BsArrowRightCircle } from 'react-icons/bs';
+
+import { Button } from '../components/ui/Button';
+import { Text } from '../components/ui/Text';
+
 const ListaCompra = () =>{
     const { listID } = useParams();
     const { lists } = useContext(ListContext);
@@ -46,6 +52,14 @@ const ListaCompra = () =>{
                 <h4>{products[product].Nombre} - {products[product].cantidad}</h4>
                 <small>Precio: {products[product].Precio}</small>
                 <small>Total: {products[product].Precio * products[product].cantidad }</small>
+
+                <div className='product-quantity'>
+                <Button variant={'add'} callbackFunction={() => ''}><AiOutlineMinus/></Button>
+                <div className='product-quantity-number'>
+                  <Text variant={'b4'}>{}</Text>
+                </div>
+                <Button variant={'add'} callbackFunction={() => ''}><AiOutlinePlus/></Button>
+              </div>
            </div> 
         }) }
     </>
