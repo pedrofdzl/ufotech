@@ -12,7 +12,7 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { db } from '../firebase/firebase';
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, query, where, doc, updateDoc, limit, getDocs } from 'firebase/firestore'
 
 
 // Providers
