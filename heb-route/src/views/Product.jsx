@@ -12,7 +12,7 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { db } from '../firebase/firebase';
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, query, where, doc, updateDoc, limit, getDocs } from 'firebase/firestore'
 
 
 // Providers
@@ -40,7 +40,7 @@ const Product = () => {
   }
 
   const handleSelectList = event =>{
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setSelectedList(event.target.value);
   }
 
@@ -57,11 +57,23 @@ const Product = () => {
       };
       
       const listProductCollection = collection(db, 'listProduct');
-      addDoc(listProductCollection, listProduct)
-        .then(listProductReference=>{
-          console.log('Se agrego correctamente');
-          navigate(`/categories/${categoryID}`);
-        })
+      const listProductQuery = query(listProductCollection, where('list', '==', selectedList), where('product', '==', productID), limit(1));
+      getDocs(listProductQuery).then(listProductSnapshot=>{
+        if(!(listProductSnapshot.size>0)){
+            addDoc(listProductCollection, listProduct)
+            .then(listProductReference=>{
+              // console.log('Se agrego correctamente');
+              navigate(`/categories/${categoryID}`);
+          });
+        }else{
+          const listproductReference = doc(db, 'listProduct', listProductSnapshot.docs[0].id)
+          const data = listProductSnapshot.docs[0].data();
+          updateDoc(listproductReference, {quantity: data['quantity'] + quantity}).then(()=>{
+            // console.log('se actualizo')
+          })
+        }
+
+      });
     }
   }
 
