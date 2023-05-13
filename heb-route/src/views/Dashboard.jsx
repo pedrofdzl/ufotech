@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Providers
@@ -6,7 +6,9 @@ import { ProductContext } from "../providers/ProductProvider";
 
 // Components
 import { Text } from "../components/ui/Text";
-import { Button } from "../components/ui/Button";
+
+// Utils
+import { truncate } from '../utils/utils';
 
 // Stylesheets
 import '../stylesheets/Dashboard.css';
@@ -49,7 +51,7 @@ const Dashboard = () => {
                 return(
                   <a className="product-card" onClick={() => navigate(`/products/${category}/${product.id}`)}>
                     <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
-                    <h4>{product.Nombre}</h4>
+                    <h4>{truncate(product.Nombre, 32)}</h4>
                     <small>${product.Precio}</small>
                     <small className="product-card-unit">{product.Capacidad} {product.Unidad}</small>
                   </a>

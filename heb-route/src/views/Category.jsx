@@ -40,7 +40,7 @@ const Category = () => {
                   <img src={product['Link Imagen']} alt={product.Nombre} />
                 </a>
                 <div style={{ display: 'block', width: '100%' }}>
-                  <Text variant={'h5'}>{truncate(product.Nombre, 28)}</Text>
+                  <Text variant={'h5'}>{truncate(product.Nombre, 20)}</Text>
                   <div
                     style={{
                       display: 'flex',
