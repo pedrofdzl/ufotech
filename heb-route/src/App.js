@@ -3,6 +3,7 @@ import { AuthProvider } from './providers/AuthProvider';
 import { UserInformationProvider } from './providers/UserInformationProvider';
 import { ProductProvider } from './providers/ProductProvider';
 import { ListProvider } from './providers/ListProvider';
+import { ModalProvider } from './providers/ModalProvider';
 
 import './stylesheets/Global.css';
 
@@ -12,7 +13,9 @@ function App() {
       <UserInformationProvider>
         <ProductProvider>
           <ListProvider>
-            <Router/>
+            <ModalProvider>
+              <Router/>
+            </ModalProvider>
           </ListProvider>
         </ProductProvider>
       </UserInformationProvider>

@@ -134,6 +134,7 @@ a {
 .product-detail-image {
     height: 280px;
     margin-bottom: 16px;
+    border-radius: 16px;
 }
 .product-detail-paper {
     flex: 1;
