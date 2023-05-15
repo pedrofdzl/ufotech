@@ -11,10 +11,11 @@ export const Button = ({
     styles,
     disabled = false,
     loading = false,
+    type='button',
     children,
 }) => {
     return (
-        <button style={styles} className={`btn btn-${variant} ${disabled && 'btn-disabled'}`} onClick={() => {if (!disabled && !loading) callbackFunction()}} type='button' disabled={disabled || loading}>
+        <button style={styles} className={`btn btn-${variant} ${disabled && 'btn-disabled'}`} onClick={() => {if (!disabled && !loading) callbackFunction()}} type={type} disabled={disabled || loading}>
             {loading ? <Spinner/> : children}
         </button>
     );
