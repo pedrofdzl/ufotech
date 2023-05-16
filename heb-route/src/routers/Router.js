@@ -34,14 +34,7 @@ const AppRouter = () => {
 
         <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
         <Route exact path="/categories/:categoryID" element={<PrivateRoute><Category/></PrivateRoute>}  />
-<<<<<<< HEAD
         <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
-<<<<<<< HEAD
-=======
-        <Route exact path='/products/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
->>>>>>> 692b586 (added top navigation lists)
-=======
->>>>>>> 2a9ea82 (added top navigation lists)
         <Route exact path='/lists/:listID' element={<PrivateRoute><ListaCompra/></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
