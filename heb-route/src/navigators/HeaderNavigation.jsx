@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import '../stylesheets/Navigation.css';
 
 // Icons
-import { BsArrowLeftCircle } from 'react-icons/bs';
+import { BsChevronLeft } from 'react-icons/bs';
 
 const HeaderNavitagion = props => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const HeaderNavitagion = props => {
 
   return (
     <div className='header-navigate'>
-      <BsArrowLeftCircle className='header-navigate-icon' onClick={() =>
+      <BsChevronLeft className='header-navigate-icon' onClick={() =>
         navigate({
           // pathname: '/dashboard'
           // pathname:location.state.prev,

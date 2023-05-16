@@ -28,8 +28,7 @@ const Login = () => {
   }
 
 
-  const submitLogin = async(e) => {
-    e.preventDefault();
+  const submitLogin = async() => {
 
     if (!(email.length > 0) || !(password.length > 0)){
       setErrorMessage('Favor de llenar todos los campos');
@@ -54,7 +53,7 @@ const Login = () => {
           <input type="password" id="passwordField" onChange={passwordHandler} />
         </div>
         <div className="auth-buttons">
-          <Button type="submit"> Iniciar Sesión </Button>
+          <Button callbackFunction={() => submitLogin()}> Iniciar Sesión </Button>
           <Button variant={'secondary'} callbackFunction={() => navigate('/register')}><Text variant={'b4'} styles={{ margin: 0 }}>¿No tienes cuenta? <span>Regístrate</span></Text></Button>
         </div>
       </form>

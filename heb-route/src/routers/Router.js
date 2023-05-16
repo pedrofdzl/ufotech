@@ -20,8 +20,8 @@ import BottomNavigation from '../navigators/BottomNavigation';
 
 import Category from '../views/Category';
 import Product from '../views/Product';
-import ListaCompra from '../views/ListaCompra';
-import  Search from '../views/Search';
+import Search from '../views/Search';
+import List from '../views/List';
 
 const AppRouter = () => {
   return (
@@ -36,7 +36,7 @@ const AppRouter = () => {
         <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
         <Route exact path="/categories/:categoryID" element={<PrivateRoute><Category/></PrivateRoute>}  />
         <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
-        <Route exact path='/lists/:listID' element={<PrivateRoute><ListaCompra/></PrivateRoute>} />
+        <Route exact path='/lists/:listID' element={<PrivateRoute><List/></PrivateRoute>} />
 
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
       </Routes>

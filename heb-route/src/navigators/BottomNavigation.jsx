@@ -10,8 +10,8 @@ import Lists from '../views/Lists';
 import '../stylesheets/Navigation.css';
 
 // Icons
-import { AiOutlineShop } from 'react-icons/ai';
-import { BsPerson, BsListCheck } from 'react-icons/bs';
+import { AiOutlineShop, AiOutlineShoppingCart } from 'react-icons/ai';
+import { BsPerson } from 'react-icons/bs';
 
 const validRoutes = ['Dashboard', 'Lists', 'Profile'];
 

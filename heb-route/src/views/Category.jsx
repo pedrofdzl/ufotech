@@ -29,7 +29,7 @@ const Category = () => {
     <>
       <HeaderNavitagion />
       <div className='safe-area'>
-        <Text variant={'h1'}>
+        <Text styles={{ paddingTop: 24 }} variant={'h1'}>
           {category.name} {category.emoji}
         </Text>
         <br />

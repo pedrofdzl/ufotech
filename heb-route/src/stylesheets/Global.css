@@ -10,11 +10,31 @@ body {
     color: #353841;
 }
 
+input {
+    border: 1px solid #e7e7e7;
+    outline: 0px;
+    width: calc(100% - 26px);
+    border-radius: 12px;
+    padding: 12px 12px;
+}
+input:focus {
+    border: 1px solid #cecece;
+    outline: 0px;
+}
+
 .safe-area {
     width: calc(100vw - 32px);
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 32px;
+}
+
+.view-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
 }
 
 ::-webkit-scrollbar {display:none;}

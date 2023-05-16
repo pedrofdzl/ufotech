@@ -1,0 +1,30 @@
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: calc(100vw - 32px);
+}
+
+.list-product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: calc(100vw - 40px);
+}
+.list-product img {
+    height: 50px;
+    width: 50px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-right: 14px;
+}
+
+.hr {
+    height: 1px;
+    width: calc(100vw - 32px);
+    background-color: #e0e0e0;
+}

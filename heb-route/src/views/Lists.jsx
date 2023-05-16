@@ -1,90 +1,102 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-
-import { db } from "../firebase/firebase";
-import { Timestamp, addDoc, collection, } from "firebase/firestore";
-
 // Providers
-import { AuthContext } from "../providers/AuthProvider";
-import { UserInformationContext } from '../providers/UserInformationProvider';
-import { ListContext } from "../providers/ListProvider";
+import { ListContext } from '../providers/ListProvider';
+import { ModalContext } from '../providers/ModalProvider';
 
 // Components
-import { Text } from "../components/ui/Text";
-import { Button } from "../components/ui/Button";
+import { Text } from '../components/ui/Text';
+import { Button } from '../components/ui/Button';
 
 // Stylesheets
-import '../stylesheets/Dashboard.css';
+import '../stylesheets/Lists.css';
+
+// Enums
+import { monthString } from '../utils/enums';
+
+// Icons
+import { BsChevronRight, BsPencilSquare } from 'react-icons/bs';
 
 const Lists = () => {
-  const { currentUser } = useContext(AuthContext);
-  const  { userInformation } = useContext(UserInformationContext);
   const { lists, getMyLists } = useContext(ListContext);
-
-  const [nombreLista, setNombreLista] = useState('');
-  const [agregandoLista, setAgregandoLista] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { setListModalOpen, setListModalPayload } = useContext(ModalContext);
   
   const navigate = useNavigate();
   const location = useLocation();
+  
+  useEffect(() => {
+    getMyLists();
+  }, []);
 
-  const nombreListaHandler = event =>{
-    setNombreLista(event.target.value)
-  }
-
-  const resetFormHandler = agregar =>{
-    setErrorMessage('');
-    setNombreLista('');
-    setAgregandoLista(agregar);
-  }
-
-  const submitHandler = event => {
-    event.preventDefault();
-
-    if (!(nombreLista.length > 0)){
-      setErrorMessage('¡Debes llenar todos los campos!');
-      return
-    }
-
-    const listasCollection = collection(db, 'Listas');
-    const date = new Date();
-    addDoc(listasCollection,{
-      'Nombre': nombreLista,
-      'Owner': userInformation.email,
-      'CreatedDate': date
-    }).then(lista=>{
-      resetFormHandler(false);
-      getMyLists();
-    });
-  }
+  const openListModal = () => {
+    setListModalPayload({ currentName: '' });
+    setListModalOpen(true);
+  };
 
   return (
     <>
-    {currentUser && <>
-        <Text>Listas</Text>
+      <div className='view-header'>
+        <Text variant={'h1'}>Mis listas</Text>
+        <Button variant='add-list' callbackFunction={() => openListModal()}>
+          <BsPencilSquare />
+        </Button>
+      </div>
 
-        {!agregandoLista &&  Object.keys(lists.myLists).map(lista=>{
-            return <div key={lista}>
-              <Link to={`/lists/${lista}`} state={{prev: location.pathname, search: location.search}}>
-                <h4>{lists.myLists[lista].name}</h4>
-              </Link>
-            </div>
-          })
-        }
-
-        {agregandoLista ?
-          <form onSubmit={submitHandler}>
-            { errorMessage && <h4>{errorMessage}</h4> }
-            <label htmlFor="">Nombre</label>
-            <input type="text" id="nombreLista" onChange={nombreListaHandler} value={nombreLista} />
-            <input className="btn btn-primary" type="submit" value={'Agregar'}/>
-            <Button variant={'secondary'} callbackFunction={()=>resetFormHandler(false)}>Cancelar</Button>
-          </form>
-          :
-          <Button callbackFunction={()=>setAgregandoLista(true)}>Agregar Lista</Button>
-        }
-
-    </>}
+      {Object.keys(lists?.myLists).map((lista, index) => {
+        return (
+          <div key={lista}>
+            <Link to={`/lists/${lista}`} state={{prev: location.pathname, search: location.search}}>
+              <div className='list'>
+                <div>
+                  <Text
+                    variant={'b1'}
+                    styles={{ marginTop: 0, marginBottom: 8 }}>
+                    {lists?.myLists[lista]?.name}
+                  </Text>
+                  <Text variant={'b3'} styles={{ margin: 0 }}>
+                    {lists?.myLists[lista]?.createdDate.getDate()}{' '}
+                    {monthString[lists?.myLists[lista]?.createdDate.getMonth()]}
+                    . {lists?.myLists[lista]?.createdDate.getFullYear()}
+                  </Text>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-end',
+                    }}>
+                    <Text
+                      variant={'b5'}
+                      styles={{
+                        marginTop: 4,
+                        marginBottom: 8,
+                        color: '#353841',
+                        fontWeight: 500,
+                      }}>
+                      ${(lists?.myLists[lista]?.total).toFixed(2)}
+                    </Text>
+                    <Text variant={'b5'} styles={{ margin: 0 }}>
+                      {lists?.myLists[lista]?.itemCount} articulos
+                    </Text>
+                  </div>
+                  <BsChevronRight
+                    style={{ color: '#9DA2B0', fontSize: 24, marginLeft: 12 }}
+                  />
+                </div>
+              </div>
+            </Link>
+            {index + 1 < Object.keys(lists?.myLists).length && (
+              <div className='hr' />
+            )}
+          </div>
+        );
+      })}
     </>
   );
 };
