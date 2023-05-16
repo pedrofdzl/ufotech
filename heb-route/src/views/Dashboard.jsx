@@ -12,11 +12,7 @@ import { ProductContext } from '../providers/ProductProvider';
 
 // Components
 import { Text } from '../components/ui/Text';
-import { Button } from '../components/ui/Button';
 import ProductCard from '../components/products/ProductCard';
-
-// Utils
-import { truncate, currency } from '../utils/utils';
 
 // Stylesheets
 import '../stylesheets/Dashboard.css';
@@ -26,7 +22,6 @@ import '../stylesheets/Products.css';
 import { SlLocationPin } from 'react-icons/sl';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { BiSearch } from 'react-icons/bi';
-import { AiOutlinePlus } from 'react-icons/ai';
 
 const Dashboard = (props) => {
   const navigate = useNavigate();
