@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Components
+import { ListEditModal } from '../components/modals/ListEditModal';
+import { ListProductModal } from '../components/modals/ListProductModal';
 import { ProductModal } from '../components/modals/ProductModal';
 import { ListModal } from '../components/modals/ListModal';
 
@@ -16,10 +18,26 @@ const defaultModalContext = {
   listModalPayload: {
     currentName: '',
   },
+  listProductModalOpen: false,
+  listProductModalPayload: {
+    currentCategory: null,
+    currentProduct: null,
+    currentQuantity: 0,
+    selectedList: null,
+  },
+  listEditModalOpen: false,
+  listEditModalPayload: {
+    currentName: '',
+    currentList: null,
+  },
   setProductModalOpen: () => {},
   setProductModalPayload: () => {},
   setListModalOpen: () => {},
   setListModalPayload: () => {},
+  setListProductModalOpen: () => {},
+  setListProductModalPayload: () => {},
+  setListEditModalOpen: () => {},
+  setListEditModalPayload: () => {},
 };
 
 export const ModalContext = React.createContext(defaultModalContext);
@@ -37,6 +55,18 @@ export const ModalProvider = ({ children }) => {
   const [listModalPayload, setListModalPayload] = useState(
     defaultModalContext.listModalPayload
   );
+  const [listProductModalOpen, setListProductModalOpen] = useState(
+    defaultModalContext.listProductModalOpen
+  );
+  const [listProductModalPayload, setListProductModalPayload] = useState(
+    defaultModalContext.listProductModalPayload
+  );
+  const [listEditModalOpen, setListEditModalOpen] = useState(
+    defaultModalContext.listModalOpen
+  );
+  const [listEditModalPayload, setListEditModalPayload] = useState(
+    defaultModalContext.listModalPayload
+  );
 
   useEffect(() => {
     if (productModalPayload.currentQuantity < 1) {
@@ -47,6 +77,15 @@ export const ModalProvider = ({ children }) => {
     }
   }, [productModalPayload]);
 
+  useEffect(() => {
+    if (listProductModalPayload.currentQuantity < 0) {
+      setListProductModalPayload({
+        ...listProductModalPayload,
+        currentQuantity: 0,
+      });
+    }
+  }, [listProductModalPayload]);
+
   return (
     <ModalContext.Provider
       value={{
@@ -54,11 +93,21 @@ export const ModalProvider = ({ children }) => {
         productModalPayload,
         listModalOpen,
         listModalPayload,
+        listProductModalOpen,
+        listProductModalPayload,
+        listEditModalOpen,
+        listEditModalPayload,
         setProductModalOpen,
         setProductModalPayload,
         setListModalOpen,
         setListModalPayload,
+        setListProductModalOpen,
+        setListProductModalPayload,
+        setListEditModalOpen,
+        setListEditModalPayload,
       }}>
+      {listEditModalOpen && <ListEditModal />}
+      {listProductModalOpen && <ListProductModal />}
       {productModalOpen && <ProductModal />}
       {listModalOpen && <ListModal />}
       {children}

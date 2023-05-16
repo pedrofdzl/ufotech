@@ -39,6 +39,15 @@
     font-weight: 600;
 }
 
+.btn-remove-large {
+    background-color: #c9213f;
+    color: #ffffff;
+    font-size: 18px;
+}
+.btn-remove-large span {
+    font-weight: 600;
+}
+
 .btn-add {
     display: flex;
     padding: 0px;

@@ -11,6 +11,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 // Providers
 import { ListContext } from '../providers/ListProvider';
 import { ProductContext } from '../providers/ProductProvider';
+import { ModalContext } from '../providers/ModalProvider';
 
 // Components
 import { Button } from '../components/ui/Button';
@@ -20,6 +21,9 @@ import { Text } from '../components/ui/Text';
 import { truncate } from '../utils/utils';
 import { monthString } from '../utils/enums';
 
+// Icons
+import { FiMoreHorizontal } from 'react-icons/fi';
+
 // Stylesheets
 import '../stylesheets/Lists.css';
 
@@ -27,18 +31,27 @@ const List = () => {
   const { listID } = useParams();
   const { lists } = useContext(ListContext);
   const { categories } = useContext(ProductContext);
+  const {
+    listProductModalOpen,
+    setListProductModalOpen,
+    setListProductModalPayload,
+    setListEditModalOpen,
+    setListEditModalPayload,
+  } = useContext(ModalContext);
 
-  // const [list, setList] = useState({});
   const [products, setProducts] = useState({});
   const list = lists.myLists[listID];
 
-  useEffect(() => {
+  const [listTotal, setListTotal] = useState(lists.myLists[listID].total);
+
+  const fetchList = () => {
+    let auxTotal = 0;
     const listProductCollection = collection(db, 'listProduct');
     const listProductsQuery = query(
       listProductCollection,
       where('list', '==', listID)
     );
-    let auxProducts = products;
+    let auxProducts = {};
     getDocs(listProductsQuery).then((productsSnapshot) => {
       productsSnapshot.forEach((prod) => {
         let data = prod.data();
@@ -47,21 +60,50 @@ const List = () => {
         );
         auxProducts[data.product] = {
           ...auxProd,
+          category: data.category,
           quantity: data.quantity,
           relacion: prod.id,
         };
-        setProducts({ ...auxProducts });
+        auxTotal += data.quantity * auxProd.Precio;
+        setListTotal(auxTotal);
       });
+      Object.keys(products).forEach((product) => {
+        if (!auxProducts[product]) delete products[product];
+      });
+      setProducts({ ...auxProducts });
     });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, [listProductModalOpen]);
+
+  const openListProductModal = ({ productID, categoryID, quantity }) => {
+    setListProductModalPayload({
+      currentCategory: categoryID,
+      currentProduct: productID,
+      currentQuantity: quantity,
+      selectedList: listID,
+    });
+    setListProductModalOpen(true);
+  };
+
+  const openListEditModal = () => {
+    setListEditModalPayload({
+      currentName: list.name,
+      currentList: listID,
+    });
+    setListEditModalOpen(true);
+  };
 
   return (
     <>
       <HeaderNavitagion params={{ tab: 'Lists' }} />
       <div className='safe-area'>
-        <Text styles={{ paddingTop: 24 }} variant={'h1'}>
-          {list.name}
-        </Text>
+        <div className='view-header'>
+          <Text variant={'h1'}>{list.name}</Text>
+          <FiMoreHorizontal onClick={() => openListEditModal()} style={{ fontSize: 24, paddingRight: 8 }} />
+        </div>
         <Text variant={'small'}>
           Creada por {list.owner} el {list?.createdDate.getDate()} de{' '}
           {monthString[list?.createdDate.getMonth()]}.{' '}
@@ -70,7 +112,16 @@ const List = () => {
 
         {Object.keys(products).map((product) => {
           return (
-            <div key={product} className='list-product'>
+            <div
+              key={product}
+              className='list-product'
+              onClick={() => {
+                openListProductModal({
+                  productID: product,
+                  categoryID: products[product].category,
+                  quantity: products[product].quantity,
+                });
+              }}>
               <div
                 style={{
                   display: 'flex',
@@ -84,13 +135,24 @@ const List = () => {
                 <div>
                   <Text
                     variant={'b1'}
-                    styles={{ marginTop: 0, marginBottom: 8, fontSize: 16 }}>
-                    {truncate(products[product].Nombre, 26)}{' '}
-                    {products[product].quantity > 1 &&
-                      `(${products[product].quantity})`}
+                    styles={{ marginTop: 0, marginBottom: 2, fontSize: 16 }}>
+                    $
+                    {(
+                      products[product].quantity * products[product].Precio
+                    ).toFixed(2)}
+                  </Text>
+                  <Text
+                    variant={'b1'}
+                    styles={{
+                      marginTop: 0,
+                      marginBottom: 4,
+                      fontWeight: 400,
+                      fontSize: 15,
+                    }}>
+                    {truncate(products[product].Nombre, 28)}
                   </Text>
                   <Text variant={'b3'} styles={{ margin: 0 }}>
-                    Agregado por ti
+                    {products[product].Capacidad} {products[product].Unidad}
                   </Text>
                 </div>
               </div>
@@ -100,33 +162,27 @@ const List = () => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-end',
-                  }}>
-                  <Text
-                    variant={'b5'}
-                    styles={{
-                      marginTop: 4,
-                      marginBottom: 8,
-                      color: '#353841',
-                      fontWeight: 500,
-                    }}>
-                    $
-                    {(
-                      products[product].quantity * products[product].Precio
-                    ).toFixed(2)}
-                  </Text>
-                  <Text variant={'b5'} styles={{ margin: 0 }}>
-                    {products[product].Capacidad} {products[product].Unidad}
-                  </Text>
+                <div className='list-product-quantity'>
+                  <Text variant={'b1'}>{products[product].quantity}</Text>
                 </div>
               </div>
             </div>
           );
         })}
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div className='list-bottom'>
+        <div style={{ display: 'flex', flexDirection: 'column', margin: 24 }}>
+          <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Total</Text>
+          <Text styles={{ fontSize: 24 }}>${listTotal.toFixed(2)}</Text>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
+          <Button variant='add-large'>Iniciar ruta</Button>
+        </div>
       </div>
     </>
   );

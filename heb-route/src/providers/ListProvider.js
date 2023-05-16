@@ -15,6 +15,7 @@ const defaultListContext = {
     isLoading: true,
   },
   getMyLists: async () => {},
+  resetMyLists: async () => {},
 };
 
 export const ListContext = React.createContext(defaultListContext);
@@ -52,6 +53,15 @@ export const ListProvider = ({ children }) => {
     }
   };
 
+  const resetMyLists = async () => {
+    console.log('Reseting Lists...');
+    setLists({
+      myLists: {},
+      isLoading: false,
+    });
+    getMyLists();
+  };
+
   useEffect(() => {
     getMyLists();
   }, [authState]);
@@ -61,6 +71,7 @@ export const ListProvider = ({ children }) => {
       value={{
         lists,
         getMyLists,
+        resetMyLists,
       }}>
       {authState.isLoading || lists.isLoading ? <Loading /> : children}
     </ListContext.Provider>
