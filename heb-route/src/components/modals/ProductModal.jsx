@@ -12,6 +12,9 @@ import { ListContext } from '../../providers/ListProvider';
 import { ModalContext } from '../../providers/ModalProvider';
 import { ProductContext } from '../../providers/ProductProvider';
 
+// Components
+import { Modal } from './Modal';
+
 // Database
 import { db } from '../../firebase/firebase';
 import {
@@ -26,7 +29,6 @@ import {
 } from 'firebase/firestore';
 
 // Icons
-import { AiOutlineClose } from 'react-icons/ai';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
 export const ProductModal = () => {
@@ -59,6 +61,20 @@ export const ProductModal = () => {
     });
   };
 
+  const updateList = (auxProduct) => {
+    const listReference = doc(
+      db,
+      'Listas',
+      auxProduct.list,
+    );
+    const currentCount = lists?.myLists[auxProduct.list].itemCount;
+    const currentTotal = lists?.myLists[auxProduct.list].total;
+    updateDoc(listReference, {
+      ItemCount: currentCount + auxProduct.quantity,
+      Total: currentTotal + (auxProduct.quantity * product.Precio),
+    });
+  };
+
   const addProduct = () => {
     if (productModalPayload.selectedList != '') {
       const auxProduct = {
@@ -79,6 +95,7 @@ export const ProductModal = () => {
         if (!(listProductSnapshot.size > 0)) {
           addDoc(listProductCollection, auxProduct).then(
             (listProductReference) => {
+              updateList(auxProduct);
               setSubmitButtonLoading(false);
               setProductModalOpen(false);
             }
@@ -93,6 +110,7 @@ export const ProductModal = () => {
           updateDoc(listproductReference, {
             quantity: data['quantity'] + auxProduct.quantity,
           }).then(() => {
+            updateList(auxProduct);
             setSubmitButtonLoading(false);
             setProductModalOpen(false);
           });
@@ -102,96 +120,79 @@ export const ProductModal = () => {
   };
 
   return (
-    <>
-      <div
-        onClick={() => setProductModalOpen(false)}
-        className='modal-background'></div>
-      <div className='modal'>
-        <div className='modal-header'>
-          <Text variant={'h3'}>Añadir producto</Text>
-          <Button
-            variant={'close'}
-            callbackFunction={() => setProductModalOpen(false)}>
-            <AiOutlineClose />
-          </Button>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <img
-            className='modal-product-image'
-            src={product['Link Imagen']}
-            alt={product.Nombre}
-          />
-          <div>
-            <Text variant={'h5'} styles={{ margin: 0 }}>
-              {product.Nombre}
-            </Text>
-            <Text variant={'b4'} styles={{ margin: 0 }}>
-              ${product.Precio}
-            </Text>
-            <div
-              style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
-              <Button
-                variant={'add-small'}
-                callbackFunction={() =>
-                  setProductModalPayload({
-                    ...productModalPayload,
-                    currentQuantity: productModalPayload.currentQuantity - 1,
-                  })
-                }>
-                <AiOutlineMinus />
-              </Button>
-              <div className='modal-product-quantity-number'>
-                <Text variant={'b4'}>
-                  {productModalPayload.currentQuantity}
-                </Text>
-              </div>
-              <Button
-                variant={'add-small-2'}
-                callbackFunction={() =>
-                  setProductModalPayload({
-                    ...productModalPayload,
-                    currentQuantity: productModalPayload.currentQuantity + 1,
-                  })
-                }>
-                <AiOutlinePlus />
-              </Button>
+    <Modal setIsOpen={setProductModalOpen} title={'Añadir producto'}>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <img
+          className='modal-product-image'
+          src={product['Link Imagen']}
+          alt={product.Nombre}
+        />
+        <div>
+          <Text variant={'h5'} styles={{ margin: 0 }}>
+            {product.Nombre}
+          </Text>
+          <Text variant={'b4'} styles={{ margin: 0 }}>
+            ${product.Precio}
+          </Text>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
+            <Button
+              variant={'add-small'}
+              callbackFunction={() =>
+                setProductModalPayload({
+                  ...productModalPayload,
+                  currentQuantity: productModalPayload.currentQuantity - 1,
+                })
+              }>
+              <AiOutlineMinus />
+            </Button>
+            <div className='modal-product-quantity-number'>
+              <Text variant={'b4'}>{productModalPayload.currentQuantity}</Text>
             </div>
+            <Button
+              variant={'add-small-2'}
+              callbackFunction={() =>
+                setProductModalPayload({
+                  ...productModalPayload,
+                  currentQuantity: productModalPayload.currentQuantity + 1,
+                })
+              }>
+              <AiOutlinePlus />
+            </Button>
           </div>
         </div>
-
-        <select
-          name='select'
-          id='select'
-          onChange={handleSelectList}
-          defaultValue={productModalPayload.selectedList}>
-          <option value=''>------------</option>
-          {Object.keys(lists.myLists).map((lista) => {
-            return (
-              <option value={lista} key={lista}>
-                {lists.myLists[lista].name}
-              </option>
-            );
-          })}
-        </select>
-
-        <Button
-          variant={'add-large'}
-          styles={{ marginTop: 16 }}
-          disabled={!submitButtonActive}
-          loading={submitButtonLoading}
-          callbackFunction={() => {
-            setSubmitButtonLoading(true);
-            addProduct();
-          }}>
-          Agregar{' '}
-          {
-            <span style={{ marginLeft: 4 }}>{`$${
-              productModalPayload.currentQuantity * product.Precio
-            }`}</span>
-          }
-        </Button>
       </div>
-    </>
+
+      <select
+        name='select'
+        id='select'
+        onChange={handleSelectList}
+        defaultValue={productModalPayload.selectedList}>
+        <option value=''>------------</option>
+        {Object.keys(lists.myLists).map((lista) => {
+          return (
+            <option value={lista} key={lista}>
+              {lists.myLists[lista].name}
+            </option>
+          );
+        })}
+      </select>
+
+      <Button
+        variant={'add-large'}
+        styles={{ marginTop: 16 }}
+        disabled={!submitButtonActive}
+        loading={submitButtonLoading}
+        callbackFunction={() => {
+          setSubmitButtonLoading(true);
+          addProduct();
+        }}>
+        Agregar{' '}
+        {
+          <span style={{ marginLeft: 4 }}>{`$${
+            (productModalPayload.currentQuantity * product.Precio).toFixed(2)
+          }`}</span>
+        }
+      </Button>
+    </Modal>
   );
 };

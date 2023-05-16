@@ -25,6 +25,7 @@ export const ListProvider = ({ children }) => {
   const [lists, setLists] = useState(defaultListContext.lists);
 
   const getMyLists = async () => {
+    console.log('Fetching lists...');
     const listCollection = collection(db, 'Listas');
     const listasQuery = query(
       listCollection,
@@ -36,20 +37,21 @@ export const ListProvider = ({ children }) => {
       fetchedLists.forEach((doc) => {
         const data = doc.data();
 
-        if (!lists?.myLists?.[doc.id]) {
-          let auxLists = lists;
-          auxLists.myLists[doc.id] = {
-            name: data.Nombre,
-            owner: data.Owner,
-            createdDate: data.CreatedDate.toDate(),
-          };
-          setLists({ ...auxLists, isLoading: false });
-        }
+        let auxLists = lists?.myLists;
+        auxLists[doc.id] = {
+          name: data.Nombre,
+          owner: data.Owner,
+          createdDate: data.CreatedDate.toDate(),
+          total: data.Total,
+          itemCount: data.ItemCount,
+        };
+        setLists({ myLists: auxLists, isLoading: false });
       });
     } else {
       setLists({ myLists: {}, isLoading: false });
     }
   };
+
   useEffect(() => {
     getMyLists();
   }, [authState]);

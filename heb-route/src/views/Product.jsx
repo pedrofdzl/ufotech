@@ -28,6 +28,10 @@ const Product = () => {
     if (quantity < 1) setQuantity(1);
   }, [quantity]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
+
   const product = categories?.categories[categoryID].products.find(product => product.id === productID);
 
   const openProductModal = () => {
@@ -63,7 +67,7 @@ const Product = () => {
               </div>
             </div>
             <br/>
-            <Button variant={'add-large'} callbackFunction={()=> openProductModal()}>Añadir a lista <span style={{ marginLeft: 4 }}>{`$${(quantity * product.Precio)}`}</span></Button>
+            <Button variant={'add-large'} callbackFunction={()=> openProductModal()}>Añadir a lista <span style={{ marginLeft: 4 }}>{`$${(quantity * product.Precio).toFixed(2)}`}</span></Button>
             <br/>
             <br/>
             <Text variant={'h4'}>Productos similares</Text>
