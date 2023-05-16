@@ -21,6 +21,7 @@ import BottomNavigation from '../navigators/BottomNavigation';
 import Category from '../views/Category';
 import Product from '../views/Product';
 import ListaCompra from '../views/ListaCompra';
+import  Search from '../views/Search';
 
 const AppRouter = () => {
   return (
@@ -36,6 +37,8 @@ const AppRouter = () => {
         <Route exact path="/categories/:categoryID" element={<PrivateRoute><Category/></PrivateRoute>}  />
         <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
         <Route exact path='/lists/:listID' element={<PrivateRoute><ListaCompra/></PrivateRoute>} />
+
+        <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
       </Routes>
     </BrowserRouter>
   );
