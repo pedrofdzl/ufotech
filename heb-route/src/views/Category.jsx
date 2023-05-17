@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // Navigators
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -8,7 +8,6 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 import ProductCard from '../components/products/ProductCard';
 
 // UI
-import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
 
 // Providers
@@ -23,7 +22,7 @@ const Category = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const location = useLocation();
+
 
   return (
     <>
