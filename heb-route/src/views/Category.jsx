@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 // Navigators
 import HeaderNavitagion from '../navigators/HeaderNavigation';
+
+// Components
+import ProductCard from '../components/products/ProductCard';
 
 // UI
 import { Button } from '../components/ui/Button';
@@ -11,19 +14,15 @@ import { Text } from '../components/ui/Text';
 // Providers
 import { ProductContext } from '../providers/ProductProvider';
 
-// Icons
-import { AiOutlinePlus } from 'react-icons/ai';
-
-// Utils
-import { truncate, currency } from '../utils/utils';
-
 const Category = () => {
-  const navigate = useNavigate();
   const { categoryID } = useParams();
   const { categories } = useContext(ProductContext);
 
   const category = categories.categories[categoryID];
-  const location = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -36,31 +35,7 @@ const Category = () => {
         <div className='category-product-grid'>
           {category.products.map((product) => {
             return (
-              <div className='product-detailed-card'>
-                <Link to={`/products/${categoryID}/${product.id}`} state={{prev: location.pathname, search: location.search}}>
-                  <img src={product['Link Imagen']} alt={product.Nombre} />
-                </Link>
-                <div style={{ display: 'block', width: '100%' }}>
-                  <Text variant={'h5'}>{truncate(product.Nombre, 20)}</Text>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-end',
-                    }}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <small className='product-detailed-card-unit'>
-                        {product.Capacidad} {product.Unidad} /
-                      </small>
-                      <small>{currency(product.Precio)}</small>
-                    </div>
-                    <Button variant={'add'}>
-                      <AiOutlinePlus />
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <ProductCard product={product} category={categoryID}/>
             );
           })}
         </div>

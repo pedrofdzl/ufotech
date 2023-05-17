@@ -123,7 +123,7 @@ export const ProductModal = () => {
   };
 
   return (
-    <Modal setIsOpen={setProductModalOpen} title={'Añadir producto'}>
+    <Modal setIsOpen={setProductModalOpen} title={'Añadir a lista'}>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <img
           className='modal-product-image'

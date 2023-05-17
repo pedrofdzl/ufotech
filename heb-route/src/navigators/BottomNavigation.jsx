@@ -29,9 +29,9 @@ const BottomNavigation = () => {
   return (
     <>
       <div className='children-container'>
-        {currentTab === 'Lists' && <Lists/>}
-        {currentTab === 'Dashboard' && <Dashboard/>}
-        {currentTab === 'Profile' && <Profile/>}
+          {currentTab === 'Lists' && <Lists/>}
+          {currentTab === 'Dashboard' && <Dashboard/>}
+          {currentTab === 'Profile' && <Profile/>}
       </div>
       <div className='bottom-navigation'>
         <button>

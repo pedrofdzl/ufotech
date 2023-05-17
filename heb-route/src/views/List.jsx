@@ -78,6 +78,10 @@ const List = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchList();
   }, [listProductModalOpen]);
 

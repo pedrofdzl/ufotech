@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 // Providers
 import { ListContext } from '../providers/ListProvider';
@@ -23,12 +23,13 @@ import { BsChevronRight, BsPencilSquare } from 'react-icons/bs';
 const Lists = () => {
   const { lists, getMyLists } = useContext(ListContext);
   const { setListModalOpen, setListModalPayload } = useContext(ModalContext);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   useEffect(() => {
     getMyLists();
+    window.scrollTo(0, 0);
   }, []);
 
   const openListModal = () => {
@@ -48,7 +49,9 @@ const Lists = () => {
       {Object.keys(lists?.myLists).map((lista, index) => {
         return (
           <div key={lista}>
-            <Link to={`/lists/${lista}`} state={{prev: location.pathname, search: location.search}}>
+            <Link
+              to={`/lists/${lista}`}
+              state={{ prev: location.pathname, search: location.search }}>
               <div className='list'>
                 <div>
                   <Text

@@ -3,6 +3,7 @@
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.16);
+    z-index: 10;
 }
 
 .modal {
@@ -15,6 +16,7 @@
     left: calc(50% - 35vw - 16px);
     top: calc(50% - 152px);
     padding: 16px 16px;
+    z-index: 100;
 }
 
 .modal-header {
