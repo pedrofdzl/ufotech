@@ -16,6 +16,9 @@ import { BsArrowRightCircle } from 'react-icons/bs';
 import { ModalContext } from '../providers/ModalProvider';
 import { ProductContext } from '../providers/ProductProvider';
 
+// Utils
+import { currency } from '../utils/utils';
+
 const Product = () => {
   const navigate = useNavigate();
   const { categoryID, productID } = useParams();
@@ -67,7 +70,7 @@ const Product = () => {
               </div>
             </div>
             <br/>
-            <Button variant={'add-large'} callbackFunction={()=> openProductModal()}>Añadir a lista <span style={{ marginLeft: 4 }}>{`$${(quantity * product.Precio).toFixed(2)}`}</span></Button>
+            <Button variant={'add-large'} callbackFunction={()=> openProductModal()}>Añadir a lista <span style={{ marginLeft: 4 }}>{`${currency(quantity * product.Precio)}`}</span></Button>
             <br/>
             <br/>
             <Text variant={'h4'}>Productos similares</Text>
@@ -78,7 +81,7 @@ const Product = () => {
                     <a className="product-card" onClick={() => navigate(`/products/${categoryID}/${product.id}`)} key={product.id}>
                       <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                       <h4>{product.Nombre}</h4>
-                      <small>${product.Precio}</small>
+                      <small>{currency(product.Precio)}</small>
                       <small className="product-card-unit">{product.Capacidad} {product.Unidad}</small>
                     </a>
                   );

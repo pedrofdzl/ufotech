@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -18,7 +18,7 @@ import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
 
 // Utils
-import { truncate } from '../utils/utils';
+import { truncate, currency } from '../utils/utils';
 import { monthString } from '../utils/enums';
 
 // Icons
@@ -28,6 +28,9 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import '../stylesheets/Lists.css';
 
 const List = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { listID } = useParams();
   const { lists } = useContext(ListContext);
   const { categories } = useContext(ProductContext);
@@ -92,8 +95,16 @@ const List = () => {
     setListEditModalPayload({
       currentName: list.name,
       currentList: listID,
+      onClose: () => goBack(),
     });
     setListEditModalOpen(true);
+  };
+
+  const goBack = () => {
+    navigate({
+      pathname: (location.state?.prev) ? location.state.prev : '/',
+      search: (location.state?.search) ? location.state.search : ''
+    })
   };
 
   return (
@@ -136,10 +147,9 @@ const List = () => {
                   <Text
                     variant={'b1'}
                     styles={{ marginTop: 0, marginBottom: 2, fontSize: 16 }}>
-                    $
-                    {(
+                    {currency(
                       products[product].quantity * products[product].Precio
-                    ).toFixed(2)}
+                    )}
                   </Text>
                   <Text
                     variant={'b1'}
@@ -178,7 +188,7 @@ const List = () => {
       <div className='list-bottom'>
         <div style={{ display: 'flex', flexDirection: 'column', margin: 24 }}>
           <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Total</Text>
-          <Text styles={{ fontSize: 24 }}>${listTotal.toFixed(2)}</Text>
+          <Text styles={{ fontSize: 24 }}>{currency(listTotal)}</Text>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
           <Button variant='add-large'>Iniciar ruta</Button>

@@ -15,7 +15,7 @@ import { ProductContext } from '../providers/ProductProvider';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 // Utils
-import { truncate } from '../utils/utils';
+import { truncate, currency } from '../utils/utils';
 
 const Category = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const Category = () => {
                       <small className='product-detailed-card-unit'>
                         {product.Capacidad} {product.Unidad} /
                       </small>
-                      <small>${product.Precio}</small>
+                      <small>{currency(product.Precio)}</small>
                     </div>
                     <Button variant={'add'}>
                       <AiOutlinePlus />

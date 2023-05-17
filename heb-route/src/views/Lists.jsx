@@ -14,6 +14,9 @@ import '../stylesheets/Lists.css';
 // Enums
 import { monthString } from '../utils/enums';
 
+// Utils
+import { currency } from '../utils/utils';
+
 // Icons
 import { BsChevronRight, BsPencilSquare } from 'react-icons/bs';
 
@@ -79,7 +82,7 @@ const Lists = () => {
                         color: '#353841',
                         fontWeight: 500,
                       }}>
-                      ${(lists?.myLists[lista]?.total).toFixed(2)}
+                      {currency(lists?.myLists[lista]?.total)}
                     </Text>
                     <Text variant={'b5'} styles={{ margin: 0 }}>
                       {lists?.myLists[lista]?.itemCount} articulos

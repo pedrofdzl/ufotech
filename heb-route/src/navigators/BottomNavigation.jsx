@@ -35,7 +35,7 @@ const BottomNavigation = () => {
       </div>
       <div className='bottom-navigation'>
         <button>
-          <BsListCheck onClick={() => {setSearchParams({tab: 'Lists'}); setCurrentTab('Lists')}} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
+          <AiOutlineShoppingCart onClick={() => {setSearchParams({tab: 'Lists'}); setCurrentTab('Lists')}} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
         </button>
         <button>
           <AiOutlineShop onClick={() => {setSearchParams({tab:'Dashboard'}); setCurrentTab('Dashboard')}} className='bottom-navigation-icon' style={currentTab === 'Dashboard' && { color: '#000000' }}/>
