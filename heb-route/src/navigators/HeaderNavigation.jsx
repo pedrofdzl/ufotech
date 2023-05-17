@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Stylesheets
 import '../stylesheets/Navigation.css';
@@ -7,7 +7,7 @@ import '../stylesheets/Navigation.css';
 // Icons
 import { BsChevronLeft } from 'react-icons/bs';
 
-const HeaderNavitagion = (props) => {
+const HeaderNavitagion = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
