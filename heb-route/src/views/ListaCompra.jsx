@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import HeaderNavitagion from "../navigators/HeaderNavigation";
 
@@ -19,10 +19,14 @@ const ListaCompra = () =>{
     const { listID } = useParams();
     const { lists } = useContext(ListContext);
     const { categories } = useContext(ProductContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     // const [list, setList] = useState({});
     const [products, setProducts] = useState({})
     const list = lists.myLists[listID]
+    // console.log(prev);
+    // console.log('Search:',location.state.search)
 
 
     useEffect(()=>{
@@ -41,7 +45,7 @@ const ListaCompra = () =>{
     }, [])
 
     return <>
-        <HeaderNavitagion params={{'tab': 'Lists'}} />
+        <HeaderNavitagion />
         <h1>{list.name}</h1>
         <small>Owner: {list.owner}</small>
         <small>Creado: {list.createdDate.getDate()}-{list.createdDate.getMonth()+1}-{list.createdDate.getFullYear()}</small>

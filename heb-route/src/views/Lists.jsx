@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 import { db } from "../firebase/firebase";
 import { Timestamp, addDoc, collection, } from "firebase/firestore";
@@ -26,6 +26,7 @@ const Lists = () => {
   const [errorMessage, setErrorMessage] = useState('');
   
   const navigate = useNavigate();
+  const location = useLocation();
 
   const nombreListaHandler = event =>{
     setNombreLista(event.target.value)
@@ -64,7 +65,7 @@ const Lists = () => {
 
         {!agregandoLista &&  Object.keys(lists.myLists).map(lista=>{
             return <div key={lista}>
-              <Link to={`/lists/${lista}`}>
+              <Link to={`/lists/${lista}`} state={{prev: location.pathname, search: location.search}}>
                 <h4>{lists.myLists[lista].name}</h4>
               </Link>
             </div>

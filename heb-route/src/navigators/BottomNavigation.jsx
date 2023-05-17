@@ -15,7 +15,7 @@ import { BsPerson, BsListCheck } from 'react-icons/bs';
 
 const BottomNavigation = () => {
   const [currentTab, setCurrentTab] = useState('Dashboard');
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(()=>{
     const currTab = searchParams.get('tab');
@@ -33,13 +33,13 @@ const BottomNavigation = () => {
       </div>
       <div className='bottom-navigation'>
         <button>
-          <BsListCheck onClick={() => setCurrentTab('Lists')} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
+          <BsListCheck onClick={() => {setSearchParams({tab: 'Lists'}); setCurrentTab('Lists')}} className='bottom-navigation-icon' style={currentTab === 'Lists' && { color: '#000000' }}/>
         </button>
         <button>
-          <AiOutlineShop onClick={() => setCurrentTab('Dashboard')} className='bottom-navigation-icon' style={currentTab === 'Dashboard' && { color: '#000000' }}/>
+          <AiOutlineShop onClick={() => {setSearchParams({tab:'Dashboard'}); setCurrentTab('Dashboard')}} className='bottom-navigation-icon' style={currentTab === 'Dashboard' && { color: '#000000' }}/>
         </button>
         <button>
-          <BsPerson onClick={() => setCurrentTab('Profile')} className='bottom-navigation-icon' style={currentTab === 'Profile' && { color: '#000000' }}/>
+          <BsPerson onClick={() => {setSearchParams({tab: 'Profile'}); setCurrentTab('Profile')}} className='bottom-navigation-icon' style={currentTab === 'Profile' && { color: '#000000' }}/>
         </button>
       </div>
     </>

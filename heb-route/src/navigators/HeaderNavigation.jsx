@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Stylesheets
 import '../stylesheets/Navigation.css';
@@ -9,6 +9,7 @@ import { BsArrowLeftCircle } from 'react-icons/bs';
 
 const HeaderNavitagion = props => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { params } = props
 
@@ -16,8 +17,11 @@ const HeaderNavitagion = props => {
     <div className='header-navigate'>
       <BsArrowLeftCircle className='header-navigate-icon' onClick={() =>
         navigate({
-          pathname:'/dashboard',
-          search:`?${createSearchParams(params)}`
+          // pathname: '/dashboard'
+          // pathname:location.state.prev,
+          pathname: (location.state?.prev) ? location.state.prev : '/',
+          // search:`?${createSearchParams(params)}`
+          search: (location.state?.search) ? location.state.search : ''
         })
       } />
     </div>
