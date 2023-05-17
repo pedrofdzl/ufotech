@@ -13,7 +13,6 @@ import '../stylesheets/Navigation.css';
 import { AiOutlineShop, AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsPerson } from 'react-icons/bs';
 
-
 const validRoutes = ['Dashboard', 'Lists', 'Profile'];
 
 const BottomNavigation = () => {
