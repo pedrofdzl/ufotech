@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate, createSearchParams, Link } from 'react-router-dom';
+import { useNavigate, createSearchParams, Link, useLocation } from 'react-router-dom';
 
 // Providers
 import { ProductContext } from "../providers/ProductProvider";
@@ -18,11 +18,11 @@ import '../stylesheets/Products.css';
 import { SlLocationPin } from 'react-icons/sl';
 import { BsArrowRightCircle } from 'react-icons/bs';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const navigate = useNavigate();
   const { categories } = useContext(ProductContext);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const location = useLocation();
 
   const searchHandler = event=>{
     event.preventDefault();
@@ -52,7 +52,7 @@ const Dashboard = () => {
       <div className="category-card-carousel">
         {Object.keys(categories.categories).map(category => {
           return (
-            <Link className='category-card' style={{ backgroundColor: categories.categories[category].color }} to={`/categories/${category}`} key={category}>
+            <Link className='category-card' style={{ backgroundColor: categories.categories[category].color }} to={`/categories/${category}`} state={{prev: location.pathname, search: location.search}} key={category}>
               <h1>{categories.categories[category].emoji}</h1>
               <h4>{categories.categories[category].name}</h4>
             </Link>
@@ -68,7 +68,7 @@ const Dashboard = () => {
             <div className='product-card-carousel'>
               {categories.categories[category].products.slice(0, 5).map(product => {
                 return(
-                  <Link className="product-card" to={`/products/${category}/${product.id}`} key={product.id}>
+                  <Link className="product-card" to={`/products/${category}/${product.id}`} state={{prev: location.pathname, search: location.search}} key={product.id}>
                     <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
                     <h4>{truncate(product.Nombre, 32)}</h4>
                     <small>${product.Precio}</small>
@@ -76,7 +76,7 @@ const Dashboard = () => {
                   </Link>
                 );
               })}
-              <Link className="product-category-see-more" to={`/categories/${category}`} >
+              <Link className="product-category-see-more" to={`/categories/${category}`} state={{prev: location.pathname, search: location.search}}>
                 <BsArrowRightCircle className="product-category-see-more-icon" />
                 <Text variant="b4">Ver más</Text>
               </Link>

@@ -43,6 +43,7 @@ const Product = () => {
   return (
     <>
       <HeaderNavitagion />
+      {/* <button onClick={()=>{ navigate(-1)}} >Back</button> */}
       <div className='safe-area'>
         <div className='product-detail'>
           <img className='product-detail-image' src={product['Link Imagen']} alt={product.Nombre} />

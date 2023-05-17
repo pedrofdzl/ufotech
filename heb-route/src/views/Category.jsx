@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 
 // Navigators
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -23,10 +23,11 @@ const Category = () => {
   const { categories } = useContext(ProductContext);
 
   const category = categories.categories[categoryID];
+  const location = useLocation();
 
   return (
     <>
-      <HeaderNavitagion params={{'tab': 'Dashboard'}}/>
+      <HeaderNavitagion />
       <div className='safe-area'>
         <Text variant={'h1'}>
           {category.name} {category.emoji}
@@ -36,9 +37,9 @@ const Category = () => {
           {category.products.map((product) => {
             return (
               <div className='product-detailed-card'>
-                <a onClick={() => navigate(`/products/${categoryID}/${product.id}`)}>
+                <Link to={`/products/${categoryID}/${product.id}`} state={{prev: location.pathname, search: location.search}}>
                   <img src={product['Link Imagen']} alt={product.Nombre} />
-                </a>
+                </Link>
                 <div style={{ display: 'block', width: '100%' }}>
                   <Text variant={'h5'}>{truncate(product.Nombre, 20)}</Text>
                   <div
