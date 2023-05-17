@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+:root {
+    --pale: #f7f7f7;
+    --border-color: #e7e7e7;
+}
+
 body {
     font-family: 'Outfit', sans-serif;
     height: calc(100vh - 16px);
@@ -13,9 +18,10 @@ body {
 input {
     border: 1px solid #e7e7e7;
     outline: 0px;
-    width: calc(100% - 26px);
+    font-size: 16px;
+    width: calc(100% - 32px);
     border-radius: 12px;
-    padding: 12px 12px;
+    padding: 16px 16px;
 }
 input:focus {
     border: 1px solid #cecece;
@@ -34,7 +40,8 @@ input:focus {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 24px;
+    padding-top: 32px;
+    width: calc(100vw - 32px);
 }
 
 ::-webkit-scrollbar {display:none;}

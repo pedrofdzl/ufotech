@@ -44,7 +44,9 @@ export const ProductProvider = ({ children }) => {
     const fetchedProducts = await getDocs(productsCollection);
     fetchedProducts.forEach(doc => {
       let data = doc.data();
-      auxCategories?.categories?.[data.Categoria]?.products.push({...data, id: doc.id});
+      if (!auxCategories?.categories?.[data.Categoria]?.products.find(product => product.id ===  doc.id)) {
+        auxCategories?.categories?.[data.Categoria]?.products.push({...data, id: doc.id});
+      }
     });
     setCategories({...auxCategories, isLoading: false });
   };

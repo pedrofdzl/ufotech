@@ -3,8 +3,49 @@
     flex-direction: row;
     gap: 6px;
     align-items: center;
-    padding-top: 32px;
-    padding-bottom: 32px;
+}
+
+.dashboard-profile-picture {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: rgb(71, 71, 71);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+.dashboard-profile-picture img {
+    height: 100%;
+    width: 100%;
+}
+
+.dashboard-search {
+    margin-bottom: 12px;
+    background-color: var(--pale);
+    border: none;
+    padding-left: 48px;
+    color: #6e6e6e;
+    width: calc(100% - 48px);
+}
+.dashboard-search:focus {
+    border: 0;
+}
+.dashboard-search::placeholder {
+    color: #acacac;
+}
+
+.search-search {
+    margin-bottom: 12px;
+    background-color: var(--pale);
+    border: none;
+    padding-left: 48px;
+    color: #6e6e6e;
+    width: calc(100% - 64px);
+}
+.search-search:focus {
+    border: 0;
+}
+.search-search::placeholder {
+    color: #acacac;
 }
 
 .location p {
