@@ -13,6 +13,8 @@ import '../stylesheets/Navigation.css';
 import { AiOutlineShop } from 'react-icons/ai';
 import { BsPerson, BsListCheck } from 'react-icons/bs';
 
+const validRoutes = ['Dashboard', 'Lists', 'Profile'];
+
 const BottomNavigation = () => {
   const [currentTab, setCurrentTab] = useState('Dashboard');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +22,7 @@ const BottomNavigation = () => {
   useEffect(()=>{
     const currTab = searchParams.get('tab');
 
-    if (!currTab) setCurrentTab('Dashboard')
+    if (!currTab || !validRoutes.includes(currTab)) setCurrentTab('Dashboard')
     else setCurrentTab(currTab);
   }, [searchParams]);
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -12,16 +12,21 @@ import '../stylesheets/Products.css';
 // Utils
 import { truncate } from '../utils/utils';
 
+// Navigation
+import HeaderNavitagion from '../navigators/HeaderNavigation';
+
 const Search = props =>{
     const { categories } = useContext(ProductContext)
-    const [searchInput, setSearchInput] = useState('');
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [prods, setProds] = useState([]);
+    const [searchInput, setSearchInput] = useState(searchParams.get('search'));
 
-    const navigate = useNavigate();
+
+    const location = useLocation();
 
     const searchHandler = event=>{
       event.preventDefault();
+      setSearchParams({search:searchInput});
       getProds();
     };
   
@@ -34,21 +39,22 @@ const Search = props =>{
         let filteredProds = [];
         Object.keys(categories.categories).forEach(category=>{
             const categoryProds = categories.categories[category].products.filter(product=>{
+
                 return product.Nombre.toLowerCase().includes(searchInput.toLowerCase())
             });
             filteredProds =  filteredProds.concat(categoryProds);
-        });
-        setProds(filteredProds);
+          });
+          setProds(filteredProds);
     }
 
 
     useEffect(()=>{
-        setSearchInput(searchParams.get('search'));
-        getProds()
+        getProds();
     },[])
 
 
     return <>
+      <HeaderNavitagion />
      <div className="location">
       <SlLocationPin />
         <Text variant={'b2'}>Sucursal Av. Manuel Gómez Morín</Text>
@@ -60,7 +66,8 @@ const Search = props =>{
       </div>
       {prods.map(product=>{
         return(
-            <Link className="product-card" to={`/products/${product.Categoria}/${product.id}`} key={product.id}>
+            // <Link className="product-card" to={`/products/${product.Categoria}/${product.id}`} state={{prev: location.pathname, search: location.search}} key={product.id}>
+            <Link className="product-card" to={`/products/${product.Categoria}/${product.id}`} state={{prev: location.pathname, search: location.search}}>
               <img src={product['Link Imagen']} alt={product.Nombre} width={100} height={100} />
               <h4>{truncate(product.Nombre, 32)}</h4>
               <small>${product.Precio}</small>
