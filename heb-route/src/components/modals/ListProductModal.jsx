@@ -31,6 +31,9 @@ import {
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
+// Utils
+import { currency } from '../../utils/utils';
+
 export const ListProductModal = () => {
   const {
     listProductModalPayload,
@@ -122,7 +125,7 @@ export const ListProductModal = () => {
             {product.Nombre}
           </Text>
           <Text variant={'b4'} styles={{ margin: 0 }}>
-            ${product.Precio}
+            {currency(product.Precio)}
           </Text>
           <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
             <Button

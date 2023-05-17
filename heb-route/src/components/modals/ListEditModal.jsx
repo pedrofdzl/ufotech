@@ -52,7 +52,7 @@ export const ListEditModal = () => {
   const deleteHandler = () => {
     const listReference = doc(db, 'Listas', listEditModalPayload.currentList);
     deleteDoc(listReference).then(() => {
-      // nav back
+      listEditModalPayload.onClose();
       resetMyLists();
       setListEditModalOpen(false);
       setSubmitButtonLoading(false);

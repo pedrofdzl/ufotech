@@ -29,6 +29,7 @@ const defaultModalContext = {
   listEditModalPayload: {
     currentName: '',
     currentList: null,
+    onClose: () => {},
   },
   setProductModalOpen: () => {},
   setProductModalPayload: () => {},

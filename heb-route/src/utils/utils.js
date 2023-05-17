@@ -4,3 +4,14 @@
 export const truncate = (s, n) => {
     return s.length > n ? s.substring(0, n) + '...' : s;
 };
+
+/**
+ * Displays curreny
+ */
+export const currency = (n) => {
+    const ans = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(n);
+    return ans;
+};

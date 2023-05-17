@@ -28,6 +28,9 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
+// Utils
+import { currency } from '../../utils/utils';
+
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
@@ -132,7 +135,7 @@ export const ProductModal = () => {
             {product.Nombre}
           </Text>
           <Text variant={'b4'} styles={{ margin: 0 }}>
-            ${product.Precio}
+            {currency(product.Precio)}
           </Text>
           <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
             <Button
@@ -188,8 +191,8 @@ export const ProductModal = () => {
         }}>
         Agregar{' '}
         {
-          <span style={{ marginLeft: 4 }}>{`$${
-            (productModalPayload.currentQuantity * product.Precio).toFixed(2)
+          <span style={{ marginLeft: 4 }}>{`${
+            currency(productModalPayload.currentQuantity * product.Precio)
           }`}</span>
         }
       </Button>
