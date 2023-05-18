@@ -17,6 +17,7 @@ const defaultModalContext = {
     currentProduct: null,
     currentQuantity: 0,
     selectedList: null,
+    success: ()=>{}
   },
   listModalOpen: false,
   listModalPayload: {

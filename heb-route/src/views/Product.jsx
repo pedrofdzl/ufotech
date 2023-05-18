@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, createSearchParams, Link, useLocation } from 'react-router-dom';
 
 // UI
 import { Text } from '../components/ui/Text';
@@ -30,6 +30,7 @@ const Product = () => {
     useContext(ModalContext);
 
   const [quantity, setQuantity] = useState(1);
+  const location = useLocation();
 
   useEffect(() => {
     if (quantity < 1) setQuantity(1);
@@ -49,6 +50,7 @@ const Product = () => {
       currentCategory: categoryID,
       currentProduct: productID,
       currentQuantity: quantity,
+      success: succesHandler
     });
     setProductModalOpen(true);
   };
