@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 
 // Navigators
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -23,6 +23,7 @@ const Category = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const location = useLocation();
 
   return (
     <>
