@@ -34,7 +34,7 @@ import { currency } from '../../utils/utils';
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
-export const ProductModal = () => {
+export const ProductModal = props => {
   const { productModalPayload, setProductModalOpen, setProductModalPayload } =
     useContext(ModalContext);
   const { categories } = useContext(ProductContext);
@@ -77,6 +77,55 @@ export const ProductModal = () => {
     });
   };
 
+<<<<<<< HEAD
+=======
+  const addProduct = () => {
+    if (productModalPayload.selectedList !== '') {
+      const auxProduct = {
+        list: productModalPayload.selectedList,
+        category: productModalPayload.currentCategory,
+        product: productModalPayload.currentProduct,
+        quantity: productModalPayload.currentQuantity,
+      };
+
+      const listProductCollection = collection(db, 'listProduct');
+      const listProductQuery = query(
+        listProductCollection,
+        where('list', '==', auxProduct.list),
+        where('product', '==', auxProduct.product),
+        limit(1)
+      );
+      getDocs(listProductQuery).then((listProductSnapshot) => {
+        if (!(listProductSnapshot.size > 0)) {
+          addDoc(listProductCollection, auxProduct).then(
+            (listProductReference) => {
+              updateList(auxProduct);
+              setSubmitButtonLoading(false);
+              setProductModalOpen(false);
+              productModalPayload.success();
+            }
+          );
+        } else {
+          const listproductReference = doc(
+            db,
+            'listProduct',
+            listProductSnapshot.docs[0].id
+          );
+          const data = listProductSnapshot.docs[0].data();
+          updateDoc(listproductReference, {
+            quantity: data['quantity'] + auxProduct.quantity,
+          }).then(() => {
+            updateList(auxProduct);
+            setSubmitButtonLoading(false);
+            setProductModalOpen(false);
+            productModalPayload.success();
+          });
+        }
+      });
+    }
+  };
+
+>>>>>>> 72f06e8 (Added success redirect to add product)
   return (
     <Modal setIsOpen={setProductModalOpen} title={'Añadir a lista'}>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
