@@ -88,7 +88,7 @@ const Lists = () => {
                       {currency(lists?.myLists[lista]?.total)}
                     </Text>
                     <Text variant={'b5'} styles={{ margin: 0 }}>
-                      {lists?.myLists[lista]?.itemCount} articulos
+                      {Object.keys(lists?.myLists[lista]?.products).length} articulos
                     </Text>
                   </div>
                   <BsChevronRight

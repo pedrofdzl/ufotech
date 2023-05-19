@@ -14,15 +14,8 @@ import { UserInformationContext } from '../../providers/UserInformationProvider'
 // Components
 import { Modal } from './Modal';
 
-// Database
-import { db } from '../../firebase/firebase';
-import {
-  addDoc,
-  collection,
-} from 'firebase/firestore';
-
 export const ListModal = () => {
-  const { getMyLists } = useContext(ListContext);
+  const { getMyLists, createList } = useContext(ListContext);
   const { userInformation } = useContext(UserInformationContext);
   const { listModalPayload, setListModalOpen, setListModalPayload } =
     useContext(ModalContext);
@@ -39,18 +32,14 @@ export const ListModal = () => {
   }, [listModalPayload]);
 
   const submitHandler = () => {
-    const listasCollection = collection(db, 'Listas');
-    const date = new Date();
-    addDoc(listasCollection, {
-      Nombre: listModalPayload.currentName,
-      Owner: userInformation.email,
-      CreatedDate: date,
-      ItemCount: 0,
-      Total: 0,
-    }).then((lista) => {
-      getMyLists();
-      setListModalOpen(false);
-      setSubmitButtonLoading(false);
+    createList({
+      name: listModalPayload.currentName,
+      owner: userInformation.email,
+      success: (lista) => {
+        getMyLists();
+        setListModalOpen(false);
+        setSubmitButtonLoading(false);
+      },
     });
   };
 
@@ -61,8 +50,12 @@ export const ListModal = () => {
         id='nombreLista'
         placeholder='Nombre'
         style={{ marginBottom: 0 }}
-        onChange={(e) => setListModalPayload({ ...listModalPayload, currentName: e.target.value })}
-        // value={}
+        onChange={(e) =>
+          setListModalPayload({
+            ...listModalPayload,
+            currentName: e.target.value,
+          })
+        }
       />
 
       <Button

@@ -68,7 +68,7 @@ const Dashboard = (props) => {
           style={{
             position: 'absolute',
             fontSize: 20,
-            top: 16,
+            top: 17,
             left: 16,
             color: '#6e6e6e',
           }}

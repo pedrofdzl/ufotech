@@ -54,3 +54,36 @@ select {
 .modal-product-quantity-number p {
     margin: 0px !important;
 }
+
+.notification-container {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.notification {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: calc(100% - 16px);
+    width: calc(100% - 16px);
+    border-radius: 16px;
+    font-weight: 400;
+}
+.not-success {
+    color: white;
+    background-color: var(--success);
+}
+.not-success-variant {
+    color: white;
+    background-color: #9DA2B0;
+}
