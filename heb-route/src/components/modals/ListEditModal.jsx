@@ -13,12 +13,9 @@ import { ModalContext } from '../../providers/ModalProvider';
 // Components
 import { Modal } from './Modal';
 
-// Database
-import { db } from '../../firebase/firebase';
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
-
 export const ListEditModal = () => {
-  const { getMyLists, resetMyLists } = useContext(ListContext);
+  const { getMyLists, resetMyLists, updateList, deleteList } =
+    useContext(ListContext);
   const {
     listEditModalPayload,
     setListEditModalOpen,
@@ -39,23 +36,26 @@ export const ListEditModal = () => {
   }, [listEditModalPayload]);
 
   const submitHandler = () => {
-    const listReference = doc(db, 'Listas', listEditModalPayload.currentList);
-    updateDoc(listReference, {
-      Nombre: listEditModalPayload.currentName,
-    }).then(() => {
-      getMyLists();
-      setListEditModalOpen(false);
-      setSubmitButtonLoading(false);
+    updateList({
+      list: listEditModalPayload.currentList,
+      name: listEditModalPayload.currentName,
+      success: () => {
+        getMyLists();
+        setListEditModalOpen(false);
+        setSubmitButtonLoading(false);
+      },
     });
   };
 
   const deleteHandler = () => {
-    const listReference = doc(db, 'Listas', listEditModalPayload.currentList);
-    deleteDoc(listReference).then(() => {
-      listEditModalPayload.onClose();
-      resetMyLists();
-      setListEditModalOpen(false);
-      setSubmitButtonLoading(false);
+    deleteList({
+      list: listEditModalPayload.currentList,
+      success: () => {
+        listEditModalPayload.onClose();
+        resetMyLists();
+        setListEditModalOpen(false);
+        setSubmitButtonLoading(false);
+      },
     });
   };
 
@@ -100,9 +100,17 @@ export const ListEditModal = () => {
         </Button>
       )}
       {deleting ? (
-        <Button variant={'secondary'} callbackFunction={() => setDeleting(false)}>Cancelar</Button>
+        <Button
+          variant={'secondary'}
+          callbackFunction={() => setDeleting(false)}>
+          Cancelar
+        </Button>
       ) : (
-        <Button variant={'secondary'} callbackFunction={() => setDeleting(true)}>Eliminar lista</Button>
+        <Button
+          variant={'secondary'}
+          callbackFunction={() => setDeleting(true)}>
+          Eliminar lista
+        </Button>
       )}
     </Modal>
   );

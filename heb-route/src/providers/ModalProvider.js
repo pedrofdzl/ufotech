@@ -6,6 +6,9 @@ import { ListProductModal } from '../components/modals/ListProductModal';
 import { ProductModal } from '../components/modals/ProductModal';
 import { ListModal } from '../components/modals/ListModal';
 
+// Stylesheets
+import '../stylesheets/Modals.css';
+
 const defaultModalContext = {
   productModalOpen: false,
   productModalPayload: {
@@ -63,10 +66,10 @@ export const ModalProvider = ({ children }) => {
     defaultModalContext.listProductModalPayload
   );
   const [listEditModalOpen, setListEditModalOpen] = useState(
-    defaultModalContext.listModalOpen
+    defaultModalContext.listEditModalOpen
   );
   const [listEditModalPayload, setListEditModalPayload] = useState(
-    defaultModalContext.listModalPayload
+    defaultModalContext.listEditModalPayload
   );
 
   useEffect(() => {

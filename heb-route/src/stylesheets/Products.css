@@ -124,6 +124,7 @@ a {
     border: 1px solid #e6e6e6;
     border-radius: 16px;
     height: 220px;
+    min-width: 122px;
     padding: 16px;
 }
 .product-detailed-card img {

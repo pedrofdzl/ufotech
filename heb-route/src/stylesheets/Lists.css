@@ -58,3 +58,16 @@
     border-radius: 32px 32px 0px 0px;
     bottom: 0px;
 }
+
+.list-empty {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 240px;
+    height: 300px;
+    top: calc(50% - 200px);
+    left: calc(50% - 120px);
+}

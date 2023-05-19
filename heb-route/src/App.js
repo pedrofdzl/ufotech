@@ -4,22 +4,25 @@ import { UserInformationProvider } from './providers/UserInformationProvider';
 import { ProductProvider } from './providers/ProductProvider';
 import { ListProvider } from './providers/ListProvider';
 import { ModalProvider } from './providers/ModalProvider';
+import { NotificationProvider } from './providers/NotificationProvider';
 
 import './stylesheets/Global.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <UserInformationProvider>
-        <ProductProvider>
-          <ListProvider>
-            <ModalProvider>
-              <Router/>
-            </ModalProvider>
-          </ListProvider>
-        </ProductProvider>
-      </UserInformationProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <UserInformationProvider>
+          <ProductProvider>
+            <ListProvider>
+              <ModalProvider>
+                <Router />
+              </ModalProvider>
+            </ListProvider>
+          </ProductProvider>
+        </UserInformationProvider>
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
 

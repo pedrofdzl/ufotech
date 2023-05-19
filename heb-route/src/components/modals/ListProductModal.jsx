@@ -15,24 +15,8 @@ import { ProductContext } from '../../providers/ProductProvider';
 // Components
 import { Modal } from './Modal';
 
-// Database
-import { db } from '../../firebase/firebase';
-import {
-  collection,
-  query,
-  where,
-  doc,
-  updateDoc,
-  deleteDoc,
-  limit,
-  getDocs,
-} from 'firebase/firestore';
-
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
-
-// Utils
-import { currency } from '../../utils/utils';
 
 export const ListProductModal = () => {
   const {
@@ -41,7 +25,7 @@ export const ListProductModal = () => {
     setListProductModalPayload,
   } = useContext(ModalContext);
   const { categories } = useContext(ProductContext);
-  const { lists } = useContext(ListContext);
+  const { editProduct } = useContext(ListContext);
 
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
@@ -60,56 +44,16 @@ export const ListProductModal = () => {
     }
   }, [listProductModalPayload]);
 
-  const updateList = (auxProduct, diff) => {
-    const listReference = doc(db, 'Listas', auxProduct.list);
-    const currentCount = lists?.myLists[auxProduct.list].itemCount;
-    const currentTotal = lists?.myLists[auxProduct.list].total;
-    updateDoc(listReference, {
-      ItemCount: currentCount + diff,
-      Total: currentTotal + diff * product.Precio,
+  const editProductHandler = () => {
+    editProduct({
+      list: listProductModalPayload.selectedList,
+      product: listProductModalPayload.currentProduct,
+      quantity: listProductModalPayload.currentQuantity,
+      success: () => {
+        setSubmitButtonLoading(false);
+        setListProductModalOpen(false);
+      },
     });
-  };
-
-  const addProduct = () => {
-    if (listProductModalPayload.selectedList != '') {
-      const auxProduct = {
-        list: listProductModalPayload.selectedList,
-        category: listProductModalPayload.currentCategory,
-        product: listProductModalPayload.currentProduct,
-        quantity: listProductModalPayload.currentQuantity,
-      };
-
-      const listProductCollection = collection(db, 'listProduct');
-      const listProductQuery = query(
-        listProductCollection,
-        where('list', '==', auxProduct.list),
-        where('product', '==', auxProduct.product),
-        limit(1)
-      );
-      getDocs(listProductQuery).then((listProductSnapshot) => {
-        const listproductReference = doc(
-          db,
-          'listProduct',
-          listProductSnapshot.docs[0].id
-        );
-        const data = listProductSnapshot.docs[0].data();
-        if (auxProduct.quantity === 0) {
-          deleteDoc(listproductReference).then(() => {
-            updateList(auxProduct, auxProduct.quantity - data['quantity']);
-            setSubmitButtonLoading(false);
-            setListProductModalOpen(false);
-          });
-        } else {
-          updateDoc(listproductReference, {
-            quantity: auxProduct.quantity,
-          }).then(() => {
-            updateList(auxProduct, auxProduct.quantity - data['quantity']);
-            setSubmitButtonLoading(false);
-            setListProductModalOpen(false);
-          });
-        }
-      });
-    }
   };
 
   return (
@@ -125,7 +69,7 @@ export const ListProductModal = () => {
             {product.Nombre}
           </Text>
           <Text variant={'b4'} styles={{ margin: 0 }}>
-            {currency(product.Precio)}
+            ${product.Precio}
           </Text>
           <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
             <Button
@@ -139,7 +83,9 @@ export const ListProductModal = () => {
               <AiOutlineMinus />
             </Button>
             <div className='modal-product-quantity-number'>
-              <Text variant={'b4'}>{listProductModalPayload.currentQuantity}</Text>
+              <Text variant={'b4'}>
+                {listProductModalPayload.currentQuantity}
+              </Text>
             </div>
             <Button
               variant={'add-small-2'}
@@ -156,15 +102,21 @@ export const ListProductModal = () => {
       </div>
 
       <Button
-        variant={listProductModalPayload.currentQuantity === 0 ? 'remove-large' : 'add-large'}
+        variant={
+          listProductModalPayload.currentQuantity === 0
+            ? 'remove-large'
+            : 'add-large'
+        }
         styles={{ marginTop: 16 }}
         disabled={!submitButtonActive}
         loading={submitButtonLoading}
         callbackFunction={() => {
           setSubmitButtonLoading(true);
-          addProduct();
+          editProductHandler();
         }}>
-        {listProductModalPayload.currentQuantity === 0 ? 'Eliminar' : 'Confirmar'}
+        {listProductModalPayload.currentQuantity === 0
+          ? 'Eliminar'
+          : 'Confirmar'}
       </Button>
     </Modal>
   );

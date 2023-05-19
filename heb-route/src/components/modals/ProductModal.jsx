@@ -38,7 +38,7 @@ export const ProductModal = () => {
   const { productModalPayload, setProductModalOpen, setProductModalPayload } =
     useContext(ModalContext);
   const { categories } = useContext(ProductContext);
-  const { lists } = useContext(ListContext);
+  const { lists, addProduct } = useContext(ListContext);
 
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
@@ -64,62 +64,17 @@ export const ProductModal = () => {
     });
   };
 
-  const updateList = (auxProduct) => {
-    const listReference = doc(
-      db,
-      'Listas',
-      auxProduct.list,
-    );
-    const currentCount = lists?.myLists[auxProduct.list].itemCount;
-    const currentTotal = lists?.myLists[auxProduct.list].total;
-    updateDoc(listReference, {
-      ItemCount: currentCount + auxProduct.quantity,
-      Total: currentTotal + (auxProduct.quantity * product.Precio),
+  const handleAddProduct = () => {
+    addProduct({
+      list: productModalPayload.selectedList,
+      category: productModalPayload.currentCategory,
+      product: productModalPayload.currentProduct,
+      quantity: productModalPayload.currentQuantity,
+      success: () => {
+        setSubmitButtonLoading(false);
+        setProductModalOpen(false);
+      },
     });
-  };
-
-  const addProduct = () => {
-    if (productModalPayload.selectedList != '') {
-      const auxProduct = {
-        list: productModalPayload.selectedList,
-        category: productModalPayload.currentCategory,
-        product: productModalPayload.currentProduct,
-        quantity: productModalPayload.currentQuantity,
-      };
-
-      const listProductCollection = collection(db, 'listProduct');
-      const listProductQuery = query(
-        listProductCollection,
-        where('list', '==', auxProduct.list),
-        where('product', '==', auxProduct.product),
-        limit(1)
-      );
-      getDocs(listProductQuery).then((listProductSnapshot) => {
-        if (!(listProductSnapshot.size > 0)) {
-          addDoc(listProductCollection, auxProduct).then(
-            (listProductReference) => {
-              updateList(auxProduct);
-              setSubmitButtonLoading(false);
-              setProductModalOpen(false);
-            }
-          );
-        } else {
-          const listproductReference = doc(
-            db,
-            'listProduct',
-            listProductSnapshot.docs[0].id
-          );
-          const data = listProductSnapshot.docs[0].data();
-          updateDoc(listproductReference, {
-            quantity: data['quantity'] + auxProduct.quantity,
-          }).then(() => {
-            updateList(auxProduct);
-            setSubmitButtonLoading(false);
-            setProductModalOpen(false);
-          });
-        }
-      });
-    }
   };
 
   return (
@@ -187,13 +142,13 @@ export const ProductModal = () => {
         loading={submitButtonLoading}
         callbackFunction={() => {
           setSubmitButtonLoading(true);
-          addProduct();
+          handleAddProduct();
         }}>
         Agregar{' '}
         {
-          <span style={{ marginLeft: 4 }}>{`${
-            currency(productModalPayload.currentQuantity * product.Precio)
-          }`}</span>
+          <span style={{ marginLeft: 4 }}>{`${currency(
+            productModalPayload.currentQuantity * product.Precio
+          )}`}</span>
         }
       </Button>
     </Modal>

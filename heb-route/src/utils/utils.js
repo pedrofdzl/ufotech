@@ -15,3 +15,8 @@ export const currency = (n) => {
     }).format(n);
     return ans;
 };
+
+/**
+ * Delay in (ms)
+ */
+export const delay = ms => new Promise(res => setTimeout(res, ms));
