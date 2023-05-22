@@ -45,6 +45,10 @@ const List = () => {
     throw new http404('List Not Found!');
   }
 
+  if (!(listID in lists.myLists)){
+    throw new http404('List Not Found!');
+  }
+
   const [list, setList] = useState(lists.myLists[listID]);
   const [isOwner] = useState(userInformation.email === list.owner);
   const [listTotal, setListTotal] = useState(lists.myLists[listID].total);
