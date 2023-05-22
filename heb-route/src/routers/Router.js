@@ -24,6 +24,11 @@ import Search from '../views/Search';
 import List from '../views/List';
 import ListRoute from '../views/ListRoute';
 
+// Error View
+import Error404 from '../views/404';
+import TestError from '../views/TestError';
+import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -41,6 +46,9 @@ const AppRouter = () => {
         <Route exact path='/route/:listID' element={<PrivateRoute><ListRoute/></PrivateRoute>} />
 
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
+        <Route path='*' element={<Error404/>} />
+
+        {/* <Route exact path='/testerror' element={<TestError hasError />} /> */}
       </Routes>
     </BrowserRouter>
   );

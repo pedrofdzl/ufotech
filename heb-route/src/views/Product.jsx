@@ -22,6 +22,9 @@ import { ProductContext } from '../providers/ProductProvider';
 // Utils
 import { currency } from '../utils/utils';
 
+// Error View
+import { http404 } from '../errorhandling/errors';
+
 const Product = () => {
   const navigate = useNavigate();
   const { categoryID, productID } = useParams();
@@ -40,9 +43,25 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const succesHandler = () => {
+    navigate({
+      pathname: '/',
+      search: `?${createSearchParams({tab:'Dashboard'})}`
+    })
+  }
+
+  // Check if category and product exists
+  if (!(categoryID in categories.categories)){
+    throw new http404('Category Not Found!');
+  }
+
   const product = categories?.categories[categoryID].products.find(
     (product) => product.id === productID
   );
+
+  if (!product){
+    throw new http404('Product Not Found!');
+  }
 
   const openProductModal = () => {
     setProductModalPayload({
