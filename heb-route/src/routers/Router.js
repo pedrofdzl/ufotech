@@ -29,6 +29,11 @@ import Error404 from '../views/404';
 import TestError from '../views/TestError';
 import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
 
+// Error View
+import Error404 from '../views/404';
+import TestError from '../views/TestError';
+import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
