@@ -24,6 +24,8 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 // Stylesheets
 import '../stylesheets/Lists.css';
 
+import { http404 } from '../errorhandling/errors';
+
 const List = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,6 +40,10 @@ const List = () => {
     setListEditModalPayload,
   } = useContext(ModalContext);
   const { userInformation } = useContext(UserInformationContext);
+
+  if (!(listID in lists.myLists)){
+    throw new http404('List Not Found!');
+  }
 
   const [list, setList] = useState(lists.myLists[listID]);
   const [isOwner] = useState(userInformation.email === list.owner);
@@ -82,6 +88,8 @@ const List = () => {
       search: location.state?.search ? location.state.search : '',
     });
   };
+
+
 
   return (
     <>

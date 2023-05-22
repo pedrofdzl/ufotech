@@ -13,15 +13,20 @@ import { Text } from '../components/ui/Text';
 // Providers
 import { ProductContext } from '../providers/ProductProvider';
 
+import { http404 } from '../errorhandling/errors';
+
 const Category = () => {
   const { categoryID } = useParams();
   const { categories } = useContext(ProductContext);
 
-  const category = categories.categories[categoryID];
-  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (!(categoryID in categories.categories)){
+    throw new http404('Category Not Found!')
+  }
+  const category = categories.categories[categoryID];
 
 
   return (
