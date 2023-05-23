@@ -91,7 +91,6 @@ const ListRoute = () => {
       }
       auxNodeProducts[productObject.node].push(auxProduct);
     });
-    console.log(auxNodeQueue)
     setNodeProducts(auxNodeProducts);
     setNodeQueue(auxNodeQueue);
   }, []);

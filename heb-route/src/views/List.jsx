@@ -64,6 +64,10 @@ const List = () => {
     setRouteReady(Object.keys(list.products).length > 0 ? true : false);
   }, [list]);
 
+  useEffect(() => {
+    setRouteReady(Object.keys(list.products).length > 0 ? true : false);
+  }, [list]);
+
   const openListProductModal = ({ productID, categoryID, quantity }) => {
     setListProductModalPayload({
       currentCategory: categoryID,
