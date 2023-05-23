@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Database
-import { db } from '../firebase/firebase'
-import { getDocs, collection } from 'firebase/firestore'
+import { db } from '../firebase/firebase';
+import { getDocs, collection } from 'firebase/firestore';
 
 // Views
 import Loading from '../views/Loading';
 
 // Providers
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from '../providers/AuthProvider';
 
 const defaultProductContext = {
   categories: {
@@ -22,19 +22,39 @@ export const ProductContext = React.createContext(defaultProductContext);
 
 export const ProductProvider = ({ children }) => {
   const { authState } = useContext(AuthContext);
-  const [categories, setCategories] = useState(defaultProductContext.categories);
-  
+  const [categories, setCategories] = useState(
+    defaultProductContext.categories
+  );
+
   const getCategories = async () => {
     // Categorias
     const categoryCollection = collection(db, 'Categorias');
     const fetchedCategories = await getDocs(categoryCollection);
-    fetchedCategories.forEach(doc => {
+    fetchedCategories.forEach((doc) => {
       const data = doc.data();
 
       if (!categories?.categories?.[doc.id]) {
         let auxCategories = categories;
-        auxCategories.categories[doc.id] = { name: data.Nombre, emoji: data.Emoji, color: data.Color ? data.Color : '#FFF', products: [] };
+        auxCategories.categories[doc.id] = {
+          name: data.Nombre,
+          emoji: data.Emoji,
+          color: data.Color ? data.Color : '#FFF',
+          products: [],
+        };
         setCategories(auxCategories);
+      }
+    });
+
+    // Nodos
+    let auxNodos = {};
+    const nodeCollection = collection(db, 'Sucursales');
+    const fetchedNodes = await getDocs(nodeCollection);
+    fetchedNodes.forEach((doc) => {
+      let data = doc.data();
+      let nodes = data?.nodes;
+      let upcs = data?.upcs;
+      for (let i = 0; i < nodes.length; i++) {
+        auxNodos[upcs[i]] = nodes[i];
       }
     });
 
@@ -42,13 +62,21 @@ export const ProductProvider = ({ children }) => {
     let auxCategories = categories;
     const productsCollection = collection(db, 'Productos');
     const fetchedProducts = await getDocs(productsCollection);
-    fetchedProducts.forEach(doc => {
+    fetchedProducts.forEach((doc) => {
       let data = doc.data();
-      if (!auxCategories?.categories?.[data.Categoria]?.products.find(product => product.id ===  doc.id)) {
-        auxCategories?.categories?.[data.Categoria]?.products.push({...data, id: doc.id});
+      if (
+        !auxCategories?.categories?.[data.Categoria]?.products.find(
+          (product) => product.id === doc.id
+        )
+      ) {
+        auxCategories?.categories?.[data.Categoria]?.products.push({
+          ...data,
+          id: doc.id,
+          node: auxNodos[data.UPC],
+        });
       }
     });
-    setCategories({...auxCategories, isLoading: false });
+    setCategories({ ...auxCategories, isLoading: false });
   };
 
   useEffect(() => {
@@ -64,11 +92,7 @@ export const ProductProvider = ({ children }) => {
         categories,
         getCategories,
       }}>
-      {authState.isLoading || categories.isLoading ? (
-        <Loading/>
-      ) : (
-        children
-      )}
+      {authState.isLoading || categories.isLoading ? <Loading /> : children}
     </ProductContext.Provider>
   );
 };
