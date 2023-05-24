@@ -87,3 +87,7 @@ select {
     color: white;
     background-color: #9DA2B0;
 }
+.not-warning {
+    color: rgb(119, 103, 13);
+    background-color: rgb(255, 229, 112);
+}

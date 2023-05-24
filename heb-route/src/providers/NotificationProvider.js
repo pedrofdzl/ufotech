@@ -8,6 +8,7 @@ import { Text } from '../components/ui/Text';
 
 // Icons
 import { BsCheckLg } from 'react-icons/bs';
+import { AiOutlineWarning } from 'react-icons/ai';
 
 // Utils
 import { delay } from '../utils/utils';
@@ -57,6 +58,9 @@ export const NotificationProvider = ({ children }) => {
           {(currentNotification?.type === 'success' ||
             currentNotification?.type === 'success-variant') && (
             <BsCheckLg style={{ fontSize: 18 }} />
+          )}
+          {currentNotification?.type === 'warning' && (
+            <AiOutlineWarning style={{ fontSize: 18 }} />
           )}
           <Text variant={'b2'}>{currentNotification?.message}</Text>
         </div>

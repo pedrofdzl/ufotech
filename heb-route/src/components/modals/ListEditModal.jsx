@@ -9,18 +9,20 @@ import '../../stylesheets/Modals.css';
 // Providers
 import { ListContext } from '../../providers/ListProvider';
 import { ModalContext } from '../../providers/ModalProvider';
+import { NotificationContext } from '../../providers/NotificationProvider';
 
 // Components
 import { Modal } from './Modal';
 
 export const ListEditModal = () => {
-  const { getMyLists, resetMyLists, updateList, deleteList } =
+  const { getLists, resetMyLists, updateList, deleteList } =
     useContext(ListContext);
   const {
     listEditModalPayload,
     setListEditModalOpen,
     setListEditModalPayload,
   } = useContext(ModalContext);
+  const { queueNotification } = useContext(NotificationContext);
 
   const [deleting, setDeleting] = useState(false);
 
@@ -40,7 +42,7 @@ export const ListEditModal = () => {
       list: listEditModalPayload.currentList,
       name: listEditModalPayload.currentName,
       success: () => {
-        getMyLists();
+        getLists();
         setListEditModalOpen(false);
         setSubmitButtonLoading(false);
       },
@@ -87,17 +89,34 @@ export const ListEditModal = () => {
           Confirmar eliminación
         </Button>
       ) : (
-        <Button
-          variant={'add-large'}
-          styles={{ marginTop: 16 }}
-          disabled={!submitButtonActive}
-          loading={submitButtonLoading}
-          callbackFunction={() => {
-            setSubmitButtonLoading(true);
-            submitHandler();
-          }}>
-          Actualizar
-        </Button>
+        <>
+          {' '}
+          <Button
+            variant={'disabled'}
+            styles={{ marginTop: 16, color: 'white', fontSize: 18 }}
+            callbackFunction={() => {
+              queueNotification({
+                message: 'Link de invitación copiado!',
+                type: 'success',
+              });
+              navigator.clipboard.writeText(
+                `https://heb-route.web.app/dashboard/?listInviteID=${listEditModalPayload.currentList}`
+              );
+            }}>
+            Compartir lista
+          </Button>
+          <Button
+            variant={'add-large'}
+            styles={{ marginTop: 8 }}
+            disabled={!submitButtonActive}
+            loading={submitButtonLoading}
+            callbackFunction={() => {
+              setSubmitButtonLoading(true);
+              submitHandler();
+            }}>
+            Actualizar
+          </Button>
+        </>
       )}
       {deleting ? (
         <Button

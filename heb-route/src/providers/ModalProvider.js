@@ -5,6 +5,7 @@ import { ListEditModal } from '../components/modals/ListEditModal';
 import { ListProductModal } from '../components/modals/ListProductModal';
 import { ProductModal } from '../components/modals/ProductModal';
 import { ListModal } from '../components/modals/ListModal';
+import { JoinModal } from '../components/modals/JoinModal';
 
 // Stylesheets
 import '../stylesheets/Modals.css';
@@ -34,6 +35,10 @@ const defaultModalContext = {
     currentList: null,
     onClose: () => {},
   },
+  joinModalOpen: false,
+  joinModalPayload: {
+    currentList: null,
+  },
   setProductModalOpen: () => {},
   setProductModalPayload: () => {},
   setListModalOpen: () => {},
@@ -42,6 +47,8 @@ const defaultModalContext = {
   setListProductModalPayload: () => {},
   setListEditModalOpen: () => {},
   setListEditModalPayload: () => {},
+  setJoinModalOpen: () => {},
+  setJoinModalPayload: () => {},
 };
 
 export const ModalContext = React.createContext(defaultModalContext);
@@ -70,6 +77,12 @@ export const ModalProvider = ({ children }) => {
   );
   const [listEditModalPayload, setListEditModalPayload] = useState(
     defaultModalContext.listEditModalPayload
+  );
+  const [joinModalOpen, setJoinModalOpen] = useState(
+    defaultModalContext.joinModalOpen
+  );
+  const [joinModalPayload, setJoinModalPayload] = useState(
+    defaultModalContext.joinModalPayload
   );
 
   useEffect(() => {
@@ -101,6 +114,8 @@ export const ModalProvider = ({ children }) => {
         listProductModalPayload,
         listEditModalOpen,
         listEditModalPayload,
+        joinModalOpen,
+        joinModalPayload,
         setProductModalOpen,
         setProductModalPayload,
         setListModalOpen,
@@ -109,11 +124,14 @@ export const ModalProvider = ({ children }) => {
         setListProductModalPayload,
         setListEditModalOpen,
         setListEditModalPayload,
+        setJoinModalOpen,
+        setJoinModalPayload,
       }}>
       {listEditModalOpen && <ListEditModal />}
       {listProductModalOpen && <ListProductModal />}
       {productModalOpen && <ProductModal />}
       {listModalOpen && <ListModal />}
+      {joinModalOpen && <JoinModal />}
       {children}
     </ModalContext.Provider>
   );

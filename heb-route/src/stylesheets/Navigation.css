@@ -20,7 +20,7 @@
     outline: 0;
     background-color: transparent;
 }
-.bottom-navigation button:hover {
+.bottom-navigation button:active {
     background-color: #f3f3f3 !important;
     border-radius: 50%;
 }

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 
 // UI
 import { Button } from '../ui/Button';
+import { Text } from '../ui/Text';
 
 // Stylesheets
 import '../../stylesheets/Modals.css';
@@ -14,60 +15,48 @@ import { UserInformationContext } from '../../providers/UserInformationProvider'
 // Components
 import { Modal } from './Modal';
 
-export const ListModal = () => {
-  const { getLists, createList } = useContext(ListContext);
+export const JoinModal = () => {
+  const { joinList, fetchList } = useContext(ListContext);
   const { userInformation } = useContext(UserInformationContext);
-  const { listModalPayload, setListModalOpen, setListModalPayload } =
+  const { joinModalPayload, setJoinModalOpen, setJoinModalPayload } =
     useContext(ModalContext);
 
+  const [listName, setListName] = useState('Lista');
   const [submitButtonActive, setSubmitButtonActive] = useState(false);
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
 
   useEffect(() => {
-    if (listModalPayload.currentName?.length > 0) {
-      setSubmitButtonActive(true);
-    } else {
-      setSubmitButtonActive(false);
-    }
-  }, [listModalPayload]);
-
+    const asyncFetchList = async () => {
+      const auxListName = await fetchList(joinModalPayload.currentList);
+      setListName(auxListName);
+    };
+    asyncFetchList();
+  }, [joinModalPayload]);
+  
   const submitHandler = () => {
-    createList({
-      name: listModalPayload.currentName,
-      owner: userInformation.email,
-      success: (lista) => {
-        getLists();
-        setListModalOpen(false);
+    joinList({
+      list: joinModalPayload.currentList,
+      userEmail: userInformation.email,
+      success: () => {
+        setJoinModalOpen(false);
         setSubmitButtonLoading(false);
       },
     });
   };
 
   return (
-    <Modal setIsOpen={setListModalOpen} title={'Nueva lista'}>
-      <input
-        type='text'
-        id='nombreLista'
-        placeholder='Nombre'
-        style={{ marginBottom: 0 }}
-        onChange={(e) =>
-          setListModalPayload({
-            ...listModalPayload,
-            currentName: e.target.value,
-          })
-        }
-      />
+    <Modal setIsOpen={setJoinModalOpen} title={'Unirse a lista'}>
+      <Text variant={'b4'} styles={{ fontWeight: 300, marginTop: 0 }}>Has sido invitado a unirte a la lista: <span>"{listName}".</span></Text>
 
       <Button
         variant={'add-large'}
         styles={{ marginTop: 16 }}
-        disabled={!submitButtonActive}
         loading={submitButtonLoading}
         callbackFunction={() => {
           setSubmitButtonLoading(true);
           submitHandler();
         }}>
-        Crear
+        Unirse
       </Button>
     </Modal>
   );

@@ -8,6 +8,7 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 import { ListContext } from '../providers/ListProvider';
 import { ProductContext } from '../providers/ProductProvider';
 import { ModalContext } from '../providers/ModalProvider';
+import { UserInformationContext } from '../providers/UserInformationProvider';
 
 // Components
 import { Button } from '../components/ui/Button';
@@ -36,9 +37,10 @@ const List = () => {
     setListEditModalOpen,
     setListEditModalPayload,
   } = useContext(ModalContext);
+  const { userInformation } = useContext(UserInformationContext);
 
   const [list, setList] = useState(lists.myLists[listID]);
-
+  const [isOwner] = useState(userInformation.email === list.owner);
   const [listTotal, setListTotal] = useState(lists.myLists[listID].total);
 
   useEffect(() => {
@@ -71,9 +73,9 @@ const List = () => {
 
   const goBack = () => {
     navigate({
-      pathname: (location.state?.prev) ? location.state.prev : '/',
-      search: (location.state?.search) ? location.state.search : ''
-    })
+      pathname: location.state?.prev ? location.state.prev : '/',
+      search: location.state?.search ? location.state.search : '',
+    });
   };
 
   return (
@@ -82,17 +84,23 @@ const List = () => {
       <div className='safe-area'>
         <div className='view-header'>
           <Text variant={'h1'}>{list.name}</Text>
-          <FiMoreHorizontal onClick={() => openListEditModal()} style={{ fontSize: 24, paddingRight: 8 }} />
+          {isOwner && (
+            <FiMoreHorizontal
+              onClick={() => openListEditModal()}
+              style={{ fontSize: 24, paddingRight: 8 }}
+            />
+          )}
         </div>
         <Text variant={'small'} styles={{ margin: 0 }}>
           Creada por {list.owner} el {list?.createdDate.getDate()} de{' '}
           {monthString[list?.createdDate.getMonth()]}.{' '}
           {list?.createdDate.getFullYear()}
         </Text>
-
+        <br />
         {Object.keys(list.products).map((product) => {
-          const currentProduct = categories.categories[list.products[product].category].products.find(
-            (auxProduct) => auxProduct.id === product);
+          const currentProduct = categories.categories[
+            list.products[product].category
+          ].products.find((auxProduct) => auxProduct.id === product);
           return (
             <div
               key={product}
@@ -115,13 +123,24 @@ const List = () => {
                   alt={currentProduct.Nombre}
                 />
                 <div>
-                  <Text
-                    variant={'b1'}
-                    styles={{ marginTop: 0, marginBottom: 2, fontSize: 16 }}>
-                    {currency(
-                      list.products[currentProduct.id].quantity * currentProduct.Precio
+                  <div
+                    style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
+                    <Text
+                      variant={'b1'}
+                      styles={{ marginTop: 0, marginBottom: 2, fontSize: 16 }}>
+                      {currency(
+                        list.products[currentProduct.id].quantity *
+                          currentProduct.Precio
+                      )}
+                    </Text>
+                    {list.products[currentProduct.id]?.addedBy && (
+                      <Text
+                        variant={'b3'}
+                        styles={{ margin: 0, marginBottom: 2 }}>
+                        / {currentProduct.Capacidad} {currentProduct.Unidad}
+                      </Text>
                     )}
-                  </Text>
+                  </div>
                   <Text
                     variant={'b1'}
                     styles={{
@@ -132,9 +151,19 @@ const List = () => {
                     }}>
                     {truncate(currentProduct.Nombre, 28)}
                   </Text>
-                  <Text variant={'b3'} styles={{ margin: 0 }}>
-                    {currentProduct.Capacidad} {currentProduct.Unidad}
-                  </Text>
+                  {list.products[currentProduct.id]?.addedBy ? (
+                    <Text
+                      variant={'b3'}
+                      styles={{ margin: 0, marginBottom: 2 }}>
+                      Agregado por {list.products[currentProduct.id]?.addedBy}
+                    </Text>
+                  ) : (
+                    <Text
+                      variant={'b3'}
+                      styles={{ margin: 0, marginBottom: 2 }}>
+                      {currentProduct.Capacidad} {currentProduct.Unidad}
+                    </Text>
+                  )}
                 </div>
               </div>
               <div
@@ -144,7 +173,9 @@ const List = () => {
                   alignItems: 'center',
                 }}>
                 <div className='list-product-quantity'>
-                  <Text variant={'b1'}>{list.products[currentProduct.id].quantity}</Text>
+                  <Text variant={'b1'}>
+                    {list.products[currentProduct.id].quantity}
+                  </Text>
                 </div>
               </div>
             </div>
@@ -153,17 +184,21 @@ const List = () => {
       </div>
       <div className='list-bottom'>
         <div style={{ display: 'flex', flexDirection: 'column', margin: 24 }}>
-          <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Total</Text>
+          <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>
+            Total
+          </Text>
           <Text styles={{ fontSize: 24 }}>{currency(listTotal)}</Text>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
           <Button variant='add-large'>Iniciar ruta</Button>
         </div>
       </div>
-      {Object.keys(list.products).length <= 0 && <div className='list-empty'>
-        <Text variant={'b4'}>No has agregado productos a esta lista</Text>
-        <Button>Ir a catalogo</Button>
-      </div>}
+      {Object.keys(list.products).length <= 0 && (
+        <div className='list-empty'>
+          <Text variant={'b4'}>No has agregado productos a esta lista</Text>
+          <Button>Ir a catalogo</Button>
+        </div>
+      )}
     </>
   );
 };
