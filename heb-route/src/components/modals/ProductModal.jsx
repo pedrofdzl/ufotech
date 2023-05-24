@@ -120,18 +120,30 @@ export const ProductModal = () => {
         </div>
       </div>
 
+      <Text variant={'h5'} styles={{ margin: 0, marginTop: 8 }}>Lista seleccionada</Text>
+
       <select
         name='select'
         id='select'
         onChange={handleSelectList}
         defaultValue={productModalPayload.selectedList}>
-        <option value=''>------------</option>
+        {Object.keys(lists.myLists).length <= 0 && (
+          <option value=''>------------</option>
+        )}
         {Object.keys(lists.myLists).map((lista) => {
-          return (
-            <option value={lista} key={lista}>
-              {lists.myLists[lista].name}
-            </option>
-          );
+          if (lists.myLists[lista].type === 'private') {
+            return (
+              <option value={lista} key={lista}>
+                👤 {lists.myLists[lista].name}
+              </option>
+            );
+          } else {
+            return (
+              <option value={lista} key={lista}>
+                👥 {lists.myLists[lista].name}
+              </option>
+            );
+          }
         })}
       </select>
 
