@@ -25,7 +25,6 @@ import { NotificationContext } from './NotificationProvider';
 const defaultListContext = {
   lists: {
     myLists: {},
-    sharedLists: {},
     isLoading: true,
   },
   getLists: async () => {},
@@ -84,6 +83,7 @@ export const ListProvider = ({ children }) => {
     } else {
       setLists({ myLists: {}, isLoading: false });
     }
+    setLists({ ...lists, isLoading: false });
   };
 
   const resetMyLists = async () => {
