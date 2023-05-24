@@ -223,7 +223,7 @@ export const ListProvider = ({ children }) => {
       listData.Collaborators = [];
     }
 
-    if (!listData?.Owner === userEmail && !listData?.Collaborators?.find((user) => user == userEmail)) {
+    if (listData?.Owner !== userEmail && !(listData?.Collaborators?.find((user) => user === userEmail))) {
       listData.Collaborators.push(userEmail);
       updateDoc(listRef, listData).then(() => {
         queueNotification({
