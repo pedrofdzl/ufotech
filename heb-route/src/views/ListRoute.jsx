@@ -15,6 +15,7 @@ import Canvas from '../components/simulation/Canvas'
 
 // Utils
 import { truncate } from '../utils/utils';
+import { currency } from '../utils/utils';
 
 // Stylesheets
 import '../stylesheets/Route.css';
@@ -46,12 +47,6 @@ const ListRoute = () => {
   const [nodeProducts, setNodeProducts] = useState({});
   const [widthCanvas, setWidthCanvas] = useState(0);
   const [heightCanvas, setHeightCanvas] = useState(0);
-
-  const handlePop = () => {
-    const auxNodeQueue = [...nodeQueue];
-    auxNodeQueue.pop();
-    setNodeQueue(auxNodeQueue);
-  };
 
   const handleChange = (newValue) => {
     setNodeQueue(newValue);
@@ -108,7 +103,9 @@ const ListRoute = () => {
   }, []);
 
   const pickUpProduct = (node, productID) => {
-    handlePop();
+    const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
+    const poppedQueue = auxNodeQueue.slice(0, -1);
+    setNodeQueue(poppedQueue);
   };
 
   return (
@@ -121,10 +118,10 @@ const ListRoute = () => {
         {nodeQueue.map((node, index) => {
           return (
             <>
-              {index === 0 && <Text variant='h3'>Recoge ahora</Text>}
-              {index === 1 && <Text variant='h3'>Siguientes productos</Text>}
+              {index === nodeQueue.length - 2 && <Text variant='h3'>Recoge ahora</Text>}
+              {index === nodeQueue.length - 3 && <Text variant='h3'>Siguientes productos</Text>}
               <div key={node}>
-                {nodeProducts[node].map((product) => {
+                {nodeProducts[nodeQueue[nodeQueue.length - 1 - index]].map((product) => {
                   return (
                     <div key={product.productID} className='route-product'>
                       <div
@@ -145,8 +142,8 @@ const ListRoute = () => {
                               marginBottom: 2,
                               fontSize: 16,
                             }}>
-                            {list.products[product.product.id].quantity *
-                              product.product.Precio}
+                            {currency(list.products[product.product.id].quantity *
+                              product.product.Precio)}
                           </Text>
                           <Text
                             variant={'b1'}
@@ -156,7 +153,7 @@ const ListRoute = () => {
                               fontWeight: 400,
                               fontSize: 15,
                             }}>
-                            {truncate(product.product.Nombre, 2)}
+                            {truncate(product.product.Nombre, 24)}
                             {` (${product.quantity})`}
                           </Text>
                           <Text variant={'b3'} styles={{ margin: 0 }}>
