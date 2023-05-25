@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useRef, useEffect, useState, useLayoutEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Navigation
@@ -11,12 +11,26 @@ import { ProductContext } from '../providers/ProductProvider';
 // Components
 import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
+import Canvas from '../components/simulation/Canvas'
 
 // Utils
 import { truncate } from '../utils/utils';
 
 // Stylesheets
 import '../stylesheets/Route.css';
+
+// Styles
+import styled from '@emotion/styled';
+
+const CanvasBox = styled.div`
+    box-sizing: border-box;
+    border: 1px solid #000000;
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+`;
 
 const ListRoute = () => {
   const navigate = useNavigate();
@@ -30,7 +44,39 @@ const ListRoute = () => {
   const [list] = useState(lists.myLists[listID]);
   const [nodeQueue, setNodeQueue] = useState([]);
   const [nodeProducts, setNodeProducts] = useState({});
+  const [widthCanvas, setWidthCanvas] = useState(0);
+  const [heightCanvas, setHeightCanvas] = useState(0);
 
+  const handlePop = () => {
+    const auxNodeQueue = [...nodeQueue];
+    auxNodeQueue.pop();
+    setNodeQueue(auxNodeQueue);
+  };
+
+  const handleChange = (newValue) => {
+    setNodeQueue(newValue);
+  };
+
+  const canvasSizeRef = useRef(null);
+  let timeOut;
+  useLayoutEffect(() => {
+    setWidthCanvas(canvasSizeRef.current.offsetWidth);
+    setHeightCanvas(canvasSizeRef.current.offsetHeight);
+
+    const handleResize = () => {
+      clearTimeout(timeOut);
+      timeOut = setTimeout(() => {
+        setWidthCanvas(canvasSizeRef.current.offsetWidth);
+        setHeightCanvas(canvasSizeRef.current.offsetHeight);
+      }, 100);
+    }
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -62,13 +108,15 @@ const ListRoute = () => {
   }, []);
 
   const pickUpProduct = (node, productID) => {
-    console.log(node, productID);
+    handlePop();
   };
 
   return (
     <>
       <HeaderNavitagion />
-      <div className='route-simulation-container'></div>
+      <div className='route-simulation-container' ref={canvasSizeRef}>
+      <CanvasBox> { nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} width={widthCanvas} height={heightCanvas}/> }</CanvasBox>
+      </div>
       <div className='route-paper-container'>
         {nodeQueue.map((node, index) => {
           return (
@@ -108,7 +156,7 @@ const ListRoute = () => {
                               fontWeight: 400,
                               fontSize: 15,
                             }}>
-                            {truncate(product.product.Nombre, 28)}
+                            {truncate(product.product.Nombre, 2)}
                             {` (${product.quantity})`}
                           </Text>
                           <Text variant={'b3'} styles={{ margin: 0 }}>
