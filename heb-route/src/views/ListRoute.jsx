@@ -25,7 +25,6 @@ import styled from '@emotion/styled';
 
 const CanvasBox = styled.div`
     box-sizing: border-box;
-    border: 1px solid #000000;
     margin: 0 auto;
     display: block;
     max-width: 100%;
