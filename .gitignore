@@ -1,0 +1,6 @@
+cloud-functions/getMySupportTickets/node_modules
+cloud-functions/getMySupportTickets/.env.yaml
+
+
+cloud-functions/createSupportTicket/node_modules
+cloud-functions/createSupportTicket/.env.yaml
