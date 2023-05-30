@@ -22,6 +22,7 @@ import Category from '../views/Category';
 import Product from '../views/Product';
 import Search from '../views/Search';
 import List from '../views/List';
+import Support from '../views/Support';
 
 const AppRouter = () => {
   return (
@@ -38,6 +39,7 @@ const AppRouter = () => {
         <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
         <Route exact path='/lists/:listID' element={<PrivateRoute><List/></PrivateRoute>} />
 
+        <Route exact path="/support" element={<PrivateRoute><Support/></PrivateRoute>} />
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
       </Routes>
     </BrowserRouter>
