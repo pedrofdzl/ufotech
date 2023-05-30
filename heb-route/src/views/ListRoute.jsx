@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState, useLayoutEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Route } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -9,7 +9,7 @@ import { ListContext } from '../providers/ListProvider';
 import { ProductContext } from '../providers/ProductProvider';
 
 // Components
-import { Button } from '../components/ui/Button';
+import { RouteItem } from '../components/simulation/RouteItem';
 import { Text } from '../components/ui/Text';
 import Canvas from '../components/simulation/Canvas'
 
@@ -70,7 +70,7 @@ const ListRoute = () => {
       window.removeEventListener('resize', handleResize);
     }
   }, []);
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -96,76 +96,60 @@ const ListRoute = () => {
       }
       auxNodeProducts[productObject.node].push(auxProduct);
     });
-
+    console.log(auxNodeQueue)
     setNodeProducts(auxNodeProducts);
     setNodeQueue(auxNodeQueue);
   }, []);
 
+  useEffect(() => {
+    if (nodeQueue.length > 1) {
+      console.log(nodeProducts)
+      const node = nodeQueue[nodeQueue.length - 1];
+      var allPicked = true;
+      nodeProducts[node].forEach((nodeProduct, index) => {
+        if (nodeProducts[node][index].picked === false) allPicked = false;
+      });
+      if (allPicked) {
+        const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
+        const poppedQueue = auxNodeQueue.slice(0, -1);
+        setNodeQueue(poppedQueue);
+        console.log(poppedQueue)
+      }
+    }
+  }, [nodeProducts]);
+
   const pickUpProduct = (node, productID) => {
-    const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
-    const poppedQueue = auxNodeQueue.slice(0, -1);
-    setNodeQueue(poppedQueue);
+    nodeProducts[node].forEach((nodeProduct, index) => {
+      let auxNode = nodeProducts[node];
+      if (nodeProduct.productID === productID) {
+        auxNode[index].picked = true;
+        setNodeProducts({...nodeProducts, node: auxNode });
+      }
+    });
   };
 
   return (
     <>
       <HeaderNavitagion />
       <div className='route-simulation-container' ref={canvasSizeRef}>
-      <CanvasBox> { nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} width={widthCanvas} height={heightCanvas}/> }</CanvasBox>
+        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
       </div>
       <div className='route-paper-container'>
-        {nodeQueue.map((node, index) => {
+        {nodeQueue.slice().reverse().map((node, index) => {
           return (
-            <>
-              {index === nodeQueue.length - 2 && <Text variant='h3'>Recoge ahora</Text>}
-              {index === nodeQueue.length - 3 && <Text variant='h3'>Siguientes productos</Text>}
+            <div key={index}>
+              {index === 0 && <Text variant='h3'>Recoge ahora</Text>}
+              {index === 1 && <Text variant='h3'>Siguientes productos</Text>}
               <div key={node}>
-                {nodeProducts[nodeQueue[nodeQueue.length - 1 - index]].map((product) => {
-                  return (
-                    <div key={product.productID} className='route-product'>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        <img
-                          src={product.product['Link Imagen']}
-                          alt={product.product.Nombre}
-                        />
-                        <div>
-                          <Text
-                            variant={'b1'}
-                            styles={{
-                              marginTop: 0,
-                              marginBottom: 2,
-                              fontSize: 16,
-                            }}>
-                            {currency(list.products[product.product.id].quantity *
-                              product.product.Precio)}
-                          </Text>
-                          <Text
-                            variant={'b1'}
-                            styles={{
-                              marginTop: 0,
-                              marginBottom: 4,
-                              fontWeight: 400,
-                              fontSize: 15,
-                            }}>
-                            {truncate(product.product.Nombre, 24)}
-                            {` (${product.quantity})`}
-                          </Text>
-                          <Text variant={'b3'} styles={{ margin: 0 }}>
-                            {product.product.Capacidad} {product.product.Unidad}
-                          </Text>
-                        </div>
-                      </div>
-                      <Button callbackFunction={() => pickUpProduct(node, product.product.id)} styles={{ width: 100 }}>Recoger</Button>
-                    </div>
-                  );
+                {nodeProducts[node].map((product) => {
+                  return (<RouteItem
+                    product={product}
+                    node={node}
+                    quantity={list.products[product.product.id].quantity}
+                    callbackFunction={pickUpProduct} />);
                 })}
               </div>
-            </>
+            </div>
           );
         })}
       </div>
