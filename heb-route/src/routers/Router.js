@@ -22,12 +22,16 @@ import Category from '../views/Category';
 import Product from '../views/Product';
 import Search from '../views/Search';
 import List from '../views/List';
+<<<<<<< HEAD
 import ListRoute from '../views/ListRoute';
 
 // Error View
 import Error404 from '../views/404';
 import TestError from '../views/TestError';
 import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
+=======
+import Support from '../views/Support';
+>>>>>>> b72fef6 (se hizo la pantalla de support)
 
 const AppRouter = () => {
   return (
@@ -45,6 +49,7 @@ const AppRouter = () => {
         <Route exact path='/lists/:listID' element={<PrivateRoute><RoutingErrorBoundary><List/></RoutingErrorBoundary></PrivateRoute>} />
         <Route exact path='/route/:listID' element={<PrivateRoute><RoutingErrorBoundary><ListRoute/></RoutingErrorBoundary></PrivateRoute>} />
 
+        <Route exact path="/support" element={<PrivateRoute><Support/></PrivateRoute>} />
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
         <Route path='*' element={<Error404/>} />
 
