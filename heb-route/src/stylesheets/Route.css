@@ -16,9 +16,27 @@
 .route-product {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
 }
 .route-product img {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--gray);
+    margin: 8px;
+}
+.check {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: var(--success);
 }
