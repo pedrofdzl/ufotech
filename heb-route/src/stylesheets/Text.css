@@ -90,6 +90,16 @@ body {
     color: #EE2E24;
 }
 
+.b2 {
+    color: #9DA2B0;
+    font-size: 18px;
+    font-weight: 400;
+}
+.b2 span {
+    font-weight: 400;
+    color: #EE2E24;
+}
+
 .b3 {
     color: #9DA2B0;
     font-size: 14px;
