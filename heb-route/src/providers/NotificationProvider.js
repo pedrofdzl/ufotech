@@ -62,7 +62,7 @@ export const NotificationProvider = ({ children }) => {
           {currentNotification?.type === 'warning' && (
             <AiOutlineWarning style={{ fontSize: 18 }} />
           )}
-          <Text variant={'b2'}>{currentNotification?.message}</Text>
+          <Text variant={'b22'}>{currentNotification?.message}</Text>
         </div>
       </div>
     );
