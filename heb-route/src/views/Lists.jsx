@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Providers
 import { ListContext } from '../providers/ListProvider';
@@ -28,7 +28,6 @@ const Lists = () => {
 
   const [selectedTab, setSelectedTab] = useState(1);
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const Lists = () => {
       {selectedTab === 1 && (
         <>
           {Object.keys(lists?.myLists).map((lista) => {
-            if (lists.myLists[lista].type == 'private') {
+            if (lists.myLists[lista].type === 'private') {
               return (
                 <div key={lista}>
                   <Link
@@ -157,7 +156,7 @@ const Lists = () => {
       {selectedTab === 2 && (
         <>
           {Object.keys(lists?.myLists).map((lista) => {
-            if (lists.myLists[lista].type == 'shared') {
+            if (lists.myLists[lista].type === 'shared') {
               return (
                 <div key={lista}>
                   <Link

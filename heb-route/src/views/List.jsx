@@ -45,10 +45,10 @@ const List = () => {
     throw new http404('List Not Found!');
   }
 
-  if (!(listID in lists.myLists)){
-    throw new http404('List Not Found!');
-  }
-
+<<<<<<< HEAD
+  
+=======
+>>>>>>> 347042be4b7283e106a4c97af31981605b896dfb
   const [list, setList] = useState(lists.myLists[listID]);
   const [isOwner] = useState(userInformation.email === list.owner);
   const [listTotal, setListTotal] = useState(lists.myLists[listID].total);
@@ -61,7 +61,7 @@ const List = () => {
   useEffect(() => {
     setList(lists.myLists[listID]);
     setListTotal(lists.myLists[listID].total);
-  }, [lists]);
+  }, [lists, listID]);
 
   useEffect(() => {
     setRouteReady(Object.keys(list.products).length > 0 ? true : false);
