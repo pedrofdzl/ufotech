@@ -28,7 +28,13 @@ export const JoinModal = () => {
   useEffect(() => {
     const asyncFetchList = async () => {
       const auxListName = await fetchList(joinModalPayload.currentList);
-      setListName(auxListName);
+      if (auxListName) {
+        setListName(auxListName);
+        setSubmitButtonActive(true);
+      } else {
+        setListName('');
+        setSubmitButtonActive(false);
+      }
     };
     asyncFetchList();
   }, [joinModalPayload]);
@@ -46,12 +52,13 @@ export const JoinModal = () => {
 
   return (
     <Modal setIsOpen={setJoinModalOpen} title={'Unirse a lista'}>
-      <Text variant={'b4'} styles={{ fontWeight: 300, marginTop: 0 }}>Has sido invitado a unirte a la lista: <span>"{listName}".</span></Text>
-
+      {submitButtonActive && <Text variant={'b4'} styles={{ fontWeight: 300, marginTop: 0 }}>Has sido invitado a unirte a la lista: <span>"{listName}".</span></Text> }
+      {!submitButtonActive && <Text variant={'b4'} styles={{ fontWeight: 300, marginTop: 0 }}>Al parecer esta lista no existe</Text> }
       <Button
         variant={'add-large'}
         styles={{ marginTop: 16 }}
         loading={submitButtonLoading}
+        disabled={!submitButtonActive}
         callbackFunction={() => {
           setSubmitButtonLoading(true);
           submitHandler();

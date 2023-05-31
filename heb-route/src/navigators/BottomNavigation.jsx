@@ -37,8 +37,10 @@ const BottomNavigation = () => {
         currentList: listInviteID,
       });
       setJoinModalOpen(true);
+      searchParams.delete('listInviteID');
+      setSearchParams(searchParams);
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <>
