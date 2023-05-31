@@ -37,6 +37,8 @@ const SupportTicket = () => {
 
    setError(false)
    setErrorMessage('')
+   setAsunto('')
+   setContenido('')
    navigate('/support',{replace: true})
   }
 
