@@ -22,16 +22,13 @@ import Category from '../views/Category';
 import Product from '../views/Product';
 import Search from '../views/Search';
 import List from '../views/List';
-<<<<<<< HEAD
 import ListRoute from '../views/ListRoute';
 
 // Error View
 import Error404 from '../views/404';
 import TestError from '../views/TestError';
 import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
-=======
 import Support from '../views/Support';
->>>>>>> b72fef6 (se hizo la pantalla de support)
 
 const AppRouter = () => {
   return (
