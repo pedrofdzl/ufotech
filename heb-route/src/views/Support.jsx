@@ -3,10 +3,14 @@ import React, {useState, useContext} from "react";
 // Providers
 import { UserInformationContext } from "../providers/UserInformationProvider";
 
+// Stylesheets
+import '../stylesheets/Button.css';
+
 const Support = () => {
   const [asunto, setAsunto] = useState('');
   const [contenido, setContenido] = useState('');
   const [error, setError] = useState(false);
+  const [enviado, setEnviado] = useState(false);
   const { userInformation } = useContext(UserInformationContext);
 
   const submitHandler = async(Event) => {
@@ -14,6 +18,9 @@ const Support = () => {
 
     if(!contenido || !asunto ){
       setError(true);
+      return
+    } else {
+      setEnviado(true);
       return
     }
 
@@ -55,7 +62,9 @@ const Support = () => {
 
  return <>
   <h1>Support</h1>
-  {error && <h4>Algo salió mal, verifica que la información sea correcta</h4>}
+  {error && <h4>Algo salió mal, verifica que la información sea correcta.</h4>}
+  {enviado && <h4>El formulario se envió correctamente.</h4>}
+
 
   <form onSubmit={submitHandler}>
     <label>Asunto</label>
@@ -65,10 +74,10 @@ const Support = () => {
 
     <label>Contenido</label>
     <div>
-      <textarea type='text' name='contenido' id='contenido' value={contenido} onChange={contenidoHandler}> </textarea>
+      <textarea type='text' name='contenido' id='contenido' value={contenido} onChange={contenidoHandler} > </textarea>
     </div>
 
-    <button type='submit'>Enviar</button>
+    <button type='submit' className="btn" >Enviar</button>
   </form>
  </>
 }
