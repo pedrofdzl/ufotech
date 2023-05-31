@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from '../firebase/firebase';
 import {doc, updateDoc } from  'firebase/firestore';
 
@@ -18,6 +18,7 @@ const Profile = () => {
   const { providerLogout } = useContext(AuthContext);
   const { userInformation, getUserInformation } = useContext(UserInformationContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [editing, setEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -93,6 +94,7 @@ const Profile = () => {
           <input type="text" value={lastName} readOnly/>
 
           <Button callbackFunction={editHandler}>Editar</Button>
+          <Button callbackFunction={() =>{navigate('/support', {state: {prev: location.pathname, search: location.search}})}}>Soporte</Button>
         
           <Button variant={'secondary'} callbackFunction={() => logout()}>Cerrar sesión</Button>    
           </>}

@@ -23,12 +23,14 @@ import Product from '../views/Product';
 import Search from '../views/Search';
 import List from '../views/List';
 import ListRoute from '../views/ListRoute';
+import Support from '../views/Support';
+import SupportTicket from '../views/SupportTicket';
+import SupportTickets from '../views/SupportTickets';
 
 // Error View
 import Error404 from '../views/404';
 import TestError from '../views/TestError';
 import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
-import Support from '../views/Support';
 
 const AppRouter = () => {
   return (
@@ -47,6 +49,9 @@ const AppRouter = () => {
         <Route exact path='/route/:listID' element={<PrivateRoute><RoutingErrorBoundary><ListRoute/></RoutingErrorBoundary></PrivateRoute>} />
 
         <Route exact path="/support" element={<PrivateRoute><Support/></PrivateRoute>} />
+        <Route exact path='/support-ticket' element={<PrivateRoute><SupportTicket/></PrivateRoute>} />
+        <Route exact path='/support-tickets' element={<PrivateRoute><SupportTickets/></PrivateRoute>} />
+
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
         <Route path='*' element={<Error404/>} />
 
