@@ -6,10 +6,14 @@ import { ListProvider } from './providers/ListProvider';
 import { ModalProvider } from './providers/ModalProvider';
 import { NotificationProvider } from './providers/NotificationProvider';
 
+// Error Boundary
+import ErrorBoundary from './errorhandling/errorboundary';
+
 import './stylesheets/Global.css';
 
 function App() {
   return (
+    <ErrorBoundary>
     <NotificationProvider>
       <AuthProvider>
         <UserInformationProvider>
@@ -23,6 +27,7 @@ function App() {
         </UserInformationProvider>
       </AuthProvider>
     </NotificationProvider>
+    </ErrorBoundary>
   );
 }
 

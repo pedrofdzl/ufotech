@@ -55,7 +55,7 @@ const Dashboard = (props) => {
           <Text variant={'b2'}>Sucursal Av. Manuel Gómez Morín</Text>
         </div>
         <div className='dashboard-profile-picture'>
-          <img src='https://media.newyorker.com/photos/5ba177da9eb2f7420aadeb98/1:1/w_1003,h_1003,c_limit/Cohen-Linus-Torvalds.jpg' />
+          <img src='https://media.newyorker.com/photos/5ba177da9eb2f7420aadeb98/1:1/w_1003,h_1003,c_limit/Cohen-Linus-Torvalds.jpg' alt={'profile-pic'} />
         </div>
       </div>
       <form style={{ position: 'relative' }} onSubmit={searchHandler}>
@@ -105,7 +105,7 @@ const Dashboard = (props) => {
                 .slice(0, 5)
                 .map((product) => {
                   return (
-                    <ProductCard product={product} category={category} />
+                    <ProductCard product={product} category={category} key={product.id} />
                   );
                 })}
               <Link

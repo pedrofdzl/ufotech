@@ -34,7 +34,7 @@ import { currency } from '../../utils/utils';
 // Icons
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
-export const ProductModal = () => {
+export const ProductModal = props => {
   const { productModalPayload, setProductModalOpen, setProductModalPayload } =
     useContext(ModalContext);
   const { categories } = useContext(ProductContext);
@@ -73,6 +73,7 @@ export const ProductModal = () => {
       success: () => {
         setSubmitButtonLoading(false);
         setProductModalOpen(false);
+        productModalPayload.success();
       },
     });
   };

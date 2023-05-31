@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, createSearchParams, Link, useLocation } from 'react-router-dom';
 
 // UI
 import { Text } from '../components/ui/Text';
@@ -22,6 +22,9 @@ import { ProductContext } from '../providers/ProductProvider';
 // Utils
 import { currency } from '../utils/utils';
 
+// Error View
+import { http404 } from '../errorhandling/errors';
+
 const Product = () => {
   const navigate = useNavigate();
   const { categoryID, productID } = useParams();
@@ -30,6 +33,7 @@ const Product = () => {
     useContext(ModalContext);
 
   const [quantity, setQuantity] = useState(1);
+  const location = useLocation();
 
   useEffect(() => {
     if (quantity < 1) setQuantity(1);
@@ -39,9 +43,25 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const succesHandler = () => {
+    navigate({
+      pathname: '/',
+      search: `?${createSearchParams({tab:'Dashboard'})}`
+    })
+  }
+
+  // Check if category and product exists
+  if (!(categoryID in categories.categories)){
+    throw new http404('Category Not Found!');
+  }
+
   const product = categories?.categories[categoryID].products.find(
     (product) => product.id === productID
   );
+
+  if (!product){
+    throw new http404('Product Not Found!');
+  }
 
   const openProductModal = () => {
     setProductModalPayload({
@@ -49,6 +69,7 @@ const Product = () => {
       currentCategory: categoryID,
       currentProduct: productID,
       currentQuantity: quantity,
+      success: succesHandler
     });
     setProductModalOpen(true);
   };
@@ -56,7 +77,6 @@ const Product = () => {
   return (
     <>
       <HeaderNavitagion />
-      {/* <button onClick={()=>{ navigate(-1)}} >Back</button> */}
       <div className='safe-area'>
         <div className='product-detail'>
           <img

@@ -1,0 +1,42 @@
+.route-simulation-container {
+    height: 40vh;
+    width: 100vw;
+    background-color: rgb(88, 88, 88);
+}
+
+.route-paper-container {
+    box-shadow: 0px -10px 10px rgba(0, 0, 0, 0.05);
+    width: calc(100vw - 32px);
+    padding: 40px 16px;
+    margin-top: -32px;
+    border-radius: 32px 32px 0px 0px;
+    background-color: white;
+}
+
+.route-product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.route-product img {
+    width: 56px;
+    height: 56px;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--gray);
+    margin: 8px;
+}
+.check {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: var(--success);
+}

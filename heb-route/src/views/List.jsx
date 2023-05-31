@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -24,6 +24,8 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 // Stylesheets
 import '../stylesheets/Lists.css';
 
+import { http404 } from '../errorhandling/errors';
+
 const List = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,9 +41,14 @@ const List = () => {
   } = useContext(ModalContext);
   const { userInformation } = useContext(UserInformationContext);
 
+  if (!(listID in lists.myLists)){
+    throw new http404('List Not Found!');
+  }
+
   const [list, setList] = useState(lists.myLists[listID]);
   const [isOwner] = useState(userInformation.email === list.owner);
   const [listTotal, setListTotal] = useState(lists.myLists[listID].total);
+  const [routeReady, setRouteReady] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,6 +58,10 @@ const List = () => {
     setList(lists.myLists[listID]);
     setListTotal(lists.myLists[listID].total);
   }, [lists]);
+
+  useEffect(() => {
+    setRouteReady(Object.keys(list.products).length > 0 ? true : false);
+  }, [list]);
 
   const openListProductModal = ({ productID, categoryID, quantity }) => {
     setListProductModalPayload({
@@ -77,6 +88,8 @@ const List = () => {
       search: location.state?.search ? location.state.search : '',
     });
   };
+
+
 
   return (
     <>
@@ -190,13 +203,25 @@ const List = () => {
           <Text styles={{ fontSize: 24 }}>{currency(listTotal)}</Text>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
-          <Button variant='add-large'>Iniciar ruta</Button>
+          <Link
+            to={`/route/${listID}`}
+            state={{
+              prev: location.pathname,
+              search: location.search,
+            }}
+            style={!routeReady ? {pointerEvents: "none"} : {}}>
+            <Button variant='add-large' disabled={!routeReady}>
+              Iniciar ruta
+            </Button>
+          </Link>
         </div>
       </div>
       {Object.keys(list.products).length <= 0 && (
         <div className='list-empty'>
           <Text variant={'b4'}>No has agregado productos a esta lista</Text>
-          <Button>Ir a catalogo</Button>
+          <Button callbackFunction={() => navigate('/dashboard')}>
+            Ir a catalogo
+          </Button>
         </div>
       )}
     </>
