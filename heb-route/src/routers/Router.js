@@ -29,11 +29,6 @@ import Error404 from '../views/404';
 import TestError from '../views/TestError';
 import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
 
-// Error View
-import Error404 from '../views/404';
-import TestError from '../views/TestError';
-import RoutingErrorBoundary from '../errorhandling/RoutingErrorBoundary';
-
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -45,10 +40,10 @@ const AppRouter = () => {
         <Route exact path="/register" element={<PublicRoute><Register/></PublicRoute>}/>
 
         <Route exact path="/dashboard" element={<PrivateRoute><BottomNavigation/></PrivateRoute>}/>
-        <Route exact path="/categories/:categoryID" element={<PrivateRoute><Category/></PrivateRoute>}  />
-        <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><Product/></PrivateRoute>} />
-        <Route exact path='/lists/:listID' element={<PrivateRoute><List/></PrivateRoute>} />
-        <Route exact path='/route/:listID' element={<PrivateRoute><ListRoute/></PrivateRoute>} />
+        <Route exact path="/categories/:categoryID" element={<PrivateRoute><RoutingErrorBoundary><Category/></RoutingErrorBoundary></PrivateRoute>}  />
+        <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><RoutingErrorBoundary><Product/></RoutingErrorBoundary></PrivateRoute>} />
+        <Route exact path='/lists/:listID' element={<PrivateRoute><RoutingErrorBoundary><List/></RoutingErrorBoundary></PrivateRoute>} />
+        <Route exact path='/route/:listID' element={<PrivateRoute><RoutingErrorBoundary><ListRoute/></RoutingErrorBoundary></PrivateRoute>} />
 
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
         <Route path='*' element={<Error404/>} />

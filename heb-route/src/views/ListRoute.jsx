@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState, useLayoutEffect } from 'react';
-import { useParams, useNavigate, useLocation, Route } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -13,9 +13,6 @@ import { RouteItem } from '../components/simulation/RouteItem';
 import { Text } from '../components/ui/Text';
 import Canvas from '../components/simulation/Canvas'
 
-// Utils
-import { truncate } from '../utils/utils';
-import { currency } from '../utils/utils';
 
 // Stylesheets
 import '../stylesheets/Route.css';
@@ -33,8 +30,6 @@ const CanvasBox = styled.div`
 `;
 
 const ListRoute = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const { listID } = useParams();
 
