@@ -68,7 +68,7 @@ const Product = () => {
       ...productModalPayload,
       currentCategory: categoryID,
       currentProduct: productID,
-      currentQuantity: quantity,
+      currentQuantity: 1,
       success: succesHandler
     });
     setProductModalOpen(true);
@@ -140,7 +140,7 @@ const Product = () => {
                 .map((product) => {
                   if (product.id !== productID) {
                     return (
-                      <ProductCard product={product} category={categoryID} />
+                      <ProductCard key={product.id} product={product} category={categoryID} />
                     );
                   }
                 })}

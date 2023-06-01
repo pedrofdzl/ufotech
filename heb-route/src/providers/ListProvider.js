@@ -210,7 +210,7 @@ export const ListProvider = ({ children }) => {
       const listSnap = await getDoc(listRef);
       const listData = listSnap.data();
 
-      return listData.Nombre;
+      return listData?.Nombre;
     }
   };
 
