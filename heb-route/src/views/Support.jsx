@@ -1,20 +1,61 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+// Providers
+import { SupportContext } from "../providers/SupportProvider";
+
+// Components
+import { Text } from '../components/ui/Text';
+import { Button } from '../components/ui/Button';
 import HeaderNavitagion from '../navigators/HeaderNavigation';
 
-import { Button } from '../components/ui/Button';
+// Icons
+import { AiOutlinePlus } from 'react-icons/ai';
 
-const Support = () =>{
+// Stylesheets
+import '../stylesheets/Lists.css';
+import '../stylesheets/Support.css';
+
+const Support = () => {
+  const { tickets } = useContext(SupportContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-  return <>
-    <HeaderNavitagion/>
-    <h1>Soporte</h1>
+  const formattedDate = (date) => {
+    const newDate = new Date(date);
+    return `${newDate.getDate().toString()}/${newDate.getMonth() + 1}/${newDate.getFullYear()}`
+  };
 
-    <Button callbackFunction={() => navigate('/support-tickets', {state : {prev: location.pathname}})}>Ver Mis Tickets</Button>
-    <Button callbackFunction={() => navigate('/support-ticket', {state: { prev: location.pathname }})}>Crear Ticket</Button>
+  return <>
+    <HeaderNavitagion />
+    <div className='safe-area'>
+      <div className='view-header' style={{ paddingTop: 8 }} >
+        <Text variant={'h2'}>Tickets de soporte</Text>
+      </div>
+      <Button variant='add-list' callbackFunction={() => navigate('/support-ticket', { state: { prev: location.pathname } })}>
+        <div className='list-new'>
+          <Text
+            styles={{
+              fontSize: 16,
+              margin: 0,
+              color: 'var(--gray)',
+              fontWeight: 400,
+            }}>
+            Crear ticket
+          </Text>
+          <AiOutlinePlus style={{ fontSize: 18 }} />
+        </div>
+      </Button>
+      {tickets.supportTickets.map(ticket => {
+        return <div className='list-ticket' key={ticket.id}>
+          <div>
+            <Text variant='b44'>{ticket.asunto}</Text>
+            <Text variant='b3'>Creado el {formattedDate(ticket.fecha)}</Text>
+          </div>
+          <Text variant='b3'>{ticket.estatus}</Text>
+        </div>
+      })}
+    </div>
   </>
 }
 

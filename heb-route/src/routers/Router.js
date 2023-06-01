@@ -25,7 +25,6 @@ import List from '../views/List';
 import ListRoute from '../views/ListRoute';
 import Support from '../views/Support';
 import SupportTicket from '../views/SupportTicket';
-import SupportTickets from '../views/SupportTickets';
 
 // Error View
 import Error404 from '../views/404';
@@ -50,7 +49,6 @@ const AppRouter = () => {
 
         <Route exact path="/support" element={<PrivateRoute><Support/></PrivateRoute>} />
         <Route exact path='/support-ticket' element={<PrivateRoute><SupportTicket/></PrivateRoute>} />
-        <Route exact path='/support-tickets' element={<PrivateRoute><SupportTickets/></PrivateRoute>} />
 
         <Route exact path='/search' element={<PrivateRoute><Search/></PrivateRoute> } />
         <Route path='*' element={<Error404/>} />

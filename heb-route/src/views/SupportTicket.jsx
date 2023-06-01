@@ -1,16 +1,21 @@
-import React, {useState, useContext} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Providers
 import { SupportContext } from "../providers/SupportProvider";
 
+// Components
+import { Text } from "../components/ui/Text";
+import { Button } from "../components/ui/Button";
+
 // Stylesheets
-import '../stylesheets/Button.css';
+import '../stylesheets/Support.css';
 
 // Navigation
 import HeaderNavigation from '../navigators/HeaderNavigation';
 
 const SupportTicket = () => {
+  const [uploading, setUploading] = useState(false);
   const [asunto, setAsunto] = useState('');
   const [contenido, setContenido] = useState('');
   const [error, setError] = useState(false);
@@ -19,27 +24,38 @@ const SupportTicket = () => {
 
   const { createSupportTicket } = useContext(SupportContext)
 
-  const submitHandler = async(Event) => {
-    Event.preventDefault();
+  useEffect(() => {
+    setError(false)
+    setErrorMessage('')
+    setAsunto('')
+    setContenido('')
+  }, []);
 
-    if(!contenido || !asunto ){
+  const submitHandler = async (Event) => {
+    Event.preventDefault();
+    setUploading(true);
+
+    if (!contenido || !asunto) {
       setError(true);
+      setUploading(false);
       return
     }
-    
-   const errorState = await createSupportTicket(asunto, contenido);
 
-   if (errorState.error) {
-    setError(errorState.error)
-    setErrorMessage(errorState.errorMessage)
-    return
-   }
+    const errorState = await createSupportTicket(asunto, contenido);
 
-   setError(false)
-   setErrorMessage('')
-   setAsunto('')
-   setContenido('')
-   navigate('/support',{replace: true})
+    if (errorState.error) {
+      setError(errorState.error)
+      setErrorMessage(errorState.errorMessage)
+      setUploading(false);
+      return
+    }
+
+    setUploading(false);
+    setError(false)
+    setErrorMessage('')
+    setAsunto('')
+    setContenido('')
+    navigate('/support', { replace: true })
   }
 
   const asuntoHandler = (event) => {
@@ -50,27 +66,30 @@ const SupportTicket = () => {
     setContenido(event.target.value);
   }
 
- return <>
-  
-  <HeaderNavigation/>
-  <h1>Support</h1>
-  {error && errorMessage.length > 0 ? <h4>{errorMessage}</h4>: <h4>Algo salió mal, verifica que la información sea correcta.</h4>}
+  return <>
+    <HeaderNavigation />
+    <div className="safe-area">
+      <div className='view-header' style={{ paddingTop: 8 }} >
+        <Text variant={'h2'}>Crear Tickets</Text>
+      </div>
+      {error && (errorMessage.length > 0 ? <h4 className='error-message'>{errorMessage}</h4> : <h4 className='error-message'>Algo salió mal, verifica que la información sea correcta.</h4>)}
 
 
-  <form onSubmit={submitHandler}>
-    <label>Asunto</label>
-    <div>
-      <input type='text' name='asunto' id='asunto' value={asunto} onChange={asuntoHandler}/>
+      <form onSubmit={submitHandler}>
+        <label>Asunto</label>
+        <div>
+          <input type='text' name='asunto' id='asunto' value={asunto} onChange={asuntoHandler} />
+        </div>
+
+        <label>Contenido</label>
+        <div>
+          <textarea type='text' name='contenido' id='contenido' value={contenido} onChange={contenidoHandler} > </textarea>
+        </div>
+
+        <Button type='submit' className="btn" styles={{ marginTop: 16 }} disabled={uploading} loading={uploading}>Enviar</Button>
+      </form>
     </div>
-
-    <label>Contenido</label>
-    <div>
-      <textarea type='text' name='contenido' id='contenido' value={contenido} onChange={contenidoHandler} > </textarea>
-    </div>
-
-    <button type='submit' className="btn" >Enviar</button>
-  </form>
- </>
+  </>
 }
 
 export default SupportTicket;
