@@ -1,58 +1,108 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-
-// Providers
-import { AuthContext } from "../providers/AuthProvider";
+import React, { useState, useContext, useEffect } from 'react';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 
 // Components
-import { Text } from "../components/ui/Text";
-import { Button } from "../components/ui/Button";
+import { Text } from '../components/ui/Text';
+
+// Icons
+import { BiSearch } from 'react-icons/bi';
+import { ProductContext } from '../providers/ProductProvider';
 
 // Stylesheets
-import '../stylesheets/Auth.css';
+import '../stylesheets/Products.css';
+import '../stylesheets/Dashboard.css';
 
-const Login = () => {
-  const { providerLogin } = useContext(AuthContext);
-  const navigate = useNavigate();
+// Utils
+import { truncate } from '../utils/utils';
 
-  const [ errorMessage, setErrorMessage ] = useState('');
-  const [topic, setTopic] = useState('');
-  const [details, setDetails] = useState('');
-
-  const topicHandler = event=>{
-    setTopic(event.target.value);
-  }
-
-  const detailsHandler = event=>{
-    setDetails(event.target.value)
-  }
+// Navigation
+import HeaderNavitagion from '../navigators/HeaderNavigation';
 
 
-  const submitLogin = async() => {
+const Search = () => {
+  const { categories } = useContext(ProductContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [prods, setProds] = useState([]);
+  const [searchInput, setSearchInput] = useState(searchParams.get('search'));
 
-    if (!(topic.length > 0) || !(details.length > 0)){
-      setErrorMessage('Favor de llenar todos los campos');
-      return
-    }
+  const location = useLocation();
+
+  const searchHandler = (event) => {
+    event.preventDefault();
+    setSearchParams({ search: searchInput });
+    getProds();
   };
 
+  const onSearchChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const getProds = () => {
+    // let sTerm = searchParams.get('search');
+    let filteredProds = [];
+    Object.keys(categories.categories).forEach((category) => {
+      const categoryProds = categories.categories[category].products.filter(
+        (product) => {
+          return product.Nombre.toLowerCase().includes(
+            searchInput.toLowerCase()
+          );
+        }
+      );
+      filteredProds = filteredProds.concat(categoryProds);
+    });
+    setProds(filteredProds);
+  };
+
+  useEffect(() => {
+    getProds();
+  }, []);
+
   return (
-    <div className="auth-container">
-      <Text variant={'h1'}>¡Bienvenido de vuelta!</Text>
-      <form onSubmit={submitLogin}>
-        {errorMessage && <h4>{errorMessage}</h4>}
-        <div className="auth-form-fields">
-          <label htmlFor="emailField"> Correo electrónico </label>
-          <input type="email" id="emailField" onChange={topicHandler} />          
-          <label htmlFor="passwordField"> Contraseña </label>
-          <input type="password" id="passwordField" onChange={detailsHandler} />
-        </div>
-        <div className="auth-buttons">
-          <Button callbackFunction={() => submitLogin()}> Enviar </Button>
-        </div>
-      </form>
-    </div>
+    <>
+     <div className='safe-area'>
+        <div style={{ height: 26 }}/>
+        <form style={{ position: 'relative' }} onSubmit={searchHandler}>
+          <BiSearch
+            style={{
+              position: 'absolute',
+              fontSize: 20,
+              top: 16,
+              left: 16,
+              color: '#6e6e6e',
+            }}
+          />
+          <input
+            className='search-search'
+            type='text'
+            name='search'
+            placeholder='Buscar productos...'
+            onChange={onSearchChange}
+            value={searchInput}
+          />
+        </form>
+                {prods.map((product) => {
+          return (
+            // <Link className="product-card" to={`/products/${product.Categoria}/${product.id}`} state={{prev: location.pathname, search: location.search}} key={product.id}></Link>
+            <Link
+              className='product-card'
+              to={`/products/${product.Categoria}/${product.id}`}
+              state={{ prev: location.pathname, search: location.search }}>
+              <img
+                src={product['Link Imagen']}
+                alt={product.Nombre}
+                width={100}
+                height={100}
+              />
+              <h4>{truncate(product.Nombre, 32)}</h4>
+              <small>${product.Precio}</small>
+                            <small className='product-card-unit'>
+                {product.Capacidad} {product.Unidad}
+              </small>
+            </Link>
+          );
+                  })}
+      </div>
+    </>
   );
 };
-
-export default Login;
+export default Search;
