@@ -2,9 +2,24 @@ import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import { app } from "../firebase/firebase";
 
+const registerToSQL = async(name, lastname, email) => {
+    const response = await fetch('https://registeruser-4fwjrlkifa-uc.a.run.app',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ correo: email, nombre: name, apellido: lastname })
+    })
+
+    if (response.ok){
+        console.log('Register User in SQL');
+    }else{
+        console.log('User not register on SQL')
+    }
+}
+
 export const register = (name, lastname, email, password, repPassword) => {
 
     const regEmail = /\S+@\S+\.\S+/;
+    
     
     if (regEmail.test(email)) {
         if (password === repPassword) {	
@@ -14,6 +29,10 @@ export const register = (name, lastname, email, password, repPassword) => {
                     .createUserWithEmailAndPassword(email, password)
                     .then((user) => {
                         alert("Usuario creado exitosamente");
+
+                        // Register to sql
+                        registerToSQL(name, lastname, email)
+
                         console.log("Usuario Creado:", user.user)
                     }).catch((error) => {
                         console.log(error.code);

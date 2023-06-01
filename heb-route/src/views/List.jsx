@@ -196,6 +196,10 @@ const List = () => {
           );
         })}
       </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <div className='list-bottom'>
         <div style={{ display: 'flex', flexDirection: 'column', margin: 24 }}>
           <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>

@@ -31,6 +31,7 @@ const ProductCard = ({ product, category }) => {
       ...productModalPayload,
       currentProduct: product,
       currentCategory: category,
+      currentQuantity: 1,
     });
     setProductModalOpen(true);
   };

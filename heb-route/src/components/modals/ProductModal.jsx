@@ -15,19 +15,6 @@ import { ProductContext } from '../../providers/ProductProvider';
 // Components
 import { Modal } from './Modal';
 
-// Database
-import { db } from '../../firebase/firebase';
-import {
-  addDoc,
-  collection,
-  query,
-  where,
-  doc,
-  updateDoc,
-  limit,
-  getDocs,
-} from 'firebase/firestore';
-
 // Utils
 import { currency } from '../../utils/utils';
 
@@ -48,6 +35,17 @@ export const ProductModal = props => {
   ].products.find(
     (product) => product.id === productModalPayload.currentProduct
   );
+
+  useEffect(() => {
+    const keys = Object.keys(lists.myLists);
+    if (keys.length > 0) {
+      setProductModalPayload({
+        ...productModalPayload,
+        selectedList: keys[0],
+      });
+      setSubmitButtonActive(true);
+    }
+  }, [lists]);
 
   useEffect(() => {
     if (productModalPayload.selectedList?.length > 0) {

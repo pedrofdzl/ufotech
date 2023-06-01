@@ -74,7 +74,7 @@ const Lists = () => {
                     <div className='list'>
                       <div>
                         <Text
-                          variant={'b2'}
+                          variant={'b22'}
                           styles={{
                             marginTop: 0,
                             marginBottom: 8,
@@ -168,7 +168,7 @@ const Lists = () => {
                     <div className='list'>
                       <div>
                         <Text
-                          variant={'b2'}
+                          variant={'b22'}
                           styles={{
                             marginTop: 0,
                             marginBottom: 8,

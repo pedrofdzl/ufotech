@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 
 // Providers
-import { ModalContext } from '../providers/ModalProvider';
 import { ProductContext } from '../providers/ProductProvider';
 
 // Components
@@ -26,7 +25,6 @@ import { BiSearch } from 'react-icons/bi';
 const Dashboard = (props) => {
   const navigate = useNavigate();
   const { categories } = useContext(ProductContext);
-  const { productModalPayload, setProductModalOpen, setProductModalPayload } = useContext(ModalContext);
   const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
 
@@ -42,17 +40,12 @@ const Dashboard = (props) => {
     setSearchTerm(event.target.value);
   };
 
-  const openProductModal = ({ product, category }) => {
-    setProductModalPayload({...productModalPayload, currentProduct: product, currentCategory: category });
-    setProductModalOpen(true);
-  };
-
   return (
     <>
       <div className='view-header'>
         <div className='location'>
           <SlLocationPin />
-          <Text variant={'b2'}>Sucursal Av. Manuel Gómez Morín</Text>
+          <Text variant={'b22'}>Sucursal Av. Manuel Gómez Morín</Text>
         </div>
         <div className='dashboard-profile-picture'>
           <img src='https://media.newyorker.com/photos/5ba177da9eb2f7420aadeb98/1:1/w_1003,h_1003,c_limit/Cohen-Linus-Torvalds.jpg' alt={'profile-pic'} />
