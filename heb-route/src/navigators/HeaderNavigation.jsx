@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Stylesheets
 import '../stylesheets/Navigation.css';
@@ -7,12 +7,12 @@ import '../stylesheets/Navigation.css';
 // Icons
 import { BsChevronLeft } from 'react-icons/bs';
 
-const HeaderNavitagion = () => {
+const HeaderNavitagion = ({ backgroundColor = null }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
-    <div className='header-navigate'>
+    <div className='header-navigate' style={{ backgroundColor: backgroundColor }}>
       <BsChevronLeft className='header-navigate-icon' onClick={() =>
         navigate({
           // pathname: '/dashboard'

@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 // Components
 import { ListEditModal } from '../components/modals/ListEditModal';
 import { ListProductModal } from '../components/modals/ListProductModal';
+import { RouteCompleteModal } from '../components/modals/RouteCompleteModal'
 import { ProductModal } from '../components/modals/ProductModal';
 import { ListModal } from '../components/modals/ListModal';
 import { JoinModal } from '../components/modals/JoinModal';
 
 // Stylesheets
 import '../stylesheets/Modals.css';
+import { DefaultContext } from 'react-icons';
 
 const defaultModalContext = {
   productModalOpen: false,
@@ -34,22 +36,28 @@ const defaultModalContext = {
   listEditModalPayload: {
     currentName: '',
     currentList: null,
-    onClose: () => {},
+    onClose: () => { },
   },
   joinModalOpen: false,
   joinModalPayload: {
     currentList: null,
   },
-  setProductModalOpen: () => {},
-  setProductModalPayload: () => {},
-  setListModalOpen: () => {},
-  setListModalPayload: () => {},
-  setListProductModalOpen: () => {},
-  setListProductModalPayload: () => {},
-  setListEditModalOpen: () => {},
-  setListEditModalPayload: () => {},
-  setJoinModalOpen: () => {},
-  setJoinModalPayload: () => {},
+  routeCompleteModalOpen: false,
+  routeCompleteModalPayload: {
+    onClose: () => { },
+  },
+  setProductModalOpen: () => { },
+  setProductModalPayload: () => { },
+  setListModalOpen: () => { },
+  setListModalPayload: () => { },
+  setListProductModalOpen: () => { },
+  setListProductModalPayload: () => { },
+  setListEditModalOpen: () => { },
+  setListEditModalPayload: () => { },
+  setJoinModalOpen: () => { },
+  setJoinModalPayload: () => { },
+  setRouteCompleteModalOpen: () => { },
+  setRouteCompleteModalPayload: () => { },
 };
 
 export const ModalContext = React.createContext(defaultModalContext);
@@ -85,6 +93,12 @@ export const ModalProvider = ({ children }) => {
   const [joinModalPayload, setJoinModalPayload] = useState(
     defaultModalContext.joinModalPayload
   );
+  const [routeCompleteModalOpen, setRouteCompleteModalOpen] = useState(
+    defaultModalContext.routeCompleteModalOpen
+  );
+  const [routeCompleteModalPayload, setRouteCompleteModalPayload] = useState(
+    defaultModalContext.routeCompleteModalPayload
+  );
 
   useEffect(() => {
     if (productModalPayload.currentQuantity < 1) {
@@ -117,6 +131,8 @@ export const ModalProvider = ({ children }) => {
         listEditModalPayload,
         joinModalOpen,
         joinModalPayload,
+        routeCompleteModalOpen,
+        routeCompleteModalPayload,
         setProductModalOpen,
         setProductModalPayload,
         setListModalOpen,
@@ -127,9 +143,12 @@ export const ModalProvider = ({ children }) => {
         setListEditModalPayload,
         setJoinModalOpen,
         setJoinModalPayload,
+        setRouteCompleteModalOpen,
+        setRouteCompleteModalPayload,
       }}>
       {listEditModalOpen && <ListEditModal />}
       {listProductModalOpen && <ListProductModal />}
+      {routeCompleteModalOpen && <RouteCompleteModal />}
       {productModalOpen && <ProductModal />}
       {listModalOpen && <ListModal />}
       {joinModalOpen && <JoinModal />}
