@@ -4,3 +4,9 @@ cloud-functions/getMySupportTickets/.env.yaml
 
 cloud-functions/createSupportTicket/node_modules
 cloud-functions/createSupportTicket/.env.yaml
+
+cloud-functions/updateUser/node_modules
+cloud-functions/updateUser/.env.yaml
+
+cloud-functions/registerUser/node_modules
+cloud-functions/registerUser/.env.yaml
