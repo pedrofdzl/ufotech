@@ -1,13 +1,13 @@
 {
   "name": "getmysupporttickets",
   "version": "1.0.0",
-  "description": "Cloud Function to call the store Procedure getMyTickets",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npx functions-framework --target=getMySupportTickets [ --signature-type=http ]"
   },
   "keywords": [],
-  "author": "Isaias Alvarez",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/functions-framework": "^3.2.0",
