@@ -24,6 +24,20 @@ const Profile = () => {
   const [lastName, setLasttName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const updateSQLprofile = async(name, lastname, email) => {
+    const response = await fetch('https://updateuser-4fwjrlkifa-uc.a.run.app',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ nombre: name, apellido: lastName, correo: email })
+    })
+
+    if (response.ok){
+      console.log('Se actualizo MySQL!');
+    }else{
+      console.log('No se actualizo MySQL!')
+    }
+  }
+
   const logout = () => {
     providerLogout();
     navigate('/');
@@ -65,6 +79,7 @@ const Profile = () => {
       name: firstName,
       lastname: lastName
     }).then(()=>{
+      updateSQLprofile(firstName, lastName, userInformation.email)
       setEditing(false);
       getUserInformation();
       setErrorMessage('')
