@@ -10,6 +10,7 @@ import { ProductContext } from '../providers/ProductProvider';
 
 // Components
 import { RouteItem } from '../components/simulation/RouteItem';
+import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
 import Canvas from '../components/simulation/Canvas'
 
@@ -41,6 +42,7 @@ const ListRoute = () => {
   const [nodeProducts, setNodeProducts] = useState({});
   const [widthCanvas, setWidthCanvas] = useState(0);
   const [heightCanvas, setHeightCanvas] = useState(0);
+  const [centerButton, setCenterButton] = useState(false);
 
   const handleChange = (newValue) => {
     setNodeQueue(newValue);
@@ -65,7 +67,7 @@ const ListRoute = () => {
       window.removeEventListener('resize', handleResize);
     }
   }, []);
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -97,7 +99,6 @@ const ListRoute = () => {
 
   useEffect(() => {
     if (nodeQueue.length > 1) {
-      console.log(nodeProducts)
       const node = nodeQueue[nodeQueue.length - 1];
       var allPicked = true;
       nodeProducts[node].forEach((nodeProduct, index) => {
@@ -105,9 +106,7 @@ const ListRoute = () => {
       });
       if (allPicked) {
         const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
-        const poppedQueue = auxNodeQueue.slice(0, -1);
-        setNodeQueue(poppedQueue);
-        console.log(poppedQueue)
+        setNodeQueue(auxNodeQueue.slice(0, -1));
       }
     }
   }, [nodeProducts]);
@@ -122,13 +121,22 @@ const ListRoute = () => {
     });
   };
 
+  const centerButtonClicked = () => {
+    setCenterButton(true);
+  };
+
+  const handleCenterButton = () => {
+    setCenterButton(false);
+  };
+
   return (
     <>
       <HeaderNavitagion />
       <div className='route-simulation-container' ref={canvasSizeRef}>
-        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
+        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
       </div>
       <div className='route-paper-container'>
+        <Button callbackFunction={() => centerButtonClicked()}>Centrar Mapa</Button>
         {nodeQueue.slice().reverse().map((node, index) => {
           return (
             <div key={index}>
