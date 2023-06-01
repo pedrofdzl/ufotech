@@ -7,13 +7,13 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 // Providers
 import { ListContext } from '../providers/ListProvider';
 import { ProductContext } from '../providers/ProductProvider';
+import { ModalContext } from '../providers/ModalProvider';
 
 // Components
 import { RouteItem } from '../components/simulation/RouteItem';
 import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
 import Canvas from '../components/simulation/Canvas'
-
 
 // Stylesheets
 import '../stylesheets/Route.css';
@@ -26,12 +26,11 @@ const CanvasBox = styled.div`
     margin: 0 auto;
     display: block;
     max-width: 100%;
-    max-height: 100%;
+    max-height: calc(100% - 32px);
     overflow: hidden;
 `;
 
 const ListRoute = () => {
-
   const { listID } = useParams();
 
   const { lists } = useContext(ListContext);
@@ -43,9 +42,25 @@ const ListRoute = () => {
   const [widthCanvas, setWidthCanvas] = useState(0);
   const [heightCanvas, setHeightCanvas] = useState(0);
   const [centerButton, setCenterButton] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { setRouteCompleteModalOpen, setRouteCompleteModalPayload } = useContext(ModalContext);
 
   const handleChange = (newValue) => {
     setNodeQueue(newValue);
+  };
+
+  const goBack = () => {
+    navigate({
+      // pathname: '/dashboard'
+      // pathname:location.state.prev,
+      pathname: (location.state?.prev) ? location.state.prev : '/',
+      // search:`?${createSearchParams(params)}`
+      search: (location.state?.search) ? location.state.search : ''
+    })
   };
 
   const canvasSizeRef = useRef(null);
@@ -67,7 +82,7 @@ const ListRoute = () => {
       window.removeEventListener('resize', handleResize);
     }
   }, []);
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -98,6 +113,7 @@ const ListRoute = () => {
   }, []);
 
   useEffect(() => {
+    console.log(nodeQueue)
     if (nodeQueue.length > 1) {
       const node = nodeQueue[nodeQueue.length - 1];
       var allPicked = true;
@@ -108,6 +124,10 @@ const ListRoute = () => {
         const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
         setNodeQueue(auxNodeQueue.slice(0, -1));
       }
+      setStarted(true);
+    } else if (started) {
+      setRouteCompleteModalPayload({ onClose: goBack });
+      setRouteCompleteModalOpen(true);
     }
   }, [nodeProducts]);
 
@@ -116,7 +136,7 @@ const ListRoute = () => {
       let auxNode = nodeProducts[node];
       if (nodeProduct.productID === productID) {
         auxNode[index].picked = true;
-        setNodeProducts({...nodeProducts, node: auxNode });
+        setNodeProducts({ ...nodeProducts, node: auxNode });
       }
     });
   };
@@ -131,7 +151,7 @@ const ListRoute = () => {
 
   return (
     <>
-      <HeaderNavitagion />
+      <HeaderNavitagion backgroundColor={'#f1f1f1'} />
       <div className='route-simulation-container' ref={canvasSizeRef}>
         <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
       </div>
@@ -145,9 +165,11 @@ const ListRoute = () => {
               <div key={node}>
                 {nodeProducts[node].map((product) => {
                   return (<RouteItem
+                    key={product}
                     product={product}
                     node={node}
                     quantity={list.products[product.product.id].quantity}
+                    current={index === 0}
                     callbackFunction={pickUpProduct} />);
                 })}
               </div>

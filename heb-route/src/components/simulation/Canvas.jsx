@@ -11,12 +11,12 @@ import { collection, getDocs } from "firebase/firestore";
 const inf = 1e4;
 const delta = [1, -1, 0, 0, 0, 0, -1, 1];
 const colors = {
-  0: "black",
-  1: "navy",
-  2: "grey",
-  5: "red",
-  6: "green",
-  7: "orange",
+  0: "#6c6c6c", // borders
+  1: "#a5a5a5", 
+  2: "#dadada",
+  5: "#ffcbcb",
+  6: "orange",
+  7: "#cf5050",
 };
 const tileMap = {
   0: "limit",
