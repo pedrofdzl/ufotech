@@ -9,7 +9,7 @@ import { truncate } from '../../utils/utils';
 // Stylesheets
 import '../../stylesheets/Route.css';
 
-export const RouteItem = ({ node, product, quantity, callbackFunction }) => {
+export const RouteItem = ({ node, product, quantity, current, callbackFunction }) => {
   return (
     <div key={product.productID} className='route-product'>
       <div
@@ -49,11 +49,12 @@ export const RouteItem = ({ node, product, quantity, callbackFunction }) => {
           </Text>
         </div>
       </div>
+      {current &&
       <div onClick={() => {
         callbackFunction(node, product.product.id);
       }} className='checkbox'>
         {product.picked && <div className='check'></div>}
-      </div>
+      </div>}
     </div>
   );
 };

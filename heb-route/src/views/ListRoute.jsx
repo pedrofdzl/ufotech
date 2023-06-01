@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState, useLayoutEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Route } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -7,12 +7,13 @@ import HeaderNavitagion from '../navigators/HeaderNavigation';
 // Providers
 import { ListContext } from '../providers/ListProvider';
 import { ProductContext } from '../providers/ProductProvider';
+import { ModalContext } from '../providers/ModalProvider';
 
 // Components
 import { RouteItem } from '../components/simulation/RouteItem';
+import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
 import Canvas from '../components/simulation/Canvas'
-
 
 // Stylesheets
 import '../stylesheets/Route.css';
@@ -25,12 +26,11 @@ const CanvasBox = styled.div`
     margin: 0 auto;
     display: block;
     max-width: 100%;
-    max-height: 100%;
+    max-height: calc(100% - 32px);
     overflow: hidden;
 `;
 
 const ListRoute = () => {
-
   const { listID } = useParams();
 
   const { lists } = useContext(ListContext);
@@ -41,9 +41,26 @@ const ListRoute = () => {
   const [nodeProducts, setNodeProducts] = useState({});
   const [widthCanvas, setWidthCanvas] = useState(0);
   const [heightCanvas, setHeightCanvas] = useState(0);
+  const [centerButton, setCenterButton] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { setRouteCompleteModalOpen, setRouteCompleteModalPayload } = useContext(ModalContext);
 
   const handleChange = (newValue) => {
     setNodeQueue(newValue);
+  };
+
+  const goBack = () => {
+    navigate({
+      // pathname: '/dashboard'
+      // pathname:location.state.prev,
+      pathname: (location.state?.prev) ? location.state.prev : '/',
+      // search:`?${createSearchParams(params)}`
+      search: (location.state?.search) ? location.state.search : ''
+    })
   };
 
   const canvasSizeRef = useRef(null);
@@ -91,14 +108,12 @@ const ListRoute = () => {
       }
       auxNodeProducts[productObject.node].push(auxProduct);
     });
-    console.log(auxNodeQueue)
     setNodeProducts(auxNodeProducts);
     setNodeQueue(auxNodeQueue);
   }, []);
 
   useEffect(() => {
     if (nodeQueue.length > 1) {
-      console.log(nodeProducts)
       const node = nodeQueue[nodeQueue.length - 1];
       var allPicked = true;
       nodeProducts[node].forEach((nodeProduct, index) => {
@@ -106,10 +121,12 @@ const ListRoute = () => {
       });
       if (allPicked) {
         const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
-        const poppedQueue = auxNodeQueue.slice(0, -1);
-        setNodeQueue(poppedQueue);
-        console.log(poppedQueue)
+        setNodeQueue(auxNodeQueue.slice(0, -1));
       }
+      setStarted(true);
+    } else if (started) {
+      setRouteCompleteModalPayload({ onClose: goBack });
+      setRouteCompleteModalOpen(true);
     }
   }, [nodeProducts]);
 
@@ -118,18 +135,27 @@ const ListRoute = () => {
       let auxNode = nodeProducts[node];
       if (nodeProduct.productID === productID) {
         auxNode[index].picked = true;
-        setNodeProducts({...nodeProducts, node: auxNode });
+        setNodeProducts({ ...nodeProducts, node: auxNode });
       }
     });
   };
 
+  const centerButtonClicked = () => {
+    setCenterButton(true);
+  };
+
+  const handleCenterButton = () => {
+    setCenterButton(false);
+  };
+
   return (
     <>
-      <HeaderNavitagion />
+      <HeaderNavitagion backgroundColor={'#f1f1f1'} />
       <div className='route-simulation-container' ref={canvasSizeRef}>
-        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
+        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
       </div>
       <div className='route-paper-container'>
+        <Button callbackFunction={() => centerButtonClicked()}>Centrar Mapa</Button>
         {nodeQueue.slice().reverse().map((node, index) => {
           return (
             <div key={index}>
@@ -138,9 +164,11 @@ const ListRoute = () => {
               <div key={node}>
                 {nodeProducts[node].map((product) => {
                   return (<RouteItem
+                    key={product}
                     product={product}
                     node={node}
                     quantity={list.products[product.product.id].quantity}
+                    current={index === 0}
                     callbackFunction={pickUpProduct} />);
                 })}
               </div>
