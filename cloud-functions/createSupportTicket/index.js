@@ -1,6 +1,8 @@
 const functions = require('@google-cloud/functions-framework');
 const mysql = require('promise-mysql');
 const Joi = require('joi');
+const nodemailer = require('nodemailer');
+const getSupportEmailTemplate = require('./utils');
 
 class ImproperlyConfigureError extends Error{};
 
@@ -18,7 +20,7 @@ const ticketSchema = Joi.object({
 
 // Validate the presence of all env Variables
 const validateEnvVaraibles = () => {
-    const vars = ['user', 'password', 'database', 'debug']
+    const vars = ['user', 'password', 'database', 'debug', 'email', 'emailhost', 'emailpwd']
 
     for (let v of vars){
         if(process.env[v] === undefined){
@@ -65,7 +67,9 @@ const getOrCreateUser = async(data, pool) =>{
         // Populate user Object with retrieved data
         user = {
             id: result[0].cliente_id,
-            email: result[0].correo
+            email: result[0].correo,
+            nombre: result[0].nombre,
+            apellido: result[0].apellido
         }
     }else{
         // Create new User
@@ -83,7 +87,9 @@ const getOrCreateUser = async(data, pool) =>{
 
         user = {
             id: result[0].cliente_id,
-            email: result[0].correo
+            email: result[0].correo,
+            nombre: result[0].nombre,
+            apellido: result[0].apellido
         }
     }
 
@@ -96,6 +102,39 @@ const getOpenStatus = async(pool)=>{
         id: result[0].status_id,
         nombre: result[0].nombre
     }
+}
+
+
+const sendSuccessEmail = async(options)=>{
+    const transporter = nodemailer.createTransport({
+        host: process.env.emailhost,
+        port: 587,
+        secure: false,
+        auth:{
+            user: process.env.email,
+            pass: process.env.emailpwd
+        }
+    });
+
+    await transporter.sendMail({
+        from: 'HEB Route <heb.route@gmail.com>',
+        to: options.email,
+        subject: 'Support Ticket - ' + options.asunto,
+        text: `
+        Hola, ${options.nombre} ${options.apellido}
+        Hemos recibido tu ticket, actualmente se encuentra con estatus ${options.estatus}, nos pondremos en contacto lo mas pronto posible.
+
+        Ticket:
+        Asunto: ${options.asunto}
+        Contenido: ${options.texto}        
+        `,
+        html: getSupportEmailTemplate(
+            `${options.nombre} ${options.apellido}`,
+            options.estatus,
+            options.asunto,
+            options.texto
+            )
+    })
 }
 
 functions.http('createSupportTicket', async(req, res) => {
@@ -134,12 +173,17 @@ functions.http('createSupportTicket', async(req, res) => {
         user = await getOrCreateUser(user, pool);
         let openStatus = await getOpenStatus(pool);
         let pub_date = new Date();
-        pub_date = `${pub_date.getFullYear()}-${pub_date.getMonth()}-${pub_date.getDate()}`;
-        
+        pub_date = `${pub_date.getFullYear()}-${pub_date.getMonth()+1}-${pub_date.getDate()}`;
+        pub_date.month
         let sql = 'INSERT INTO ticket (asunto, comentario, pub_date, cliente_id_ticket, status_id_ticket) VALUES ' +
-        `("${ticket.asunto}", "${ticket.texto}", "${pub_date}", "${user.id}", "${openStatus.id}")`;
+        `("${ticket.asunto}", "${ticket.texto}","${pub_date}", "${user.id}", "${openStatus.id}")`;
         const result = await pool.query(sql);
 
+        await sendSuccessEmail({
+            ...user,
+            ...ticket,
+            estatus: openStatus.nombre
+        })
         pool.end()
         
         res.sendStatus(204)

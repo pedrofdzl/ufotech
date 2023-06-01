@@ -1,0 +1,18 @@
+{
+    "name": "registeruser",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "npx functions-framework --target=registerUser [ --signature-type=http ]"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@google-cloud/functions-framework": "^3.2.0",
+      "joi": "^17.9.2",
+      "promise-mysql": "^5.2.0"
+    }
+  }
+  

@@ -2,7 +2,6 @@ const functions = require('@google-cloud/functions-framework');
 const mysql = require('promise-mysql');
 const Joi = require('joi');
 
-
 class ImproperlyConfigureError extends Error{};
 
 // Create a unix Socket Pool to connect to DB
@@ -71,7 +70,6 @@ functions.http('getMySupportTickets',async(req, res)=>{
     const emailResult = emailSchema.validate(req.body);
     if (emailResult.error) return res.status(400).send(emailResult.error.details[0].message)
 
-    if (!req.body.email) return res.status(400).send('Missing Email');
 
     try{
         const pool = await createUnixSocketPool(getRunningConfig());

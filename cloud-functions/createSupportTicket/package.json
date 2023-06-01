@@ -1,17 +1,11 @@
 {
-  "name": "createsupportticket",
-  "version": "1.0.0",
-  "description": "Cloud Function to create Support tickets",
-  "main": "index.js",
   "scripts": {
-    "start": "npx functions-framework --target=createSupportTicket [ --signature-type=http ]"
+    "start": "npx functions-framework --target=createSupportTicket [--signature-type=http]"
   },
-  "keywords": [],
-  "author": "Isaias Alvarez",
-  "license": "ISC",
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.2.0",
+    "@google-cloud/functions-framework": "^3.0.0",
     "joi": "^17.9.2",
+    "nodemailer": "^6.9.3",
     "promise-mysql": "^5.2.0"
   }
 }
