@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState, useLayoutEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Route } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -113,7 +113,6 @@ const ListRoute = () => {
   }, []);
 
   useEffect(() => {
-    console.log(nodeQueue)
     if (nodeQueue.length > 1) {
       const node = nodeQueue[nodeQueue.length - 1];
       var allPicked = true;
