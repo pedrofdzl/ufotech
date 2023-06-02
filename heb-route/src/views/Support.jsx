@@ -46,7 +46,7 @@ const Support = () => {
           <AiOutlinePlus style={{ fontSize: 18 }} />
         </div>
       </Button>
-      {tickets.supportTickets.map(ticket => {
+      {(tickets.supportTickets.length > 0 ? tickets.supportTickets.map(ticket => {
         return <div className='list-ticket' key={ticket.id}>
           <div>
             <Text variant='b44'>{ticket.asunto}</Text>
@@ -54,7 +54,7 @@ const Support = () => {
           </div>
           <Text variant='b3'>{ticket.estatus}</Text>
         </div>
-      })}
+      }) : <Text>¡No tienes Tickets Asignados!</Text>)}
     </div>
   </>
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 // Providers
 import { SupportContext } from "../providers/SupportProvider";
+import { NotificationContext } from '../providers/NotificationProvider';
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -23,6 +24,8 @@ const SupportTicket = () => {
   const navigate = useNavigate();
 
   const { createSupportTicket } = useContext(SupportContext)
+  const { queueNotification } = useContext(NotificationContext)
+
 
   useEffect(() => {
     setError(false)
@@ -55,6 +58,7 @@ const SupportTicket = () => {
     setErrorMessage('')
     setAsunto('')
     setContenido('')
+    queueNotification({message: '¡Se ha enviado Ticket con exito!', type: 'success'})
     navigate('/support', { replace: true })
   }
 
