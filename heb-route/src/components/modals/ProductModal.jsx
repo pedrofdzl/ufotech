@@ -39,10 +39,16 @@ export const ProductModal = props => {
   useEffect(() => {
     const keys = Object.keys(lists.myLists);
     if (keys.length > 0) {
-      setProductModalPayload({
-        ...productModalPayload,
-        selectedList: keys[0],
-      });
+      if (!productModalPayload.selectedList) {
+        setProductModalPayload({
+          ...productModalPayload,
+          selectedList: keys[0],
+        });    
+      } else {
+        setProductModalPayload({
+          ...productModalPayload
+        });
+      }
       setSubmitButtonActive(true);
     }
   }, [lists]);
