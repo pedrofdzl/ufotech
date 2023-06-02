@@ -33,7 +33,7 @@ export const AuthContext = React.createContext({
     userInformation: {
       isLoading: true,
     },
-    providerRegister: async (name, email, password, repPassword) => {},
+    providerRegister: async (name, lastname, email, password, repPassword, success) => {},
     providerLogin: async (email, password) => {},
     providerLogout: async () => {},
 
@@ -43,8 +43,9 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState(defaultAuthContext.authState);
   const [currentUser, setCurrentUser] = useState(null);
   
-  const providerRegister = async (name, lastname, email, password, repPassword) => {
-    register(name, lastname, email, password, repPassword);
+  const providerRegister = async (name, lastname, email, password, repPassword, success) => {
+    const errorState = await register(name, lastname, email, password, repPassword, success);
+    return errorState;
   };
 
   const providerLogin = async (email, password) => {
