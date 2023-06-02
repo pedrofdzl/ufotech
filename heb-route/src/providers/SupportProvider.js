@@ -11,8 +11,9 @@ const defaultSupportContext = {
         supportTickets: [],
         isLoading: true,
     },
-    getSupportTickets: async() => {},
-    createSupportTicket: async(asunto, contenido) => {}
+    getSupportTickets: async () => {},
+    createSupportTicket: async (asunto, contenido) => {},
+    clearSupportTickets: async () => {},
 }
 
 
@@ -83,6 +84,13 @@ export const SupportProvider = props =>{
         return errorState
     };
 
+    const clearSupportTickets = () => {
+        setSupportTickets({
+            ...defaultSupportContext.tickets,
+            isLoading: false,
+        });
+    };
+
     useEffect(()=>{
         // console.log(userInformation.email)
         getSupportTickets()
@@ -92,7 +100,8 @@ export const SupportProvider = props =>{
         <SupportContext.Provider value={{
             tickets: supportTickets,
             getSupportTickets,
-            createSupportTicket
+            createSupportTicket,
+            clearSupportTickets
         }}>
 
             {authState.isLoading || supportTickets.isLoading ? <Loading/> :  props.children}

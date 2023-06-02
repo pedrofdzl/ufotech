@@ -36,6 +36,7 @@ const defaultListContext = {
   editProduct: async () => {},
   joinList: async () => {},
   fetchList: async () => {},
+  clearLists: async () => {},
 };
 
 export const ListContext = React.createContext(defaultListContext);
@@ -55,9 +56,10 @@ export const ListProvider = ({ children }) => {
     const fetchedLists = await getDocs(listasQuery);
 
     if (fetchedLists.size > 0) {
+      let auxLists = {};
       fetchedLists.forEach((doc) => {
         const data = doc.data();
-        if (data.Owner === userInformation.email || data?.Collaborators?.find((email) => email === userInformation.email)) {
+        if (userInformation.email && (data.Owner === userInformation.email || data?.Collaborators?.find((email) => email === userInformation.email))) {
           let total = 0;
           Object.keys(data.Products).forEach((prod) => {
             const auxProduct = data.Products[prod];
@@ -68,7 +70,6 @@ export const ListProvider = ({ children }) => {
             ).Precio;
             total += parseFloat(price) * data.Products[prod].quantity;
           });
-          let auxLists = lists?.myLists;
           auxLists[doc.id] = {
             name: data.Nombre,
             owner: data.Owner,
@@ -83,7 +84,6 @@ export const ListProvider = ({ children }) => {
     } else {
       setLists({ myLists: {}, isLoading: false });
     }
-    setLists({ ...lists, isLoading: false });
   };
 
   const resetMyLists = async () => {
@@ -243,6 +243,13 @@ export const ListProvider = ({ children }) => {
 
   };
 
+  const clearLists = () => {
+    setLists({
+      ...defaultListContext.lists,
+      isLoading: false,
+    });
+  };
+
   useEffect(() => {
     getLists();
   }, [authState]);
@@ -260,6 +267,7 @@ export const ListProvider = ({ children }) => {
         editProduct,
         joinList,
         fetchList,
+        clearLists,
       }}>
       {authState.isLoading || lists.isLoading ? <Loading /> : children}
     </ListContext.Provider>

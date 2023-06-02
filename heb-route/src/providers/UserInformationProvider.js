@@ -17,7 +17,8 @@ const defaultUserInformationContext = {
     email: null,
     isLoading: true,
   },
-  getUserInformation: async () => {},
+  getUserInformation: async () => { },
+  clearUserInformation: async () => { },
 };
 
 export const UserInformationContext = React.createContext();
@@ -26,9 +27,13 @@ export const UserInformationProvider = ({ children }) => {
   const { authState } = useContext(AuthContext);
 
   const [userInformation, setUserInformation] = useState(defaultUserInformationContext.userInformation);
-  
+
   const getUserInformation = async () => {
-    if (authState.user?.email){
+    setUserInformation({
+      ...defaultUserInformationContext.userInformation,
+      isLoading: true,
+    });
+    if (authState.user?.email) {
       const docRef = doc(db, "users", authState.user.email);
       const docSnap = await getDoc(docRef);
 
@@ -41,13 +46,22 @@ export const UserInformationProvider = ({ children }) => {
           isLoading: false,
         }));
       } else {
-        setUserInformation((current) => ({
-          ...current,
+        setUserInformation(() => ({
+          ...defaultUserInformationContext.userInformation,
           isLoading: false,
         }));
       }
     }
   }
+
+  const clearUserInformation = () => {
+    setUserInformation({
+      firstname: null,
+      lastname: null,
+      email: null,
+      isLoading: false,
+    });
+  };
 
   useEffect(() => {
     console.log('Fetching user data...');
@@ -59,9 +73,10 @@ export const UserInformationProvider = ({ children }) => {
       value={{
         userInformation,
         getUserInformation,
+        clearUserInformation,
       }}>
       {authState.isLoading && userInformation.isLoading ? (
-        <Loading/>
+        <Loading />
       ) : (
         children
       )}

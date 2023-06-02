@@ -6,6 +6,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
 import { UserInformationContext } from "../providers/UserInformationProvider";
+import { SupportContext } from "../providers/SupportProvider";
 import { ListContext } from "../providers/ListProvider";
 
 // Components
@@ -17,8 +18,9 @@ import '../stylesheets/Dashboard.css';
 
 const Profile = () => {
   const { providerLogout } = useContext(AuthContext);
-  const { lists } = useContext(ListContext);
-  const { userInformation, getUserInformation } = useContext(UserInformationContext);
+  const { lists, clearLists } = useContext(ListContext);
+  const { userInformation, getUserInformation, clearUserInformation } = useContext(UserInformationContext);
+  const { clearSupportTickets } = useContext(SupportContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,6 +34,9 @@ const Profile = () => {
   const [productCount, setProductCount] = useState(0);
 
   const logout = () => {
+    clearUserInformation();
+    clearSupportTickets();
+    clearLists();
     providerLogout();
     navigate('/');
   };
