@@ -84,8 +84,9 @@ export const SupportProvider = props =>{
     };
 
     useEffect(()=>{
+        // console.log(userInformation.email)
         getSupportTickets()
-    }, [authState])
+    }, [authState, userInformation])
 
     return (
         <SupportContext.Provider value={{

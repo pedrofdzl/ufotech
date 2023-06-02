@@ -59,6 +59,7 @@ const Search = () => {
 
   return (
     <>
+    <HeaderNavitagion/>
      <div className='safe-area'>
         <div style={{ height: 26 }}/>
         <form style={{ position: 'relative' }} onSubmit={searchHandler}>
