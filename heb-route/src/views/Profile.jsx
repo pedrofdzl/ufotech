@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { db } from '../firebase/firebase';
+import { db, storage } from '../firebase/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
@@ -14,6 +15,10 @@ import { Button } from "../components/ui/Button";
 
 // Stylesheets
 import '../stylesheets/Dashboard.css';
+import '../stylesheets/Support.css';
+
+// Default Image
+import defaultProfileImage from '../assets/img/hebimage.png'
 
 const Profile = () => {
   const { providerLogout } = useContext(AuthContext);
@@ -22,9 +27,14 @@ const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Forms Value
   const [editing, setEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLasttName] = useState('');
+
+  const [profilePicFile, setProfilePicFile] = useState('');
+  const [editProfilePic, setEditProfilePic] = useState(false);
+  
   const [errorMessage, setErrorMessage] = useState('');
 
   const [listCount, setListCount] = useState(0);
@@ -44,6 +54,7 @@ const Profile = () => {
     setFirstName(userInformation.firstName);
     setLasttName(userInformation.lastName)
     setEditing(false);
+    setErrorMessage('');
   }
 
   const firstNameHandler = event => {
@@ -66,7 +77,6 @@ const Profile = () => {
       return
     }
 
-
     const userDoc = doc(db, 'users', userInformation.email);
     updateDoc(userDoc, {
       name: firstName,
@@ -75,8 +85,49 @@ const Profile = () => {
       setEditing(false);
       getUserInformation();
       setErrorMessage('')
-    })
+    });
+  }
+  
+  const editProfilePicHandler = event =>{
+    setEditProfilePic(true)
+  }
 
+  const cancelEditProfilePic = event => {
+    setEditProfilePic(false);
+    setErrorMessage('');
+  }
+
+  const fileChangeHandler = event => {
+    setProfilePicFile(event.target.files[0]);
+  }
+
+  const submitProfilePicHandler = event => {
+    event.preventDefault();
+
+    if(!profilePicFile){
+      setErrorMessage('¡No se encontro una imagen!')
+      return
+    }
+
+    const storageRef = ref(storage, `/files/${userInformation.email}/${profilePicFile.name}`);
+
+    uploadBytes(storageRef, profilePicFile).then((snapshot)=>{
+      console.log('Image Uploaded')
+
+      getDownloadURL(snapshot.ref).then((url)=>{
+        const userDoc = doc(db, 'users', userInformation.email);
+        updateDoc(userDoc, {
+          profilepic: url,
+        }).then((userSnapshot)=>{
+          setEditProfilePic(false)
+          setErrorMessage('')
+          getUserInformation();
+        })
+      }).catch(err=>{
+        console.log(err);
+        setErrorMessage('No se pudo subir la imagen, intentalo nuevamente')
+      })
+    });
   }
 
   useEffect(() => {
@@ -110,10 +161,14 @@ const Profile = () => {
   return (
 
     <>
-      {userInformation && !editing && <div style={{ width: 'calc(100vw - 32px)' }}>
+      {userInformation && !editing && !editProfilePic && <div style={{ width: 'calc(100vw - 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
           <div className='profile-picture'>
-            <img src='https://media.newyorker.com/photos/5ba177da9eb2f7420aadeb98/1:1/w_1003,h_1003,c_limit/Cohen-Linus-Torvalds.jpg' alt={'profile-pic'} />
+            {(userInformation.profilepic) ? 
+              <img src={userInformation.profilepic} alt={'profile-pic'} onClick={editProfilePicHandler} />
+              :
+              <img src={defaultProfileImage} alt={'profile-pic'} onClick={editProfilePicHandler} />
+            }
           </div>
           <Text variant={'h2'} styles={{ fontSize: 24, marginBottom: 0, marginTop: 24 }}>{userInformation.firstName} {userInformation.lastName}</Text>
           <Text variant={'b2'} styles={{ margin: 0, fontWeight: 300 }}>{userInformation.email}</Text>
@@ -144,6 +199,17 @@ const Profile = () => {
       </div>
       }
 
+      {editProfilePic &&
+        <div>
+          <form onSubmit={submitProfilePicHandler}>
+            {errorMessage && <h4 className='error-message'>{errorMessage}</h4>}
+            <label htmlFor="">Profile Image</label>
+            <input type="file" onChange={fileChangeHandler} accept="/image/*" />
+            <input type="submit" className="btn btn-primary" value={'Salvar'} />
+            <Button variant="secondary" callbackFunction={cancelEditProfilePic}>Cancelar</Button>
+          </form>
+        </div>
+      }
 
       {editing &&
         <>
@@ -151,7 +217,7 @@ const Profile = () => {
             <Text variant={'h2'}>Editar perfil</Text>
           </div>
           <form onSubmit={submitHandler}>
-            {errorMessage && <h4>{errorMessage}</h4>}
+            {errorMessage && <h4 className='error-message'>{errorMessage}</h4>}
             <label htmlFor="">Nombre</label>
             <input onChange={firstNameHandler} type="text" value={firstName} />
             <label htmlFor="">Apellido</label>
