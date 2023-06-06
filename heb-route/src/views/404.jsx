@@ -11,8 +11,8 @@ const Error404 = () => {
     return (
         <div className='error-container'>
             <div className='centered-container'>
-                <Text>Pagina No Encontrada!</Text>
-                <Text variant={'b2'}>Parece que la página que estas buscando no existe, regresa al <Link to={'/'} replace ><span>Dashboard</span></Link> </Text>
+                <Text>¡Página No Encontrada!</Text>
+                <Text variant={'b2'}>La página que estás buscando no existe, regresa a la <Link to={'/'} replace ><span>Página de inicio</span></Link> </Text>
             </div>
         </div>
     );

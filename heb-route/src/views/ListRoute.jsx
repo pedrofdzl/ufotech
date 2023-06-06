@@ -13,7 +13,7 @@ import { ModalContext } from '../providers/ModalProvider';
 import { RouteItem } from '../components/simulation/RouteItem';
 import { Button } from '../components/ui/Button';
 import { Text } from '../components/ui/Text';
-import Canvas from '../components/simulation/Canvas'
+import Canvas from '../components/simulation/Canvas.tsx'
 
 // Stylesheets
 import '../stylesheets/Route.css';
