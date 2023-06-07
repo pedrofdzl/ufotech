@@ -131,6 +131,12 @@ const Profile = () => {
   }
 
   useEffect(() => {
+    if (!userInformation?.firstName) {
+      getUserInformation();
+    }
+  }, []);
+
+  useEffect(() => {
     setFirstName(userInformation.firstName);
     setLasttName(userInformation.lastName)
 
@@ -159,7 +165,6 @@ const Profile = () => {
   }, [userInformation.firstName, userInformation.lastName]);
 
   return (
-
     <>
       {userInformation && !editing && !editProfilePic && <div style={{ width: 'calc(100vw - 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
