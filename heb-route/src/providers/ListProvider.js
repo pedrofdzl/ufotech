@@ -53,6 +53,7 @@ export const ListProvider = ({ children }) => {
     const listCollection = collection(db, 'Listas');
     const listasQuery = query(listCollection);
     const fetchedLists = await getDocs(listasQuery);
+    let auxLists = {};
 
     if (fetchedLists.size > 0) {
       fetchedLists.forEach((doc) => {
@@ -68,7 +69,6 @@ export const ListProvider = ({ children }) => {
             ).Precio;
             total += parseFloat(price) * data.Products[prod].quantity;
           });
-          let auxLists = lists?.myLists;
           auxLists[doc.id] = {
             name: data.Nombre,
             owner: data.Owner,
@@ -77,13 +77,13 @@ export const ListProvider = ({ children }) => {
             type: data?.Collaborators ? 'shared' : 'private',
             total: total,
           };
-          setLists({ myLists: auxLists, isLoading: false });
         }
       });
     } else {
       setLists({ myLists: {}, isLoading: false });
+      return;
     }
-    setLists({ ...lists, isLoading: false });
+    setLists({ myLists: auxLists, isLoading: false });
   };
 
   const resetMyLists = async () => {
@@ -244,8 +244,9 @@ export const ListProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    setLists({ ...defaultListContext.lists });
     getLists();
-  }, [authState]);
+  }, [userInformation]);
 
   return (
     <ListContext.Provider

@@ -47,6 +47,10 @@ export const UserInformationProvider = ({ children }) => {
           isLoading: false,
         }));
       }
+    } else {
+      setUserInformation({
+        ...defaultUserInformationContext.userInformation
+      });
     }
   }
 
