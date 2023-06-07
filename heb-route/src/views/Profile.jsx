@@ -170,6 +170,7 @@ const Profile = () => {
               <img src={defaultProfileImage} alt={'profile-pic'} onClick={editProfilePicHandler} />
             }
           </div>
+          <Text variant="b2">Change Profile Photo</Text>
           <Text variant={'h2'} styles={{ fontSize: 24, marginBottom: 0, marginTop: 24 }}>{userInformation.firstName} {userInformation.lastName}</Text>
           <Text variant={'b2'} styles={{ margin: 0, fontWeight: 300 }}>{userInformation.email}</Text>
         </div>
