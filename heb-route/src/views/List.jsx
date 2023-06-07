@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link, createSearchParams } from 'react-router-dom';
 
 // Navigation
 import HeaderNavitagion from '../navigators/HeaderNavigation';
@@ -228,7 +228,7 @@ const List = () => {
       {Object.keys(list.products).length <= 0 && (
         <div className='list-empty'>
           <Text variant={'b4'}>No has agregado productos a esta lista</Text>
-          <Button callbackFunction={() => navigate('/dashboard')}>
+          <Button callbackFunction={() => navigate({pathname: '/dashboard', search: `?${createSearchParams({'tab': 'Dashboard'})}`})}>
             Ir a catalogo
           </Button>
         </div>
