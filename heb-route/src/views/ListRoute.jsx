@@ -21,14 +21,6 @@ import '../stylesheets/Route.css';
 // Styles
 import styled from '@emotion/styled';
 
-const CanvasBox = styled.div`
-    box-sizing: border-box;
-    margin: 0 auto;
-    display: block;
-    max-width: 100%;
-    max-height: calc(100% - 32px);
-    overflow: hidden;
-`;
 
 const ListRoute = () => {
   const { listID } = useParams();
@@ -151,11 +143,31 @@ const ListRoute = () => {
   return (
     <>
       <HeaderNavitagion backgroundColor={'#f1f1f1'} />
+      <div className='route-simbology-container'>
+        <Text variant='h5'>Simbología: </Text>
+        <div className='route-simbology-item'>
+          <div className='item-symbol'>
+            <div className='item-box' style={{ backgroundColor: 'orange' }}> </div>
+            <span className='item'>Inicio</span>
+          </div>
+          <div  className='item-symbol'>
+            <div className='item-box' style={{ backgroundColor: '#cf5050' }}> </div>
+            <span className='item'>Fin</span>
+          </div>
+          <div className='item-symbol'>
+            <div className='item-box' style={{ backgroundColor: '#ffcbcb' }}> </div>
+            <span className='item'>Ruta</span>
+          </div>
+        </div>
+      </div>
+      
       <div className='route-simulation-container' ref={canvasSizeRef}>
-        <CanvasBox> {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}</CanvasBox>
+        {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}
       </div>
       <div className='route-paper-container'>
         <Button callbackFunction={() => centerButtonClicked()}>Centrar Mapa</Button>
+        
+
         {nodeQueue.slice().reverse().map((node, index) => {
           return (
             <div key={index}>
