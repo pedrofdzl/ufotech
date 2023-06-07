@@ -1,5 +1,30 @@
+.route-simbology-container {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.route-simbology-item {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+.item-box {
+    width: 10px;
+    height: 10px;
+}
+.item {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+.item-symbol {
+    display: flex;
+    align-items: center;
+}
+
+
 .route-simulation-container {
-    height: 40vh;
+    height: 32vh;
     width: 100vw;
     background-color: #f1f1f1;
     z-index: -1;
@@ -9,7 +34,7 @@
     box-shadow: 0px -10px 10px rgba(0, 0, 0, 0.05);
     width: calc(100vw - 32px);
     padding: 40px 16px;
-    margin-top: -32px;
+    /* margin-top: -32px; */
     border-radius: 32px 32px 0px 0px;
     background-color: white;
 }
