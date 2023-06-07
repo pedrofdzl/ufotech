@@ -10,8 +10,8 @@ import Lists from '../views/Lists';
 import '../stylesheets/Navigation.css';
 
 // Icons
-import { AiOutlineShop, AiOutlineShoppingCart } from 'react-icons/ai';
-import { BsPerson } from 'react-icons/bs';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { BsPerson, BsListCheck } from 'react-icons/bs';
 
 // Providers
 import { ModalContext } from '../providers/ModalProvider';
@@ -51,7 +51,7 @@ const BottomNavigation = () => {
       </div>
       <div className='bottom-navigation'>
         <button>
-          <AiOutlineShoppingCart
+          <BsListCheck
             onClick={() => {
               setSearchParams({ tab: 'Lists' });
               setCurrentTab('Lists');
@@ -61,7 +61,7 @@ const BottomNavigation = () => {
           />
         </button>
         <button>
-          <AiOutlineShop
+          <AiOutlineShoppingCart
             onClick={() => {
               setSearchParams({ tab: 'Dashboard' });
               setCurrentTab('Dashboard');
