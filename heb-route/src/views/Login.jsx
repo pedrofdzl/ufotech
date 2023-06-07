@@ -38,7 +38,7 @@ const Login = () => {
 
     const isValid = await providerLogin(email, password);
     console.log(isValid);
-    if(isValid === false){
+    if(!isValid){
       setErrorMessage('El Correo o Contraseña es incorrecto')
     }
   };
