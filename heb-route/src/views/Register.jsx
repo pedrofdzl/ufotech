@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Providers
 import { AuthContext } from "../providers/AuthProvider";
+import { NotificationContext } from '../providers/NotificationProvider';
 
 // Components
 import { Text } from "../components/ui/Text";
@@ -10,25 +11,43 @@ import { Button } from "../components/ui/Button";
 
 // Stylesheets
 import '../stylesheets/Auth.css';
+import '../stylesheets/Support.css';
 
 const Register = () => {
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState('')
+
   const { providerRegister } = useContext(AuthContext);
+  const { queueNotification } = useContext(NotificationContext)
   const navigate = useNavigate();
 
-  const submitRegistration = (e) => {
+  const successHandler = () =>{
+    queueNotification({message: '¡Usuario creado exitosamente!', type: 'success'})
+    setError(false)
+    setMessage('')
+  }
+
+  const submitRegistration = async(e) => {
       e.preventDefault();
       let name = e.target.elements.nameField.value;
       let lastname = e.target.elements.lastnameField.value;
       let email = e.target.elements.emailField.value;
       let password = e.target.elements.passwordField.value;
       let repPassword = e.target.elements.repPasswordField.value;
-      providerRegister(name, lastname, email, password, repPassword);
+
+      const errorState = await providerRegister(name, lastname, email, password, repPassword, successHandler);
+      if (errorState.error){
+        setError(true)
+        setMessage(errorState.message)
+      }
   };
 
   return (
     <div className="auth-container">
       <Text variant={'h1'}>Regístrate</Text>
       <form onSubmit={submitRegistration}>
+      {error && <h4 className='error-message'>{message}</h4>}
+
         <div className="auth-form-fields">
          <label htmlFor="nameField"> Nombre </label>
          <input type="name" id="nameField"/>

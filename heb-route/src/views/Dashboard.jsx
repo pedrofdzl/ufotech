@@ -8,6 +8,7 @@ import {
 
 // Providers
 import { ProductContext } from '../providers/ProductProvider';
+import { UserInformationContext } from "../providers/UserInformationProvider";
 
 // Components
 import { Text } from '../components/ui/Text';
@@ -22,9 +23,14 @@ import { SlLocationPin } from 'react-icons/sl';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { BiSearch } from 'react-icons/bi';
 
+// Default Image
+import defaultProfileImage from '../assets/img/hebimage.png'
+
 const Dashboard = (props) => {
   const navigate = useNavigate();
   const { categories } = useContext(ProductContext);
+const { userInformation } = useContext(UserInformationContext);
+
   const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
 
@@ -48,8 +54,12 @@ const Dashboard = (props) => {
           <Text variant={'b22'}>Sucursal Av. Manuel Gómez Morín</Text>
         </div>
         <div className='dashboard-profile-picture'>
-          <img src='https://media.newyorker.com/photos/5ba177da9eb2f7420aadeb98/1:1/w_1003,h_1003,c_limit/Cohen-Linus-Torvalds.jpg' alt={'profile-pic'} />
-        </div>
+            {(userInformation.profilepic) ? 
+              <img src={userInformation.profilepic} alt={'profile-pic'} />
+              :
+              <img src={defaultProfileImage} alt={'profile-pic'} />
+            }
+          </div>
       </div>
       <form style={{ position: 'relative' }} onSubmit={searchHandler}>
         <BiSearch

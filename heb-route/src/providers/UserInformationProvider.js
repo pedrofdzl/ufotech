@@ -38,6 +38,7 @@ export const UserInformationProvider = ({ children }) => {
           firstName: docSnap.data().name,
           lastName: docSnap.data().lastname,
           email: docSnap.data().email,
+          profilepic:  (docSnap.data().profilepic !== undefined) ? docSnap.data().profilepic : '',
           isLoading: false,
         }));
       } else {

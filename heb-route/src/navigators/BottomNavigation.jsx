@@ -27,7 +27,7 @@ const BottomNavigation = () => {
   useEffect(() => {
     const currTab = searchParams.get('tab');
 
-    if (!currTab || !validRoutes.includes(currTab)) setCurrentTab('Dashboard');
+    if (!currTab || !validRoutes.includes(currTab)) setCurrentTab('Lists');
     else setCurrentTab(currTab);
 
     const listInviteID = searchParams.get('listInviteID');

@@ -10,6 +10,7 @@ import { Button } from "../components/ui/Button";
 
 // Stylesheets
 import '../stylesheets/Auth.css';
+import '../stylesheets/Support.css';
 
 const Login = () => {
   const { providerLogin } = useContext(AuthContext);
@@ -36,7 +37,8 @@ const Login = () => {
     }
 
     const isValid = await providerLogin(email, password);
-    if(!isValid){
+    console.log(isValid);
+    if(isValid === false){
       setErrorMessage('El Correo o Contraseña es incorrecto')
     }
   };
@@ -45,7 +47,7 @@ const Login = () => {
     <div className="auth-container">
       <Text variant={'h1'}>¡Bienvenido de vuelta!</Text>
       <form onSubmit={submitLogin}>
-        {errorMessage && <h4>{errorMessage}</h4>}
+        {errorMessage && <h4 className='error-message'>{errorMessage}</h4>}
         <div className="auth-form-fields">
           <label htmlFor="emailField"> Correo electrónico </label>
           <input type="email" id="emailField" onChange={emailHandler} />          
