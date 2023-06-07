@@ -398,7 +398,7 @@ export default function Canvas({
     if (context === null || !preDone) {
       return;
     }
-    if (map.length === 0 || adjListPath.length === 0) {
+    if (map.length === 0 || Object.keys(adjListPath).length === 0) {
       setPreDone(false);
       return;
     }
