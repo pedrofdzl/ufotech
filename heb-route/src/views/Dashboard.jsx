@@ -38,7 +38,7 @@ const { userInformation } = useContext(UserInformationContext);
     event.preventDefault();
     navigate({
       pathname: '/search',
-      search: `?${createSearchParams({ search: searchTerm })}`,
+      search: `?${createSearchParams({ search: searchTerm })}`
     });
   };
 

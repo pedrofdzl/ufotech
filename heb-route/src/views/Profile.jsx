@@ -42,8 +42,9 @@ const Profile = () => {
   const [productCount, setProductCount] = useState(0);
 
   const logout = () => {
-    providerLogout();
-    navigate('/');
+    if (providerLogout()) {
+      navigate('/');
+    }
   };
 
   const editHandler = () => {
