@@ -23,13 +23,20 @@ export const register = async(name, lastname, email, password, repPassword, suce
     }
 
     const regEmail = /\S+@\S+\.\S+/;
-    if (!regEmail.test(email)) return { error: true, message: 'El correo electrónico no es válido' }
+    if (!regEmail.test(email)) 
+        return { error: true, message: 'El correo electrónico no es válido' }
 
-    if (password !== repPassword) return { error: true, message: 'Las contraseñas no coinciden.' }
+    if (password !== repPassword) 
+        return { error: true, message: 'Las contraseñas no coinciden.' }
     
-    if (password.length < 8) return { error: true, message: 'La contraseña debe tener al menos 8 caracteres.'}
+    if (password.length < 8) 
+        return { error: true, message: 'La contraseña debe tener al menos 8 caracteres.'}
 
-    if (name.length < 3) return { error: true, message: 'El nombre debe tener al menos 3 caracteres.'}
+    if (name.length < 2) 
+        return { error: true, message: 'El nombre debe tener al menos 2 caracteres.'}
+
+    if (lastname.length < 2)
+        return { error: true, message: 'El apellido debe tener al menos 2 caracteres.'}
     
     try{
         const user = await app.auth().createUserWithEmailAndPassword(email, password)
@@ -40,7 +47,6 @@ export const register = async(name, lastname, email, password, repPassword, suce
             name: name,
             lastname: lastname,
         });
-        console.log("Usuario Creado:", user.user)
         sucess()
 
     }catch(e){

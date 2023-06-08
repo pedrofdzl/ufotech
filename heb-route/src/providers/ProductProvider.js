@@ -27,7 +27,6 @@ export const ProductProvider = ({ children }) => {
   );
 
   const getCategories = async () => {
-    // Categorias
     const categoryCollection = collection(db, 'Categorias');
     const fetchedCategories = await getDocs(categoryCollection);
     fetchedCategories.forEach((doc) => {
@@ -45,7 +44,6 @@ export const ProductProvider = ({ children }) => {
       }
     });
 
-    // Nodos
     let auxNodos = {};
     const nodeCollection = collection(db, 'Sucursales');
     const fetchedNodes = await getDocs(nodeCollection);
@@ -81,7 +79,6 @@ export const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     if (Object.keys(categories.categories).length === 0) {
-      console.log('Fetching categories...');
       getCategories();
     }
   }, []);

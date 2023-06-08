@@ -58,7 +58,7 @@ const SupportTicket = () => {
     setErrorMessage('')
     setAsunto('')
     setContenido('')
-    queueNotification({message: '¡Se ha enviado Ticket con exito!', type: 'success'})
+    queueNotification({message: 'Se ha enviado el ticket con éxito', type: 'success'})
     navigate('/support', { replace: true })
   }
 
@@ -74,9 +74,9 @@ const SupportTicket = () => {
     <HeaderNavigation />
     <div className="safe-area">
       <div className='view-header' style={{ paddingTop: 8 }} >
-        <Text variant={'h2'}>Crear Tickets</Text>
+        <Text variant={'h2'}>Crear tickets</Text>
       </div>
-      {error && (errorMessage.length > 0 ? <h4 className='error-message'>{errorMessage}</h4> : <h4 className='error-message'>Algo salió mal, verifica que la información sea correcta.</h4>)}
+      {error && (errorMessage.length > 0 ? <h4 className='error-message'>{errorMessage}</h4> : <h4 className='error-message'>Algo salió mal, verifica que la información sea correcta</h4>)}
 
 
       <form onSubmit={submitHandler}>

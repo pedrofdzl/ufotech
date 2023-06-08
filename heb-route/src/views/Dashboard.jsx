@@ -80,7 +80,7 @@ const { userInformation } = useContext(UserInformationContext);
           value={searchTerm}
         />
       </form>
-      <Text variant={'h2'}>Categorias</Text>
+      <Text variant={'h2'}>Categorías</Text>
 
       <div className='category-card-carousel'>
         {Object.keys(categories.categories).map((category) => {

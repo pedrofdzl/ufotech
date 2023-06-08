@@ -37,9 +37,8 @@ const Login = () => {
     }
 
     const isValid = await providerLogin(email, password);
-    console.log(isValid);
     if(!isValid){
-      setErrorMessage('El Correo o Contraseña es incorrecto')
+      setErrorMessage('El correo o contraseña es incorrecto')
     }
   };
 
@@ -55,7 +54,7 @@ const Login = () => {
           <input type="password" id="passwordField" onChange={passwordHandler} />
         </div>
         <div className="auth-buttons">
-          <Button callbackFunction={() => submitLogin()}> Iniciar Sesión </Button>
+          <Button callbackFunction={() => submitLogin()}> Iniciar sesión </Button>
           <Button variant={'secondary'} callbackFunction={() => navigate('/register')}><Text variant={'b4'} styles={{ margin: 0 }}>¿No tienes cuenta? <span>Regístrate</span></Text></Button>
         </div>
       </form>

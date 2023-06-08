@@ -32,7 +32,6 @@ export const ListModal = () => {
   }, [listModalPayload]);
 
   const submitHandler = () => {
-    console.log(userInformation.email)
     createList({
       name: listModalPayload.currentName,
       owner: userInformation.email,

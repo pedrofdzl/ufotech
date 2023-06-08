@@ -28,7 +28,6 @@ const defaultListContext = {
     isLoading: true,
   },
   getLists: async () => {},
-  resetMyLists: async () => {},
   createList: async () => {},
   updateList: async () => {},
   deleteList: async () => {},
@@ -49,13 +48,12 @@ export const ListProvider = ({ children }) => {
   const [lists, setLists] = useState(defaultListContext.lists);
 
   const getLists = async () => {
-    console.log('Fetching lists...');
     const listCollection = collection(db, 'Listas');
     const listasQuery = query(listCollection);
     const fetchedLists = await getDocs(listasQuery);
     let auxLists = {};
 
-    if (fetchedLists.size > 0) {
+    if (fetchedLists.size > 0 && userInformation.email !== null) {
       fetchedLists.forEach((doc) => {
         const data = doc.data();
         if (data.Owner === userInformation.email || data?.Collaborators?.find((email) => email === userInformation.email)) {
@@ -79,20 +77,8 @@ export const ListProvider = ({ children }) => {
           };
         }
       });
-    } else {
-      setLists({ myLists: {}, isLoading: false });
-      return;
     }
     setLists({ myLists: auxLists, isLoading: false });
-  };
-
-  const resetMyLists = async () => {
-    console.log('Reseting Lists...');
-    setLists({
-      myLists: {},
-      isLoading: false,
-    });
-    getLists();
   };
 
   const createList = async ({ name, owner, success }) => {
@@ -106,7 +92,7 @@ export const ListProvider = ({ children }) => {
       Products: {},
     }).then((lista) => {
       queueNotification({
-        message: 'Lista creada existosamente!',
+        message: 'Lista creada exitosamente',
         type: 'success',
       });
       success();
@@ -121,7 +107,7 @@ export const ListProvider = ({ children }) => {
       LastUpdate: date,
     }).then(() => {
       queueNotification({
-        message: 'Lista actualizada existosamente!',
+        message: 'Lista actualizada exitosamente',
         type: 'success',
       });
       success();
@@ -132,7 +118,7 @@ export const ListProvider = ({ children }) => {
     const listReference = doc(db, 'Listas', list);
     deleteDoc(listReference).then(() => {
       queueNotification({
-        message: 'Lista eliminada existosamente!',
+        message: 'Lista eliminada exitosamente',
         type: 'success-variant',
       });
       success();
@@ -163,7 +149,7 @@ export const ListProvider = ({ children }) => {
         Products: auxProducts,
       }).then(() => {
         queueNotification({
-          message: 'Artículo agregado existosamente!',
+          message: 'Artículo agregado exitosamente',
           type: 'success',
         });
         getLists();
@@ -195,7 +181,7 @@ export const ListProvider = ({ children }) => {
         Products: auxProducts,
       }).then(() => {
         queueNotification({
-          message: 'Artículo modificado existosamente!',
+          message: 'Artículo modificado exitosamente',
           type: 'success',
         });
         getLists();
@@ -227,7 +213,7 @@ export const ListProvider = ({ children }) => {
       listData.Collaborators.push(userEmail);
       updateDoc(listRef, listData).then(() => {
         queueNotification({
-          message: 'Te has unido con éxito!',
+          message: 'Te has unido con éxito',
           type: 'success',
         });
         getLists();
@@ -244,7 +230,6 @@ export const ListProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setLists({ ...defaultListContext.lists });
     getLists();
   }, [userInformation]);
 
@@ -253,7 +238,6 @@ export const ListProvider = ({ children }) => {
       value={{
         lists,
         getLists,
-        resetMyLists,
         createList,
         updateList,
         deleteList,

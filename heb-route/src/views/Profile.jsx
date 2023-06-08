@@ -68,12 +68,12 @@ const Profile = () => {
     event.preventDefault();
 
     if (!(firstName.length > 0) || !(lastName.length > 0)) {
-      setErrorMessage('Se tienen que llenar todos los campos!');
+      setErrorMessage('Se tienen que llenar todos los campos');
       return
     }
 
-    if (firstName.length < 3) {
-      setErrorMessage('El nombre debe tener minimo 3 caracteres');
+    if (firstName.length < 2) {
+      setErrorMessage('El nombre debe tener mínimo 2 caracteres');
       return
     }
 
@@ -105,15 +105,13 @@ const Profile = () => {
     event.preventDefault();
 
     if(!profilePicFile){
-      setErrorMessage('¡No se encontro una imagen!')
+      setErrorMessage('No se encontró una imagen')
       return
     }
 
     const storageRef = ref(storage, `/files/${userInformation.email}/${profilePicFile.name}`);
 
     uploadBytes(storageRef, profilePicFile).then((snapshot)=>{
-      console.log('Image Uploaded')
-
       getDownloadURL(snapshot.ref).then((url)=>{
         const userDoc = doc(db, 'users', userInformation.email);
         updateDoc(userDoc, {
@@ -125,7 +123,7 @@ const Profile = () => {
         })
       }).catch(err=>{
         console.log(err);
-        setErrorMessage('No se pudo subir la imagen, intentalo nuevamente')
+        setErrorMessage('No se pudo subir la imagen, inténtalo nuevamente')
       })
     });
   }
@@ -175,7 +173,7 @@ const Profile = () => {
               <img src={defaultProfileImage} alt={'profile-pic'} onClick={editProfilePicHandler} />
             }
           </div>
-          <Text variant="b2">Change Profile Photo</Text>
+          <Text variant="b2">Cambiar foto de perfil</Text>
           <Text variant={'h2'} styles={{ fontSize: 24, marginBottom: 0, marginTop: 24 }}>{userInformation.firstName} {userInformation.lastName}</Text>
           <Text variant={'b2'} styles={{ margin: 0, fontWeight: 300 }}>{userInformation.email}</Text>
         </div>
@@ -209,9 +207,9 @@ const Profile = () => {
         <div>
           <form onSubmit={submitProfilePicHandler}>
             {errorMessage && <h4 className='error-message'>{errorMessage}</h4>}
-            <label htmlFor="">Profile Image</label>
+            <label htmlFor="">Imagen de perfil</label>
             <input type="file" onChange={fileChangeHandler} accept="/image/*" />
-            <input type="submit" className="btn btn-primary" value={'Salvar'} />
+            <input type="submit" className="btn btn-primary" value={'Guardar'} />
             <Button variant="secondary" callbackFunction={cancelEditProfilePic}>Cancelar</Button>
           </form>
         </div>
