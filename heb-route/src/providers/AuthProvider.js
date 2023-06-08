@@ -49,10 +49,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const providerLogin = async (email, password) => {
-    app.auth()
+    return app.auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-        console.log("Usuario Iniciado:", user.user);
         return true;
     }).catch((error) => {
         console.log(error.code);
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const providerLogout = async () => {
-    app.auth()
+    return app.auth()
       .signOut()
       .then(() => {
         setAuthState({

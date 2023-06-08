@@ -165,7 +165,7 @@ const ListRoute = () => {
         {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}
       </div>
       <div className='route-paper-container'>
-        <Button callbackFunction={() => centerButtonClicked()}>Centrar Mapa</Button>
+        <Button callbackFunction={() => centerButtonClicked()}>Centrar mapa</Button>
         
 
         {nodeQueue.slice().reverse().map((node, index) => {

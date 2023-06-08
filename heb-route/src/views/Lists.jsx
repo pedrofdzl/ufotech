@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 // Providers
 import { ListContext } from '../providers/ListProvider';
 import { ModalContext } from '../providers/ModalProvider';
+import { UserInformationContext } from "../providers/UserInformationProvider";
 
 // Components
 import { Text } from '../components/ui/Text';
@@ -25,6 +26,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 const Lists = () => {
   const { lists, getLists } = useContext(ListContext);
   const { setListModalOpen, setListModalPayload } = useContext(ModalContext);
+  const { userInformation, getUserInformation } = useContext(UserInformationContext);
 
   const [selectedTab, setSelectedTab] = useState(1);
 
@@ -33,6 +35,10 @@ const Lists = () => {
   useEffect(() => {
     getLists();
     window.scrollTo(0, 0);
+
+    if (!userInformation?.email) {
+      getUserInformation();
+    }
   }, []);
 
   const openListModal = () => {

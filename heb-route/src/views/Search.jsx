@@ -81,6 +81,9 @@ const Search = () => {
             value={searchInput}
           />
         </form>
+        {prods.length === 0 && 
+            <Text variant={'b22'} styles={{ 'text-align': 'center' }}>No se encontraron resultados</Text>
+        }
                 {prods.map((product) => {
           return (
             // <Link className="product-card" to={`/products/${product.Categoria}/${product.id}`} state={{prev: location.pathname, search: location.search}} key={product.id}></Link>

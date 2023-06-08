@@ -47,11 +47,14 @@ export const UserInformationProvider = ({ children }) => {
           isLoading: false,
         }));
       }
+    } else {
+      setUserInformation({
+        ...defaultUserInformationContext.userInformation
+      });
     }
   }
 
   useEffect(() => {
-    console.log('Fetching user data...');
     getUserInformation();
   }, [authState]);
 

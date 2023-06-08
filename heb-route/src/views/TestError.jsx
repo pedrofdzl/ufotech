@@ -7,7 +7,7 @@ const TestError = props => {
         // throw new Error('404');
         throw new http404('404');
     }else{
-        return <h1>No Error</h1>
+        return <h1>No hay error</h1>
     }
 
 }

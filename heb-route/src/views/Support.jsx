@@ -54,7 +54,7 @@ const Support = () => {
           </div>
           <Text variant='b3'>{ticket.estatus}</Text>
         </div>
-      }) : <Text>¡No tienes Tickets Asignados!</Text>)}
+      }) : <Text variant='b22' styles={{ 'text-align': 'center' }}>No tienes tickets asignados</Text>)}
     </div>
   </>
 }

@@ -52,7 +52,7 @@ const Product = () => {
 
   // Check if category and product exists
   if (!(categoryID in categories.categories)){
-    throw new http404('Category Not Found!');
+    throw new http404('Categoría no encontrada');
   }
 
   const product = categories?.categories[categoryID].products.find(
@@ -60,7 +60,7 @@ const Product = () => {
   );
 
   if (!product){
-    throw new http404('Product Not Found!');
+    throw new http404('Producto no encontrado');
   }
 
   const openProductModal = () => {

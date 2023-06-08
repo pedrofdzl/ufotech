@@ -21,9 +21,9 @@ function App() {
           <ProductProvider>
             <ListProvider>
               <SupportProvider>
-              <ModalProvider>
-                <Router />
-              </ModalProvider>
+                <ModalProvider>
+                  <Router />
+                </ModalProvider>
               </SupportProvider>
             </ListProvider>
           </ProductProvider>

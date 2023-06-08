@@ -29,8 +29,8 @@ const Auth = () => {
         <img src={authImage}/>
       </div>
       <div className="auth-buttons">
-        <Button variant={'primary'} callbackFunction={() => navigate('/login')}>Iniciar Sesión</Button>
-        <Button variant={'secondary'} callbackFunction={() => navigate('/register')}>Crear Cuenta</Button>
+        <Button variant={'primary'} callbackFunction={() => navigate('/login')}>Iniciar sesión</Button>
+        <Button variant={'secondary'} callbackFunction={() => navigate('/register')}>Crear cuenta</Button>
       </div>
     </div>
   );

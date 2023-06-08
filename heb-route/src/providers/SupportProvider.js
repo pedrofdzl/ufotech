@@ -26,7 +26,6 @@ export const SupportProvider = props =>{
 
 
     const getSupportTickets = async() => {
-        console.log('Fetching Tickets...');
         const payload = {
             email: userInformation.email,
         };
@@ -84,9 +83,9 @@ export const SupportProvider = props =>{
     };
 
     useEffect(()=>{
-        // console.log(userInformation.email)
+        if (userInformation.email === null) return
         getSupportTickets()
-    }, [authState, userInformation])
+    }, [userInformation])
 
     return (
         <SupportContext.Provider value={{

@@ -11,7 +11,7 @@ const Error505 = () => {
     return (
         <div className='error-container'>
             <div className='centered-container'>
-                <Text>Error Interno de Servidor</Text>
+                <Text>Error interno de servidor</Text>
                 <Text variant={'b2'}>Hubo un error interno de servidor, disculpe las molestias</Text>
             </div>
         </div>
