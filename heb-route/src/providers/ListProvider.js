@@ -77,20 +77,8 @@ export const ListProvider = ({ children }) => {
           };
         }
       });
-    } else {
-      setLists({ myLists: {}, isLoading: false });
-      return;
     }
     setLists({ myLists: auxLists, isLoading: false });
-  };
-
-  const resetMyLists = async () => {
-    console.log('Reseting Lists...');
-    setLists({
-      myLists: {},
-      isLoading: false,
-    });
-    getLists();
   };
 
   const createList = async ({ name, owner, success }) => {
@@ -242,7 +230,6 @@ export const ListProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setLists({ ...defaultListContext.lists });
     getLists();
   }, [userInformation]);
 
