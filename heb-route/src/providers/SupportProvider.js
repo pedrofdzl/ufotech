@@ -26,25 +26,26 @@ export const SupportProvider = props =>{
 
 
     const getSupportTickets = async() => {
-        const payload = {
-            email: userInformation.email,
-        };
-
-        const response = await fetch(
-        "https://getmysupporttickets-4fwjrlkifa-uc.a.run.app",
-            {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: { "Content-Type": "application/json" },
+        if (userInformation.email !== null) {
+            const payload = {
+                email: userInformation.email,
+            };
+    
+            const response = await fetch(
+            "https://getmysupporttickets-4fwjrlkifa-uc.a.run.app",
+                {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "application/json" },
+                }
+            );
+            
+            if (response.ok){
+                const fetchedTickets = await response.json();
+                setSupportTickets({supportTickets: fetchedTickets, isLoading: false});
             }
-        );
-        
-        if (response.ok){
-            const fetchedTickets = await response.json();
-            setSupportTickets({supportTickets: fetchedTickets, isLoading: false});
-        }else{
-            setSupportTickets({ supportTickets: [], isLoading: false });
-        }
+        }   
+        setSupportTickets({ supportTickets: [], isLoading: false });
     }
 
     const createSupportTicket = async(asunto, contenido) =>{
@@ -83,7 +84,6 @@ export const SupportProvider = props =>{
     };
 
     useEffect(()=>{
-        if (userInformation.email === null) return
         getSupportTickets()
     }, [userInformation])
 
