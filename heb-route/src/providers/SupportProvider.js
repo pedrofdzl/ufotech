@@ -43,6 +43,7 @@ export const SupportProvider = props =>{
             if (response.ok){
                 const fetchedTickets = await response.json();
                 setSupportTickets({supportTickets: fetchedTickets, isLoading: false});
+                return;
             }
         }   
         setSupportTickets({ supportTickets: [], isLoading: false });
