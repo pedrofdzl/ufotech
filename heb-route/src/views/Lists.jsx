@@ -36,15 +36,19 @@ const Lists = () => {
     getLists();
     window.scrollTo(0, 0);
 
-    if (!userInformation?.email) {
-      getUserInformation();
-    }
-  }, []);
+  },[]);
 
   const openListModal = () => {
     setListModalPayload({ currentName: '' });
     setListModalOpen(true);
   };
+
+
+  useEffect(() => {
+    if (!userInformation?.firstName) {
+          getUserInformation();
+      }
+  }, []);
 
   return (
     <>

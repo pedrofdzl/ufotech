@@ -1,6 +1,8 @@
 import "firebase/compat/auth";
 import 'firebase/compat/firestore';
-import { app } from "../firebase/firebase";
+import { app, db } from "../firebase/firebase";
+import { delay } from "../utils/utils";
+import { setDoc, doc } from 'firebase/firestore'
 
 const registerToSQL = async(name, lastname, email) => {
     const response = await fetch('https://registeruser-4fwjrlkifa-uc.a.run.app',{
@@ -38,23 +40,43 @@ export const register = async(name, lastname, email, password, repPassword, suce
     if (lastname.length < 2)
         return { error: true, message: 'El apellido debe tener al menos 2 caracteres.'}
     
+
+    // app.auth().createUserWithEmailAndPassword(email, password).then(user=>{
+    //     // Register to sql
+    //     registerToSQL(name, lastname, email)
+    //     app.firestore().collection("users").doc(email).set({
+    //         email: email,
+    //         name: name,
+    //         lastname: lastname,
+    //     }).then(data=>{
+    //         delay(10000)
+    //         sucess()
+    //     });
+    // }).catch(e=>{
+    //     console.log(e.code);
+    //     console.log(e.message);
+    //     errorState =  { error: true, message: 'El correo electrónico ya está registrado'}
+    // })
+
     try{
         const user = await app.auth().createUserWithEmailAndPassword(email, password)
         // Register to sql
         registerToSQL(name, lastname, email)
-        app.firestore().collection("users").doc(email).set({
+        await setDoc(doc(db, 'users', email), {
             email: email,
             name: name,
             lastname: lastname,
         });
-        sucess()
+
+        delay(9000);
+        sucess();
 
     }catch(e){
             console.log(e.code);
             console.log(e.message);
         errorState =  { error: true, message: 'El correo electrónico ya está registrado'}
     }
-    console.log(errorState);
+    // console.log(errorState);
     return errorState
 
 
