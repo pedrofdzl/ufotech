@@ -24,7 +24,7 @@ export const ListModal = () => {
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
 
   useEffect(() => {
-    if (listModalPayload.currentName?.length > 0) {
+    if (listModalPayload.currentName?.length > 0 && userInformation?.email) {
       setSubmitButtonActive(true);
     } else {
       setSubmitButtonActive(false);

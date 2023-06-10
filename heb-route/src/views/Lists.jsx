@@ -45,9 +45,9 @@ const Lists = () => {
 
 
   useEffect(() => {
-    if (!userInformation?.firstName) {
-          getUserInformation();
-      }
+    if (!userInformation?.email) {
+      getUserInformation();
+    }
   }, []);
 
   return (

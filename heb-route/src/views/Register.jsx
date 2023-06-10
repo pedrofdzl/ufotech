@@ -24,7 +24,6 @@ const Register = () => {
   const successHandler = () =>{
     setError(false)
     setMessage('')
-    navigate('/')
     queueNotification({message: '¡Usuario creado exitosamente!', type: 'success'})
   }
 

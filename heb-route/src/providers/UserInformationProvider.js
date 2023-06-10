@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 // Database
 import { db } from '../firebase/firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 // Views
 import Loading from '../views/Loading';
@@ -12,8 +12,8 @@ import { AuthContext } from "../providers/AuthProvider";
 
 const defaultUserInformationContext = {
   userInformation: {
-    firstname: null,
-    lastname: null,
+    firstName: null,
+    lastName: null,
     email: null,
     isLoading: true,
   },
@@ -30,8 +30,8 @@ export const UserInformationProvider = ({ children }) => {
   const getUserInformation = async () => {
     if (authState.user?.email){
       const docRef = doc(db, "users", authState.user.email);
-      const docSnap = await getDoc(docRef);
 
+      const untilFound = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         setUserInformation((current) => ({
           ...current,
@@ -41,12 +41,15 @@ export const UserInformationProvider = ({ children }) => {
           profilepic:  (docSnap.data().profilepic !== undefined) ? docSnap.data().profilepic : '',
           isLoading: false,
         }));
+        untilFound(); // Stop listening for changes
       } else {
+        console.log("¡No se encontró el usuario!");
         setUserInformation((current) => ({
           ...current,
           isLoading: false,
         }));
       }
+    });
     } else {
       setUserInformation({
         ...defaultUserInformationContext.userInformation
@@ -55,7 +58,9 @@ export const UserInformationProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    getUserInformation();
+    if (authState.isLoggedIn) {
+      getUserInformation();
+    }
   }, [authState]);
 
   return (
