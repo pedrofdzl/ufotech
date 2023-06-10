@@ -34,6 +34,7 @@ const Profile = () => {
 
   const [profilePicFile, setProfilePicFile] = useState('');
   const [editProfilePic, setEditProfilePic] = useState(false);
+  const [uploadingPic, setUploadingPic] = useState(false);
   
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -104,6 +105,7 @@ const Profile = () => {
 
   const submitProfilePicHandler = event => {
     event.preventDefault();
+    setUploadingPic(true)
 
     if(!profilePicFile){
       setErrorMessage('No se encontró una imagen')
@@ -121,10 +123,12 @@ const Profile = () => {
           setEditProfilePic(false)
           setErrorMessage('')
           getUserInformation();
+          setUploadingPic(false)
         })
       }).catch(err=>{
         console.log(err);
         setErrorMessage('No se pudo subir la imagen, inténtalo nuevamente')
+        setUploadingPic(false)
       })
     });
   }
@@ -174,7 +178,7 @@ const Profile = () => {
               <img src={defaultProfileImage} alt={'profile-pic'} onClick={editProfilePicHandler} />
             }
           </div>
-          <Text variant="b2">Cambiar foto de perfil</Text>
+          <Text variant="b2" onClick={editProfilePicHandler}>Cambiar foto de perfil</Text>
           <Text variant={'h2'} styles={{ fontSize: 24, marginBottom: 0, marginTop: 24 }}>{userInformation.firstName} {userInformation.lastName}</Text>
           <Text variant={'b2'} styles={{ margin: 0, fontWeight: 300 }}>{userInformation.email}</Text>
         </div>
@@ -210,7 +214,7 @@ const Profile = () => {
             {errorMessage && <h4 className='error-message'>{errorMessage}</h4>}
             <label htmlFor="">Imagen de perfil</label>
             <input type="file" onChange={fileChangeHandler} accept="/image/*" />
-            <input type="submit" className="btn btn-primary" value={'Guardar'} />
+            <Button type="submit" variant={'primary'} disabled={uploadingPic} loading={uploadingPic}>Guardar</Button>
             <Button variant="secondary" callbackFunction={cancelEditProfilePic}>Cancelar</Button>
           </form>
         </div>
