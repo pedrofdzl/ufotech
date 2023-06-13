@@ -345,7 +345,7 @@ export default function Canvas({
           color = 2;
         }
 
-        if (map[x][y] != 3) {
+        if (map[x][y] !== 3) {
           drawImage(color, x, y, tileSize, false);
         }
       }

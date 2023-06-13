@@ -129,7 +129,7 @@ const Lists = () => {
                               Object.keys(lists?.myLists[lista]?.products)
                                 .length
                             }{' '}
-                            articulos
+                            artículos
                           </Text>
                         </div>
                         <BsChevronRight
@@ -223,7 +223,7 @@ const Lists = () => {
                               Object.keys(lists?.myLists[lista]?.products)
                                 .length
                             }{' '}
-                            articulos
+                            artículos
                           </Text>
                         </div>
                         <BsChevronRight

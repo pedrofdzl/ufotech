@@ -42,7 +42,7 @@ const List = () => {
   const { userInformation } = useContext(UserInformationContext);
 
   if (!(listID in lists.myLists)){
-    throw new http404('List Not Found!');
+    throw new http404('¡Lista no encontrada!');
   }
 
 
@@ -212,24 +212,39 @@ const List = () => {
           <Text styles={{ fontSize: 24 }}>{currency(listTotal)}</Text>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
+        <div>
           <Link
+            to={`/locate/${listID}`}
+            state={{
+              prev: location.pathname,
+              search: location.search,
+            }}
+            style={!routeReady ? {pointerEvents: "none"} : {}}>
+
+              <Button variant='secondary' disabled={!routeReady}>
+                Localizar producto
+              </Button>
+
+          </Link>
+            <Link
             to={`/route/${listID}`}
             state={{
               prev: location.pathname,
               search: location.search,
             }}
             style={!routeReady ? {pointerEvents: "none"} : {}}>
-            <Button variant='add-large' disabled={!routeReady}>
-              Iniciar ruta
-            </Button>
-          </Link>
+              <Button variant='add-large' disabled={!routeReady}>
+                Iniciar ruta
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
       {Object.keys(list.products).length <= 0 && (
         <div className='list-empty'>
           <Text variant={'b4'}>No has agregado productos a esta lista</Text>
           <Button callbackFunction={() => navigate({pathname: '/dashboard', search: `?${createSearchParams({'tab': 'Dashboard'})}`})}>
-            Ir a catalogo
+            Ir a catálogo
           </Button>
         </div>
       )}
