@@ -395,11 +395,6 @@ import {
       );
       midRight.current = numCols * tileSize;
       midBottom.current = numRows * tileSize;
-    
-      console.log("MIDLEFT: ", midLeft.current);
-      console.log("MIDTOP: ", midTop.current);
-      console.log("MIDRIGHT: ", midRight.current);
-      console.log("MIDBOTTOM: ", midBottom.current);
 
       context.canvas.width = width;
       context.canvas.height = height;

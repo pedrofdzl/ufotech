@@ -96,7 +96,7 @@ export const ListEditModal = () => {
             styles={{ marginTop: 16, color: 'white', fontSize: 18 }}
             callbackFunction={() => {
               queueNotification({
-                message: 'Link de invitación copiado!',
+                message: '¡Link de invitación copiado!',
                 type: 'success',
               });
               navigator.clipboard.writeText(
