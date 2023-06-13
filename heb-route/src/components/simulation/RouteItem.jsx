@@ -42,7 +42,7 @@ export const RouteItem = ({ node, product, quantity, current, callbackFunction }
               fontWeight: 500,
               fontSize: 16,
             }}>
-            {truncate(product.product.Nombre, 24)}
+            {truncate(product.product.Nombre, 32)}
           </Text>
           <Text variant={'b3'} styles={{ margin: 0 }}>
             {product.product.Capacidad} {product.product.Unidad}

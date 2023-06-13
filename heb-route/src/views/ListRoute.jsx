@@ -111,7 +111,6 @@ const ListRoute = () => {
         const auxNodeQueue = JSON.parse(JSON.stringify(nodeQueue));
         setNodeQueue(auxNodeQueue.slice(0, -1));
       }
-      setStarted(true);
     } else if (started) {
       setRouteCompleteModalPayload({ onClose: goBack });
       setRouteCompleteModalOpen(true);
@@ -120,8 +119,9 @@ const ListRoute = () => {
 
   const pickUpProduct = (node, productID) => {
     nodeProducts[node].forEach((nodeProduct, index) => {
-      let auxNode = nodeProducts[node];
       if (nodeProduct.productID === productID) {
+        let auxNode = nodeProducts[node];
+        setStarted(true);
         auxNode[index].picked = true;
         setNodeProducts({ ...nodeProducts, node: auxNode });
       }

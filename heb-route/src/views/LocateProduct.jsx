@@ -18,6 +18,8 @@ import ProductVisualizer from '../components/simulation/ProductVisualizer.tsx'
 // Stylesheets
 import '../stylesheets/Route.css';
 
+let timeOut;
+
 const LocateProduct = () => {
   const { listID } = useParams();
 
@@ -51,7 +53,7 @@ const LocateProduct = () => {
   };
 
   const canvasSizeRef = useRef(null);
-  let timeOut;
+  
   useLayoutEffect(() => {
     setWidthCanvas(canvasSizeRef.current.offsetWidth);
     setHeightCanvas(canvasSizeRef.current.offsetHeight);
@@ -95,19 +97,7 @@ const LocateProduct = () => {
       }
       auxNodeProducts[productObject.node].push(auxProduct);
     });
-
-    Object.keys(auxNodeProducts).forEach((node) => {
-      auxNodeProducts[node].sort((a, b) => {
-        if (a.product < b.product) {
-          return -1;
-        }
-        if (a.product > b.product) {
-          return 1;
-        }
-        return 0;
-      });
-    });
-  
+        
     setNodeProducts(auxNodeProducts);
   }, []);
 
@@ -153,7 +143,7 @@ const LocateProduct = () => {
     {endNode > "0" && (
       needRoute ? (
         <div className='route-simbology-container'  >
-          <Text variant='h5' styles={{ 'text-align': 'center' }}>Pulsa en el mapa tu ubicación actual</Text>
+          <Text variant='h5'>Pulsa en el mapa tu ubicación actual</Text>
         </div>
       ) : (
         <div className='route-simbology-container'>
@@ -197,19 +187,35 @@ const LocateProduct = () => {
       <Button variant = {'remove-large-press'} callbackFunction={() => needRouteButtonClicked()}>Mostrar ruta a producto</Button>
       : <Button callbackFunction={() => needRouteButtonClicked()}>Mostrar ruta a producto</Button>
       )}
-      <Text variant='h3'>Escoge producto a encontrar</Text>
+      
       {Object.keys(nodeProducts).map((node, index) => {
         return (
           <div key={index}>
+            {index === 0 && endNode > "0" && (
+              <div>
+                <Text variant='h3'>Producto actual seleccionado</Text>
+                {nodeProducts[endNode].map((product) => (
+                  <ProductItem
+                    key={product}
+                    product={product}
+                    node={node}
+                    quantity={list.products[product.product.id].quantity}
+                    callbackFunction={pickUpProduct}
+                  />
+                ))}
+              </div>
+            )}
+            {index === 0 && <Text variant='h3'>Escoge producto a encontrar</Text>}
             <div key={node}>
-              {nodeProducts[node].map((product) => {
-                return (<ProductItem
+              {node !== endNode && nodeProducts[node].map((product) => (
+                <ProductItem
                   key={product}
                   product={product}
                   node={node}
                   quantity={list.products[product.product.id].quantity}
-                  callbackFunction={pickUpProduct} />);
-              })}
+                  callbackFunction={pickUpProduct}
+                />
+              ))}
             </div>
           </div>
         );
