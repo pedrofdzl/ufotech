@@ -23,6 +23,7 @@ import Product from '../views/Product';
 import Search from '../views/Search';
 import List from '../views/List';
 import ListRoute from '../views/ListRoute';
+import LocateProduct from '../views/LocateProduct';
 import Support from '../views/Support';
 import SupportTicket from '../views/SupportTicket';
 
@@ -46,6 +47,7 @@ const AppRouter = () => {
         <Route exact path='/products/:categoryID/:productID' element={<PrivateRoute><RoutingErrorBoundary><Product/></RoutingErrorBoundary></PrivateRoute>} />
         <Route exact path='/lists/:listID' element={<PrivateRoute><RoutingErrorBoundary><List/></RoutingErrorBoundary></PrivateRoute>} />
         <Route exact path='/route/:listID' element={<PrivateRoute><RoutingErrorBoundary><ListRoute/></RoutingErrorBoundary></PrivateRoute>} />
+        <Route exact path='/locate/:listID' element={<PrivateRoute><RoutingErrorBoundary><LocateProduct/></RoutingErrorBoundary></PrivateRoute>} />
 
         <Route exact path="/support" element={<PrivateRoute><Support/></PrivateRoute>} />
         <Route exact path='/support-ticket' element={<PrivateRoute><SupportTicket/></PrivateRoute>} />

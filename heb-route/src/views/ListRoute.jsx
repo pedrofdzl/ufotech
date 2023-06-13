@@ -18,10 +18,6 @@ import Canvas from '../components/simulation/Canvas.tsx'
 // Stylesheets
 import '../stylesheets/Route.css';
 
-// Styles
-import styled from '@emotion/styled';
-
-
 const ListRoute = () => {
   const { listID } = useParams();
 
@@ -150,19 +146,22 @@ const ListRoute = () => {
             <div className='item-box' style={{ backgroundColor: 'orange' }}> </div>
             <span className='item'>Inicio</span>
           </div>
-          <div  className='item-symbol'>
-            <div className='item-box' style={{ backgroundColor: '#cf5050' }}> </div>
-            <span className='item'>Fin</span>
-          </div>
           <div className='item-symbol'>
             <div className='item-box' style={{ backgroundColor: '#ffcbcb' }}> </div>
             <span className='item'>Ruta</span>
+          </div>
+          <div className='item-symbol'>
+            <div className='item-box' style={{ backgroundColor: '#cf5050' }}> </div>
+            <span className='item'>Fin</span>
           </div>
         </div>
       </div>
       
       <div className='route-simulation-container' ref={canvasSizeRef}>
-        {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} />}
+        {nodeQueue && nodeQueue.length > 0 && widthCanvas && <Canvas 
+        nodeQueue={nodeQueue} handleChange={handleChange} centerButton={centerButton} 
+        handleCenterButton={handleCenterButton} width={widthCanvas} height={heightCanvas} 
+        />}
       </div>
       <div className='route-paper-container'>
         <Button callbackFunction={() => centerButtonClicked()}>Centrar mapa</Button>
