@@ -41,7 +41,8 @@ const Product = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    setQuantity(1);
+  }, [productID]);
 
   const succesHandler = () => {
     navigate({
@@ -68,7 +69,7 @@ const Product = () => {
       ...productModalPayload,
       currentCategory: categoryID,
       currentProduct: productID,
-      currentQuantity: 1,
+      currentQuantity: quantity,
       success: succesHandler
     });
     setProductModalOpen(true);

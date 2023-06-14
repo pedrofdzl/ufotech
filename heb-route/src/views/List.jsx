@@ -41,7 +41,7 @@ const List = () => {
   } = useContext(ModalContext);
   const { userInformation } = useContext(UserInformationContext);
 
-  if (!(listID in lists.myLists)){
+  if (!(listID in lists.myLists)) {
     throw new http404('¡Lista no encontrada!');
   }
 
@@ -148,7 +148,7 @@ const List = () => {
                       styles={{ marginTop: 0, marginBottom: 2, fontSize: 16 }}>
                       {currency(
                         list.products[currentProduct.id].quantity *
-                          currentProduct.Precio
+                        currentProduct.Precio
                       )}
                     </Text>
                     {list.products[currentProduct.id]?.addedBy && (
@@ -200,10 +200,12 @@ const List = () => {
           );
         })}
       </div>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className='list-bottom'>
         <div style={{ display: 'flex', flexDirection: 'column', margin: 24 }}>
           <Text styles={{ fontSize: 20, fontWeight: 400, marginBottom: 4 }}>
@@ -212,27 +214,29 @@ const List = () => {
           <Text styles={{ fontSize: 24 }}>{currency(listTotal)}</Text>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', margin: 24 }}>
-        <div>
-          <Link
-            to={`/locate/${listID}`}
-            state={{
-              prev: location.pathname,
-              search: location.search,
-            }}
-            style={!routeReady ? {pointerEvents: "none"} : {}}>
+          <div>
+            {Object.keys(list.products).length > 0 && (
+              <Link
+                to={`/locate/${listID}`}
+                state={{
+                  prev: location.pathname,
+                  search: location.search,
+                }}
+                style={!routeReady ? { pointerEvents: "none" } : {}}>
 
-              <Button variant='secondary' disabled={!routeReady}>
-                Localizar producto
-              </Button>
+                <Button variant='secondary' disabled={!routeReady}>
+                  Localizar producto
+                </Button>
 
-          </Link>
+              </Link>
+            )}
             <Link
-            to={`/route/${listID}`}
-            state={{
-              prev: location.pathname,
-              search: location.search,
-            }}
-            style={!routeReady ? {pointerEvents: "none"} : {}}>
+              to={`/route/${listID}`}
+              state={{
+                prev: location.pathname,
+                search: location.search,
+              }}
+              style={!routeReady ? { pointerEvents: "none" } : {}}>
               <Button variant='add-large' disabled={!routeReady}>
                 Iniciar ruta
               </Button>
@@ -243,7 +247,7 @@ const List = () => {
       {Object.keys(list.products).length <= 0 && (
         <div className='list-empty'>
           <Text variant={'b4'}>No has agregado productos a esta lista</Text>
-          <Button callbackFunction={() => navigate({pathname: '/dashboard', search: `?${createSearchParams({'tab': 'Dashboard'})}`})}>
+          <Button callbackFunction={() => navigate({ pathname: '/dashboard', search: `?${createSearchParams({ 'tab': 'Dashboard' })}` })}>
             Ir a catálogo
           </Button>
         </div>
