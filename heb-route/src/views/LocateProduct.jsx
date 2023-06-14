@@ -27,7 +27,7 @@ const LocateProduct = () => {
   const { categories } = useContext(ProductContext);
 
   const [list] = useState(lists.myLists[listID]);
-  const [nodeProducts, setNodeProducts] = useState({});
+  const [nodeProducts, setNodeProducts] = useState([]);
   const [widthCanvas, setWidthCanvas] = useState(0);
   const [heightCanvas, setHeightCanvas] = useState(0);
   const [startCanvasY, setStartCanvasY] = useState(0);
@@ -77,7 +77,7 @@ const LocateProduct = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    let auxNodeProducts = {};
+    let sortedNodeNameProducts = [];
     Object.keys(list.products).forEach((productID) => {
       const productObject = categories?.categories[
         list.products[productID].category
@@ -85,41 +85,51 @@ const LocateProduct = () => {
         (product) => product.id === list.products[productID].product
       );
 
-      let auxProduct = {
+      sortedNodeNameProducts.push({
+        node: productObject.node,
         picked: false,
         product: productObject,
         quantity: list.products[productID].quantity,
         productID: list.products[productID].product,
-        categoryID: list.products[productID].category,
-      };
-      if (!Object.keys(auxNodeProducts).find((node) => node === productObject.node)) {
-        auxNodeProducts[productObject.node] = [];
-      }
-      auxNodeProducts[productObject.node].push(auxProduct);
+        categoryID: list.products[productID].category
+      });
+
     });
         
-    setNodeProducts(auxNodeProducts);
+    sortedNodeNameProducts.sort((a, b) => {
+      const nameA = a.product.Nombre.toLowerCase();
+      const nameB = b.product.Nombre.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    setNodeProducts(sortedNodeNameProducts);
   }, []);
 
-  const pickUpProduct = (node, productID) => {
+  const pickUpProduct = (productID) => {
     window.scrollTo(0, 0);
 
-    nodeProducts[node].forEach((nodeProduct, index) => {
-      if (nodeProduct.productID === productID) {
+    nodeProducts.forEach((object, index) => {
+      if (object.productID === productID) {
 
         if (lastEndNode) {
-          let auxNode = nodeProducts[lastEndNode];
-          auxNode[indexLastEndNode].picked = false;
-          setNodeProducts({ ...nodeProducts, [lastEndNode]: auxNode });
+          let auxArray = nodeProducts;
+          auxArray[indexLastEndNode].picked = false;
+          setNodeProducts(auxArray);
         }
 
-        let auxNode = nodeProducts[node];
-        auxNode[index].picked = true;
-        setEndNode(node);
-        setNodeProducts({ ...nodeProducts, [node]: auxNode });
+        let auxArray = nodeProducts;
+        auxArray[index].picked = true;
+        setEndNode(object.node);
+        setNodeProducts(auxArray);
         handleNeedRoute();
         
-        setLastEndNode(node);
+        setLastEndNode(object.node);
         setIndexLastEndNode(index);
       }
     });
@@ -188,34 +198,32 @@ const LocateProduct = () => {
       : <Button callbackFunction={() => needRouteButtonClicked()}>Mostrar ruta a producto</Button>
       )}
       
-      {Object.keys(nodeProducts).map((node, index) => {
+      {nodeProducts.map((object, index) => {
         return (
           <div key={index}>
             {index === 0 && endNode > "0" && (
               <div>
                 <Text variant='h3'>Producto actual seleccionado</Text>
-                {nodeProducts[endNode].map((product) => (
                   <ProductItem
-                    key={product}
-                    product={product}
-                    node={node}
-                    quantity={list.products[product.product.id].quantity}
+                    key={nodeProducts[indexLastEndNode]}
+                    product={nodeProducts[indexLastEndNode]}
+                    node={nodeProducts[indexLastEndNode].node}
+                    quantity={list.products[nodeProducts[indexLastEndNode].product.id].quantity}
                     callbackFunction={pickUpProduct}
                   />
-                ))}
               </div>
             )}
             {index === 0 && <Text variant='h3'>Escoge producto a encontrar</Text>}
-            <div key={node}>
-              {node !== endNode && nodeProducts[node].map((product) => (
+            <div key={object.node}>
+              {object.node !== endNode && (
                 <ProductItem
-                  key={product}
-                  product={product}
-                  node={node}
-                  quantity={list.products[product.product.id].quantity}
+                  key={object}
+                  product={object}
+                  node={object.node}
+                  quantity={list.products[object.product.id].quantity}
                   callbackFunction={pickUpProduct}
                 />
-              ))}
+              )}
             </div>
           </div>
         );

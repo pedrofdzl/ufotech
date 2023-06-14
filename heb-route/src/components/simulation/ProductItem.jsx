@@ -50,7 +50,7 @@ export const ProductItem = ({ node, product, quantity, callbackFunction }) => {
         </div>
       </div>
       <div onClick={() => {
-        callbackFunction(node, product.product.id);
+        callbackFunction(product.product.id);
       }} className='checkbox'>
         {product.picked && <div className='check'></div>}
       </div>
