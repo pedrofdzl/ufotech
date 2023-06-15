@@ -82,7 +82,7 @@ const Search = () => {
           />
         </form>
         {prods.length === 0 && 
-            <Text variant={'b22'} styles={{ 'text-align': 'center' }}>No se encontraron resultados</Text>
+            <Text variant={'b2'} styles={{ 'textAlign': 'center' }}>No se encontraron resultados</Text>
         }
                 {prods.map((product) => {
           return (
@@ -99,7 +99,7 @@ const Search = () => {
               />
               <h4>{truncate(product.Nombre, 32)}</h4>
               <small>${product.Precio}</small>
-                            <small className='product-card-unit'>
+                <small className='product-card-unit'>
                 {product.Capacidad} {product.Unidad}
               </small>
             </Link>
