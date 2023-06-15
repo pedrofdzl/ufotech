@@ -46,7 +46,7 @@ const Product = () => {
 
   const succesHandler = () => {
     navigate({
-      pathname: '/',
+      pathname: '/dashboard',
       search: `?${createSearchParams({tab:'Dashboard'})}`
     })
   }

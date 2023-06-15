@@ -143,7 +143,6 @@ export const ListProvider = ({ children }) => {
       auxProducts[product] = auxProduct;
 
       const date = new Date();
-
       updateDoc(listRef, {
         LastUpdate: date,
         Products: auxProducts,
